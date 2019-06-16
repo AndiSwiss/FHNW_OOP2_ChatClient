@@ -4,12 +4,14 @@ import ch.andreasambuehl.chatclient.abstractClasses.Model;
 import ch.andreasambuehl.chatclient.common.ServiceLocator;
 
 public class ChatClientModel extends Model {
-    ServiceLocator serviceLocator;
+    private ServiceLocator serviceLocator;
     private int value;
 
     public ChatClientModel() {
         value = 0;
 
+        serviceLocator = ServiceLocator.getServiceLocator();
+        serviceLocator.getLogger().info("Application model initialized");
         // todo: ServiceLocator
     }
 
@@ -18,8 +20,10 @@ public class ChatClientModel extends Model {
     }
 
     public int incrementValue() {
+        // todo: replace this simple test with actual stuff for the chat-client
+
         value++;
-        // todo: ServiceLocator
+        serviceLocator.getLogger().info("Application model: value incremented to " + value);
         return value;
     }
 }

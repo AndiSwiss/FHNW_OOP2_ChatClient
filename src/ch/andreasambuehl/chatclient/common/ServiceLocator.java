@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
  * is licensed under the terms of the BSD 3-clause license (see the file
  * license.txt).
- *
+ * <p>
  * The singleton instance of this class provide central storage for resources
  * used by the program. It also defines application-global constants, such as
  * the application name.
@@ -24,19 +24,20 @@ public class ServiceLocator {
     final private String APP_NAME = "ChatClient";
 
     // Supported locales (for translations)
-    final private Locale[] locales = new Locale[] {
+    final private Locale[] locales = new Locale[]{
             new Locale("en"),
             new Locale("de")
     };
 
-    // Ressources
+    // Resources
     private Logger logger;
     private Configuration configuration;
     private Translator translator;
 
     /**
      * Factory method for returning the singleton
-     * @return  The singleton resource locator
+     *
+     * @return The singleton resource locator
      */
     public static ServiceLocator getServiceLocator() {
         if (serviceLocator == null) serviceLocator = new ServiceLocator();

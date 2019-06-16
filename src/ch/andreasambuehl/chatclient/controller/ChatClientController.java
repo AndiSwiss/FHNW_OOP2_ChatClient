@@ -1,29 +1,30 @@
 package ch.andreasambuehl.chatclient.controller;
 
+import ch.andreasambuehl.chatclient.abstractClasses.Controller;
+import ch.andreasambuehl.chatclient.common.ServiceLocator;
 import ch.andreasambuehl.chatclient.model.ChatClientModel;
 import ch.andreasambuehl.chatclient.view.ChatClientView;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 
-public class ChatClientController {
-    final private ChatClientModel model;
-    final private ChatClientView view;
+public class ChatClientController extends Controller<ChatClientModel, ChatClientView> {
+    private ServiceLocator serviceLocator;
 
     public ChatClientController(ChatClientModel model, ChatClientView view) {
-        this.model = model;
-        this.view = view;
+        super(model, view);
 
         // register to listen for button clicks
-        view.btnClick.setOnAction(this::clickAndIncrement);
+        // todo: replace this dummy test with actual stuff!
+        view.btnClick.setOnAction(event1 -> incrementOnClick());
 
         // register to handle window-closing event
-        view.getStage().setOnCloseRequest(event -> {
-            view.stop();
-            Platform.exit();
-        });
+        view.getStage().setOnCloseRequest(event -> Platform.exit());
+
+        serviceLocator = ServiceLocator.getServiceLocator();
+        serviceLocator.getLogger().info("Application controller initialized");
     }
 
-    private void clickAndIncrement(ActionEvent event) {
+    private void incrementOnClick() {
+        // todo: replace this dummy test with actual stuff!
         model.incrementValue();
         String newText = Integer.toString(model.getValue());
         view.lblNumber.setText(newText);
