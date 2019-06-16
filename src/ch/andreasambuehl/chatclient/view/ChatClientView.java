@@ -1,48 +1,85 @@
 package ch.andreasambuehl.chatclient.view;
 
 import ch.andreasambuehl.chatclient.abstractClasses.View;
+import ch.andreasambuehl.chatclient.common.ServiceLocator;
+import ch.andreasambuehl.chatclient.common.Translator;
 import ch.andreasambuehl.chatclient.model.ChatClientModel;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class ChatClientView extends View<ChatClientModel> {
-    // todo: create menus
+import java.util.Locale;
+import java.util.logging.Logger;
 
-    private Stage stage;
-    private ChatClientModel model;
+public class ChatClientView extends View<ChatClientModel> {
+    private ServiceLocator sl = ServiceLocator.getServiceLocator();
+    private Logger logger = sl.getLogger();
+
+    private Menu menuFile;
+    private Menu menuFileLanguage;
+    private Menu menuHelp;
+
     public Label lblNumber;
     public Button btnClick;
 
     public ChatClientView(Stage stage, ChatClientModel model) {
         super(stage, model);
-
-        // todo: ServiceLocator
+        logger.info("Application view initialized");
     }
 
     @Override
     protected Scene create_GUI() {
-        // todo: ServiceLocator
-        // todo: Logger
+        MenuBar menuBar = new MenuBar();
+        menuFile = new Menu();
+        menuFileLanguage = new Menu();
+        menuFile.getItems().add(menuFileLanguage);
 
-        // todo: rest of the method!!!
+        for (Locale locale : sl.getLocales()) {
+            MenuItem language = new MenuItem(locale.getLanguage());
+            menuFileLanguage.getItems().add(language);
 
-        stage.setTitle("Chat Client");
+            // todo: I think that the following code should be moved to the controller!
+            language.setOnAction(event -> {
+                sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
+                sl.setTranslator(new Translator(locale.getLanguage()));
+                updateTexts();
+            });
+        }
 
-        GridPane pane = new GridPane();
+        menuHelp = new Menu();
+        // todo: Implement a Help-File or at least a small about pop-up or something!
+
+        menuBar.getMenus().addAll(menuFile, menuHelp);
+
+        GridPane root = new GridPane();
+        root.add(menuBar, 0, 0);
+
         lblNumber = new Label();
         lblNumber.setText(Integer.toString(model.getValue()));
-        pane.add(lblNumber, 0, 0);
+        lblNumber.setMinWidth(200);
+        lblNumber.setAlignment(Pos.BASELINE_CENTER);
+        root.add(lblNumber, 0, 1);
 
         btnClick = new Button();
-        btnClick.setText("Click Me!");
-        pane.add(btnClick, 0, 1);
+        btnClick.setMinWidth(200);
+        root.add(btnClick, 0, 2);
 
-        Scene scene = new Scene(pane);
+        updateTexts();
+
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("css/ChatClient.css").toExternalForm());
 
         return scene;
+    }
+
+    protected void updateTexts() {
+        Translator t = sl.getTranslator();
+
+        // The menu entries
+        menuFile.setText(t.getString("program.menu.file"));
+        // todo: finish reading the translations!
+
     }
 }

@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  * (particularly: this application is built on the "JavaFX_App_Template v2" by
  * Prof. Dr. Brad Richards, then edited and adopted by Andreas Ambühl)
  *
- * @version 0.1c
+ * @version 0.1d
  *
  * Copyright -> see LICENSE.txt-file.
  */
