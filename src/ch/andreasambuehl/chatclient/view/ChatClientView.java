@@ -23,6 +23,10 @@ public class ChatClientView {
         lblNumber.setText(Integer.toString(model.getValue()));
         pane.add(lblNumber, 0, 0);
 
+        btnClick = new Button();
+        btnClick.setText("Click Me!");
+        pane.add(btnClick, 0, 1);
+
         Scene scene = new Scene(pane);
 
         // todo: implement CSS:
