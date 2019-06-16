@@ -6,6 +6,18 @@ import ch.andreasambuehl.chatclient.view.ChatClientView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * This is the main class of the ChatClient (= entry-point of the application).
+ * Further information is provided in the README.md
+ *
+ * @author Andreas Ambühl (with code fragments by Prof. Dr. Brad Richards)
+ * (particularly: this application is built on the "JavaFX_App_Template v2" by
+ * Prof. Dr. Brad Richards, then edited and adopted by Andreas Ambühl)
+ *
+ * @version 0.1a
+ *
+ * Copyright -> see LICENSE-file.
+ */
 public class ChatClient extends Application {
     private ChatClientView view;
     private ChatClientController controller;

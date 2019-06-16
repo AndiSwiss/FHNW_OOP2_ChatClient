@@ -28,8 +28,6 @@ public class ChatClientView {
         pane.add(btnClick, 0, 1);
 
         Scene scene = new Scene(pane);
-
-        // todo: implement CSS:
         scene.getStylesheets().add(getClass().getResource("css/ChatClient.css").toExternalForm());
         stage.setScene(scene);
     }
