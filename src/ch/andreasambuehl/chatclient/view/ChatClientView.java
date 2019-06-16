@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+/**
+ * This is the main view for the chat client.
+ */
 public class ChatClientView extends View<ChatClientModel> {
     private ServiceLocator sl = ServiceLocator.getServiceLocator();
     private Logger logger = sl.getLogger();
@@ -79,7 +82,12 @@ public class ChatClientView extends View<ChatClientModel> {
 
         // The menu entries
         menuFile.setText(t.getString("program.menu.file"));
-        // todo: finish reading the translations!
+        menuFileLanguage.setText(t.getString("program.menu.file.language"));
+        menuHelp.setText(t.getString("program.menu.help"));
 
+        // Other controls
+        btnClick.setText(t.getString("button.clickMe"));
+
+        stage.setTitle(t.getString("program.name"));
     }
 }

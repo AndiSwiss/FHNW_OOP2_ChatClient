@@ -6,6 +6,9 @@ import ch.andreasambuehl.chatclient.model.ChatClientModel;
 import ch.andreasambuehl.chatclient.view.ChatClientView;
 import javafx.application.Platform;
 
+/**
+ * This is the main controller for the chat client.
+ */
 public class ChatClientController extends Controller<ChatClientModel, ChatClientView> {
     private ServiceLocator serviceLocator;
 

@@ -3,6 +3,9 @@ package ch.andreasambuehl.chatclient.model;
 import ch.andreasambuehl.chatclient.abstractClasses.Model;
 import ch.andreasambuehl.chatclient.common.ServiceLocator;
 
+/**
+ * This is the main model for the chat client.
+ */
 public class ChatClientModel extends Model {
     private ServiceLocator serviceLocator;
     private int value;

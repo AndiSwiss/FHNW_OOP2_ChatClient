@@ -7,16 +7,24 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * This is the main class of the ChatClient (= entry-point of the application).
- * Further information is provided in the README.md
+ * This is the main starting point of the whole chat client.
+ * Further information about this project is provided in the README.md
  *
  * @author Andreas Ambühl (with code fragments by Prof. Dr. Brad Richards)
  * (particularly: this application is built on the "JavaFX_App_Template v2" by
  * Prof. Dr. Brad Richards, then edited and adopted by Andreas Ambühl)
  *
- * @version 0.1d
+ * <p>
+ * @version 0.1e
  *
- * Copyright -> see LICENSE.txt-file.
+ * <p>
+ * Copyright 2019, Andreas Ambühl. All rights reserved. This code
+ * is licensed under the terms of the BSD 3-clause license (see the file
+ * license.txt).
+ *
+ * <p>
+ * This copyright is also applicable for all the code found inside this folder or its sub-folders,
+ * unless there is another copyright-info on the specific file.
  */
 public class ChatClient extends Application {
     private ChatClientView view;
