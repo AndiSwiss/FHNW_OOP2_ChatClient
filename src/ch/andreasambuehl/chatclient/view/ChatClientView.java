@@ -1,5 +1,6 @@
 package ch.andreasambuehl.chatclient.view;
 
+import ch.andreasambuehl.chatclient.abstractClasses.View;
 import ch.andreasambuehl.chatclient.model.ChatClientModel;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,15 +8,27 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class ChatClientView {
+public class ChatClientView extends View<ChatClientModel> {
+    // todo: create menus
+
     private Stage stage;
     private ChatClientModel model;
     public Label lblNumber;
     public Button btnClick;
 
     public ChatClientView(Stage stage, ChatClientModel model) {
-        this.stage = stage;
-        this.model = model;
+        super(stage, model);
+
+        // todo: ServiceLocator
+    }
+
+    @Override
+    protected Scene create_GUI() {
+        // todo: ServiceLocator
+        // todo: Logger
+
+        // todo: rest of the method!!!
+
         stage.setTitle("Chat Client");
 
         GridPane pane = new GridPane();
@@ -29,18 +42,7 @@ public class ChatClientView {
 
         Scene scene = new Scene(pane);
         scene.getStylesheets().add(getClass().getResource("css/ChatClient.css").toExternalForm());
-        stage.setScene(scene);
-    }
 
-    public void start() {
-        stage.show();
-    }
-
-    public void stop() {
-        stage.hide();
-    }
-
-    public Stage getStage() {
-        return stage;
+        return scene;
     }
 }

@@ -14,9 +14,9 @@ import javafx.stage.Stage;
  * (particularly: this application is built on the "JavaFX_App_Template v2" by
  * Prof. Dr. Brad Richards, then edited and adopted by Andreas Ambühl)
  *
- * @version 0.1a
+ * @version 0.1b
  *
- * Copyright -> see LICENSE-file.
+ * Copyright -> see LICENSE.txt-file.
  */
 public class ChatClient extends Application {
     private ChatClientView view;
