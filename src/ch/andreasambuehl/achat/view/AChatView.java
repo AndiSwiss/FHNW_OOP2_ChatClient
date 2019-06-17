@@ -4,6 +4,8 @@ import ch.andreasambuehl.achat.abstractClasses.View;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.common.Translator;
 import ch.andreasambuehl.achat.model.AChatModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -35,6 +38,8 @@ public class AChatView extends View<AChatModel> {
     private Label lblPort;
     private TextField txtPort;
     private CheckBox chkboxSSL;
+    private Button btnConnect;
+    private Button btnDisconnect;
     private Label lblStatus;
     private Label lblStatusCurrent;
 
@@ -112,33 +117,66 @@ public class AChatView extends View<AChatModel> {
         lblPort = new Label();
         txtPort = new TextField();
         chkboxSSL = new CheckBox();
+
+        btnConnect = new Button();
+        btnDisconnect = new Button();
         lblStatus = new Label();
         lblStatusCurrent = new Label();
-        HBox connectionSection = new HBox();
-        connectionSection.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL, lblStatus, lblStatusCurrent);
+        HBox connection1 = new HBox();
+        connection1.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL);
+        HBox connection2 = new HBox();
+        connection2.getChildren().addAll(btnConnect, btnDisconnect, lblStatus, lblStatusCurrent);
+
+        connection2.setId("specialHBox");
 
         VBox connectionVBox = new VBox();
-        connectionVBox.getChildren().addAll(lblConnectionSection, connectionSection);
+        connectionVBox.getChildren().addAll(lblConnectionSection, connection1, connection2);
 
         // for accessing specific CSS for a boxedSection:
-        connectionVBox.setId("boxedSection");
+        connectionVBox.getStyleClass().add("boxedSection");
 
 
         // account section
         lblAccountSection = new Label();
+        VBox accountVBox = new VBox();
+        accountVBox.getChildren().addAll(lblAccountSection);
+        accountVBox.getStyleClass().add("boxedSection");
 
         VBox topSection = new VBox();
-        topSection.getChildren().addAll(menuBar, connectionVBox, lblAccountSection);
+        topSection.getChildren().addAll(menuBar, connectionVBox, accountVBox);
 
         root.setTop(topSection);
 
         //---------------//
         // left section: //
         //---------------//
+        // buddies section
         lblBuddiesSection = new Label();
+        VBox buddiesVBox = new VBox();
+
+        String[] exampleBuddiesList = {"Hanna", "Dario", "Luca"};
+        ObservableList observableExampleBuddiesList = FXCollections.<String>observableArrayList(Arrays.asList(exampleBuddiesList));
+        ListView<String> buddiesList = new ListView<String>(observableExampleBuddiesList);
+        buddiesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        buddiesVBox.getChildren().addAll(lblBuddiesSection, buddiesList);
+        buddiesVBox.getStyleClass().add("boxedSection");
+
+        // chatrooms section
         lblChatroomsSection = new Label();
+        VBox chatroomsVBox = new VBox();
+
+        String[] exampleChatroomsList = {"CatChat", "oop2"};
+        ObservableList observableExampleChatroomsList = FXCollections.<String>observableArrayList(Arrays.asList(exampleChatroomsList));
+        ListView<String> chatroomsList = new ListView<String>(observableExampleChatroomsList);
+        chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroomsList);
+        chatroomsVBox.getStyleClass().add("boxedSection");
+
+
         VBox leftSection = new VBox();
-        leftSection.getChildren().addAll(lblBuddiesSection, lblChatroomsSection);
+        leftSection.getChildren().addAll(buddiesVBox, chatroomsVBox);
         root.setLeft(leftSection);
 
 
@@ -156,6 +194,7 @@ public class AChatView extends View<AChatModel> {
 
         VBox centerSection = new VBox();
         centerSection.getChildren().addAll(lblChatSection, lblNumber, btnClick);
+        centerSection.getStyleClass().add("boxedSection");
         root.setCenter(centerSection);
 
         updateTexts();
@@ -184,6 +223,8 @@ public class AChatView extends View<AChatModel> {
         lblServer.setText(t.getString("label.connection.server"));
         txtServer.setText(t.getString("txt.connection.server"));
         lblPort.setText(t.getString("label.connection.port"));
+        btnConnect.setText(t.getString("button.connect"));
+        btnDisconnect.setText(t.getString("button.disconnect"));
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
         lblStatus.setText(t.getString("label.connection.status"));
 
