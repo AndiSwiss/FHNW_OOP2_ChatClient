@@ -1,4 +1,4 @@
-package ch.andreasambuehl.chatclient.common;
+package ch.andreasambuehl.achat.common;
 
 import java.io.*;
 import java.util.Enumeration;

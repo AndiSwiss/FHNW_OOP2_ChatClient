@@ -1,6 +1,6 @@
-package ch.andreasambuehl.chatclient.splashScreen;
+package ch.andreasambuehl.achat.splashScreen;
 
-import ch.andreasambuehl.chatclient.abstractClasses.View;
+import ch.andreasambuehl.achat.abstractClasses.View;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -33,7 +33,7 @@ public class SplashView extends View<SplashModel> {
         BorderPane root = new BorderPane();
         root.setId("splash");
 
-        lblStatus = new Label("Loading chat client");
+        lblStatus = new Label("Loading AChat");
         root.setCenter(lblStatus);
 
         progress = new ProgressBar();

@@ -1,9 +1,9 @@
-package ch.andreasambuehl.chatclient.view;
+package ch.andreasambuehl.achat.view;
 
-import ch.andreasambuehl.chatclient.abstractClasses.View;
-import ch.andreasambuehl.chatclient.common.ServiceLocator;
-import ch.andreasambuehl.chatclient.common.Translator;
-import ch.andreasambuehl.chatclient.model.ChatClientModel;
+import ch.andreasambuehl.achat.abstractClasses.View;
+import ch.andreasambuehl.achat.common.ServiceLocator;
+import ch.andreasambuehl.achat.common.Translator;
+import ch.andreasambuehl.achat.model.AChatModel;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,9 +14,9 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 /**
- * This is the main view for the chat client.
+ * This is the main view for the chat client AChat.
  */
-public class ChatClientView extends View<ChatClientModel> {
+public class AChatView extends View<AChatModel> {
     private Menu menuFile;
     private Menu menuFileLanguage;
     private Menu menuHelp;
@@ -24,7 +24,7 @@ public class ChatClientView extends View<ChatClientModel> {
     public Label lblNumber;
     public Button btnClick;
 
-    public ChatClientView(Stage stage, ChatClientModel model) {
+    public AChatView(Stage stage, AChatModel model) {
         super(stage, model);
         ServiceLocator.getServiceLocator().getLogger().info("Application view initialized");
     }
@@ -72,7 +72,7 @@ public class ChatClientView extends View<ChatClientModel> {
         updateTexts();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("css/ChatClient.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("css/AChat.css").toExternalForm());
 
         return scene;
     }

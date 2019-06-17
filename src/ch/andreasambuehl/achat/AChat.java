@@ -1,18 +1,22 @@
-package ch.andreasambuehl.chatclient;
+package ch.andreasambuehl.achat;
 
-import ch.andreasambuehl.chatclient.common.ServiceLocator;
-import ch.andreasambuehl.chatclient.controller.ChatClientController;
-import ch.andreasambuehl.chatclient.model.ChatClientModel;
-import ch.andreasambuehl.chatclient.splashScreen.SplashController;
-import ch.andreasambuehl.chatclient.splashScreen.SplashModel;
-import ch.andreasambuehl.chatclient.splashScreen.SplashView;
-import ch.andreasambuehl.chatclient.view.ChatClientView;
+import ch.andreasambuehl.achat.common.ServiceLocator;
+import ch.andreasambuehl.achat.controller.AChatController;
+import ch.andreasambuehl.achat.model.AChatModel;
+import ch.andreasambuehl.achat.splashScreen.SplashController;
+import ch.andreasambuehl.achat.splashScreen.SplashModel;
+import ch.andreasambuehl.achat.splashScreen.SplashView;
+import ch.andreasambuehl.achat.view.AChatView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
 /**
- * This is the main starting point of the whole chat client.
+ * AChat - a chat client by Andreas Ambühl
+ * ---------------------------------------
+ *
+ * <p>
+ * This is the main starting point of the whole chat client AChat.
  * Further information about this project is provided in the README.md
  *
  * @author Andreas Ambühl (with code fragments by Prof. Dr. Brad Richards)
@@ -21,7 +25,7 @@ import javafx.stage.Stage;
  * then edited and adopted by Andreas Ambühl)
  *
  * <p>
- * @version 0.2a
+ * @version 0.2b
  *
  * <p>
  * Copyright 2019, Andreas Ambühl. All rights reserved. This code
@@ -32,10 +36,10 @@ import javafx.stage.Stage;
  * This copyright is also applicable for all the code found inside this folder or its sub-folders,
  * unless there is another copyright-info on the specific file.
  */
-public class ChatClient extends Application {
-    private static ChatClient mainProgram; // singleton
+public class AChat extends Application {
+    private static AChat mainProgram; // singleton
     private SplashView splashView;
-    private ChatClientView view;
+    private AChatView view;
 
     private ServiceLocator serviceLocator; // resources, after initialization
 
@@ -107,9 +111,9 @@ public class ChatClient extends Application {
         // Initialize the application MVC components. Note that these components
         // can only be initialized now, because they may depend on the
         // resources initialized by the splash screen
-        ChatClientModel model = new ChatClientModel();
-        view = new ChatClientView(appStage, model);
-        new ChatClientController(model, view);
+        AChatModel model = new AChatModel();
+        view = new AChatView(appStage, model);
+        new AChatController(model, view);
 
         // Resources are now initialized
         serviceLocator = ServiceLocator.getServiceLocator();
@@ -155,7 +159,7 @@ public class ChatClient extends Application {
      * actions while the program is ending.
      */
     // Static getter for a reference to the main program object
-    protected static ChatClient getMainProgram() {
+    protected static AChat getMainProgram() {
         return mainProgram;
     }
 }

@@ -1,4 +1,4 @@
-package ch.andreasambuehl.chatclient.abstractClasses;
+package ch.andreasambuehl.achat.abstractClasses;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
