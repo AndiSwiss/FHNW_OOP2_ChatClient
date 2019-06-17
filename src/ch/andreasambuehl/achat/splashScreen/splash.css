@@ -1,8 +1,8 @@
 #splash {
-    -fx-background-image: url("splash_background.png");
+    -fx-background-image: url("agate_pixabay_free_license_480x360.png");
     -fx-background-color: transparent;
     -fx-background-repeat: stretch;
-    -fx-background-size: 300 300;
+    -fx-background-size: 480 360;
     -fx-background-position: center center;
 }
 
@@ -12,4 +12,9 @@
 
 #progressbox {
     -fx-alignment: center;
+}
+
+.label {
+    -fx-font-size: 24px;
+    -fx-label-padding: 10px;
 }

@@ -27,29 +27,36 @@ public class SplashModel extends Model {
 
     // A task is a JavaFX class that implements Runnable. Tasks are designed to
     // have attached listeners, which we can use to monitor their progress.
-    final Task<Void> initializer = new Task<Void>() {
+    final Task<Void> initializer = new Task<>() {
         @Override
-        protected Void call() throws Exception {
+        protected Void call() {
+            artificialWaitingTime();
             this.updateProgress(1, 6);
 
             // Create the service locator to hold our resources
             serviceLocator = ServiceLocator.getServiceLocator();
+            artificialWaitingTime();
             this.updateProgress(2, 6);
 
             // Initialize the resources in the service locator
             serviceLocator.setLogger(configureLogging());
+            artificialWaitingTime();
             this.updateProgress(3, 6);
 
             serviceLocator.setConfiguration(new Configuration());
+            artificialWaitingTime();
             this.updateProgress(4, 6);
 
             String language = serviceLocator.getConfiguration().getOption("Language");
             serviceLocator.setTranslator(new Translator(language));
+            artificialWaitingTime();
             this.updateProgress(5, 6);
 
             // ... more resources would go here ...
+            artificialWaitingTime();
             this.updateProgress(6, 6);
 
+            artificialWaitingTime();
             return null;
         }
     };
@@ -94,4 +101,15 @@ public class SplashModel extends Model {
         return ourLogger;
     }
 
+    /**
+     * For being able to see the splash screen, I introduce here an artificial pause:
+     */
+    private void artificialWaitingTime() {
+        //
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -33,8 +33,8 @@ public class SplashView extends View<SplashModel> {
         BorderPane root = new BorderPane();
         root.setId("splash");
 
-        lblStatus = new Label("Loading AChat");
-        root.setCenter(lblStatus);
+        lblStatus = new Label("Loading AChat ...");
+        root.setTop(lblStatus);
 
         progress = new ProgressBar();
         HBox bottomBox = new HBox();
@@ -42,7 +42,7 @@ public class SplashView extends View<SplashModel> {
         bottomBox.getChildren().add(progress);
         root.setBottom(bottomBox);
 
-        Scene scene = new Scene(root, 300, 300, Color.TRANSPARENT);
+        Scene scene = new Scene(root, 480, 360, Color.TRANSPARENT);
         scene.getStylesheets().addAll(
                 this.getClass().getResource("splash.css").toExternalForm()
         );

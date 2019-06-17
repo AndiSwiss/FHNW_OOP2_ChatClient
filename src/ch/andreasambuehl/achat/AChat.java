@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  * then edited and adopted by Andreas Ambühl)
  *
  * <p>
- * @version 0.2c
+ * @version 0.2d
  *
  * <p>
  * Copyright 2019, Andreas Ambühl. All rights reserved. This code
@@ -83,7 +83,7 @@ public class AChat extends Application {
      * method in this class.
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         // Create and display the splash screen and model
         SplashModel splashModel = new SplashModel();
         splashView = new SplashView(primaryStage, splashModel);
