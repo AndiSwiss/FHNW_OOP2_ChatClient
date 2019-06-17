@@ -1,9 +1,9 @@
-package ch.andreasambuehl.chatclient.splashScreen;
+package ch.andreasambuehl.achat.splashScreen;
 
-import ch.andreasambuehl.chatclient.abstractClasses.Model;
-import ch.andreasambuehl.chatclient.common.Configuration;
-import ch.andreasambuehl.chatclient.common.ServiceLocator;
-import ch.andreasambuehl.chatclient.common.Translator;
+import ch.andreasambuehl.achat.abstractClasses.Model;
+import ch.andreasambuehl.achat.common.Configuration;
+import ch.andreasambuehl.achat.common.ServiceLocator;
+import ch.andreasambuehl.achat.common.Translator;
 import javafx.concurrent.Task;
 
 import java.util.logging.FileHandler;

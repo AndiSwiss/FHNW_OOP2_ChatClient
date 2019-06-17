@@ -1,6 +1,6 @@
-package ch.andreasambuehl.chatclient.common;
+package ch.andreasambuehl.achat.common;
 
-import ch.andreasambuehl.chatclient.ChatClient;
+import ch.andreasambuehl.achat.AChat;
 
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -20,8 +20,8 @@ public class ServiceLocator {
     private static ServiceLocator serviceLocator; // singleton
 
     // Application-global constants
-    final private Class<?> APP_CLASS = ChatClient.class;
-    final private String APP_NAME = "ChatClient";
+    final private Class<?> APP_CLASS = AChat.class;
+    final private String APP_NAME = "AChat";
 
     // Supported locales (for translations)
     final private Locale[] locales = new Locale[]{

@@ -1,18 +1,18 @@
-package ch.andreasambuehl.chatclient.controller;
+package ch.andreasambuehl.achat.controller;
 
-import ch.andreasambuehl.chatclient.abstractClasses.Controller;
-import ch.andreasambuehl.chatclient.common.ServiceLocator;
-import ch.andreasambuehl.chatclient.model.ChatClientModel;
-import ch.andreasambuehl.chatclient.view.ChatClientView;
+import ch.andreasambuehl.achat.abstractClasses.Controller;
+import ch.andreasambuehl.achat.common.ServiceLocator;
+import ch.andreasambuehl.achat.model.AChatModel;
+import ch.andreasambuehl.achat.view.AChatView;
 import javafx.application.Platform;
 
 /**
- * This is the main controller for the chat client.
+ * This is the main controller for the chat client AChat.
  */
-public class ChatClientController extends Controller<ChatClientModel, ChatClientView> {
+public class AChatController extends Controller<AChatModel, AChatView> {
     private ServiceLocator serviceLocator;
 
-    public ChatClientController(ChatClientModel model, ChatClientView view) {
+    public AChatController(AChatModel model, AChatView view) {
         super(model, view);
 
         // register to listen for button clicks

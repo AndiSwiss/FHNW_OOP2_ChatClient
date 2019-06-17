@@ -1,4 +1,4 @@
-package ch.andreasambuehl.chatclient.common;
+package ch.andreasambuehl.achat.common;
 
 import java.util.Locale;
 import java.util.MissingResourceException;

@@ -1,4 +1,4 @@
-package ch.andreasambuehl.chatclient.abstractClasses;
+package ch.andreasambuehl.achat.abstractClasses;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code

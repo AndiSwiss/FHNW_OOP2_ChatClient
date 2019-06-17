@@ -100,4 +100,7 @@ Temporary Items
 #--------------------------------------------------#
 
 # The config-file, where the user-configs are saved:
-ChatClient.cfg
+AChat.cfg
+
+# My playgrounds:
+src/playgrounds/

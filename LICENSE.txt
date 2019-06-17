@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2019, Andreas Ambühl & Prof. Dr. Brad Richards (FHNW)
+Copyright (c) 2019, Andreas Ambühl www.andreasambuehl.ch & Prof. Dr. Brad Richards (FHNW)
 (Most code is from my part, Andreas Ambühl. But some code fragments are from
 Prof. Dr. Brad Richards; When I used Mr. Richards code, I left a a note in the
 corresponding class or in the corresponding code-fragment)

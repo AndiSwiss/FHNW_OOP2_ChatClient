@@ -1,16 +1,16 @@
-package ch.andreasambuehl.chatclient.model;
+package ch.andreasambuehl.achat.model;
 
-import ch.andreasambuehl.chatclient.abstractClasses.Model;
-import ch.andreasambuehl.chatclient.common.ServiceLocator;
+import ch.andreasambuehl.achat.abstractClasses.Model;
+import ch.andreasambuehl.achat.common.ServiceLocator;
 
 /**
- * This is the main model for the chat client.
+ * This is the main model for the chat client AChat.
  */
-public class ChatClientModel extends Model {
+public class AChatModel extends Model {
     private ServiceLocator serviceLocator;
     private int value;
 
-    public ChatClientModel() {
+    public AChatModel() {
         value = 0;
 
         serviceLocator = ServiceLocator.getServiceLocator();

@@ -1,7 +1,7 @@
-package ch.andreasambuehl.chatclient.splashScreen;
+package ch.andreasambuehl.achat.splashScreen;
 
-import ch.andreasambuehl.chatclient.ChatClient;
-import ch.andreasambuehl.chatclient.abstractClasses.Controller;
+import ch.andreasambuehl.achat.AChat;
+import ch.andreasambuehl.achat.abstractClasses.Controller;
 import javafx.concurrent.Worker;
 
 /**
@@ -14,7 +14,7 @@ import javafx.concurrent.Worker;
 public class SplashController extends Controller<SplashModel, SplashView> {
 
 
-    public SplashController(final ChatClient main, SplashModel model, SplashView view) {
+    public SplashController(final AChat main, SplashModel model, SplashView view) {
         super(model, view);
 
         // We could monitor the progress property and pass it on to the progress bar
