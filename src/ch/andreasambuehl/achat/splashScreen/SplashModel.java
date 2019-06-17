@@ -107,7 +107,7 @@ public class SplashModel extends Model {
     private void artificialWaitingTime() {
         //
         try {
-            Thread.sleep(150);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

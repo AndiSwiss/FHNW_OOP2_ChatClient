@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,22 +19,34 @@ import java.util.logging.Logger;
  * This is the main view for the chat client AChat.
  */
 public class AChatView extends View<AChatModel> {
-    // top section:
+    //--------------//
+    // top section: //
+    //--------------//
+    // menu
     private Menu menuFile;
     private Menu menuFileLanguage;
     private Menu menuHelp;
     private MenuItem menuAbout;
 
+    // connectionSection
+    private Label lblConnectionSection;
+    private Label lblServer;
+    private TextField txtServer;
+    private Label lblPort;
+    private TextField txtPort;
+    private CheckBox chkboxSSL;
+    private Label lblStatus;
+    private Label lblStatusCurrent;
 
-    private Label connectionSection;
-    private Label accountSection;
+
+    private Label lblAccountSection;
 
     // left section:
-    private Label buddiesSection;
-    private Label chatroomsSection;
+    private Label lblBuddiesSection;
+    private Label lblChatroomsSection;
 
     // center section:
-    private Label chatSection;
+    private Label lblChatSection;
 
     // todo: remove testing-objects
     public Label lblNumber;
@@ -54,6 +67,7 @@ public class AChatView extends View<AChatModel> {
 
     /**
      * Creates the GUI
+     *
      * @return Scene
      */
     @Override
@@ -91,28 +105,47 @@ public class AChatView extends View<AChatModel> {
 
         menuBar.getMenus().addAll(menuFile, menuHelp);
 
-        connectionSection = new Label();
-        accountSection = new Label();
+        // connection section
+        lblConnectionSection = new Label();
+        lblServer = new Label();
+        txtServer = new TextField();
+        lblPort = new Label();
+        txtPort = new TextField();
+        chkboxSSL = new CheckBox();
+        lblStatus = new Label();
+        lblStatusCurrent = new Label();
+        HBox connectionSection = new HBox();
+        connectionSection.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL, lblStatus, lblStatusCurrent);
+
+        VBox connectionVBox = new VBox();
+        connectionVBox.getChildren().addAll(lblConnectionSection, connectionSection);
+
+        // for accessing specific CSS for a boxedSection:
+        connectionVBox.setId("boxedSection");
+
+
+        // account section
+        lblAccountSection = new Label();
 
         VBox topSection = new VBox();
-        topSection.getChildren().addAll(menuBar, connectionSection, accountSection);
+        topSection.getChildren().addAll(menuBar, connectionVBox, lblAccountSection);
 
         root.setTop(topSection);
 
         //---------------//
         // left section: //
         //---------------//
-        buddiesSection = new Label();
-        chatroomsSection = new Label();
+        lblBuddiesSection = new Label();
+        lblChatroomsSection = new Label();
         VBox leftSection = new VBox();
-        leftSection.getChildren().addAll(buddiesSection, chatroomsSection);
+        leftSection.getChildren().addAll(lblBuddiesSection, lblChatroomsSection);
         root.setLeft(leftSection);
 
 
         //-----------------//
         // center section: //
         //-----------------//
-        chatSection = new Label();
+        lblChatSection = new Label();
         lblNumber = new Label();
         lblNumber.setText(Integer.toString(model.getValue()));
         lblNumber.setMinWidth(200);
@@ -122,13 +155,13 @@ public class AChatView extends View<AChatModel> {
         btnClick.setMinWidth(200);
 
         VBox centerSection = new VBox();
-        centerSection.getChildren().addAll(chatSection, lblNumber, btnClick);
+        centerSection.getChildren().addAll(lblChatSection, lblNumber, btnClick);
         root.setCenter(centerSection);
 
         updateTexts();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("css/AChat.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("css/aChat.css").toExternalForm());
 
         return scene;
     }
@@ -146,15 +179,26 @@ public class AChatView extends View<AChatModel> {
         menuHelp.setText(t.getString("program.menu.help"));
         menuAbout.setText(t.getString("program.menu.help.about"));
 
-        connectionSection.setText(t.getString("label.connection"));
-        accountSection.setText(t.getString("label.account"));
+        // connection section
+        lblConnectionSection.setText(t.getString("label.connection"));
+        lblServer.setText(t.getString("label.connection.server"));
+        txtServer.setText(t.getString("txt.connection.server"));
+        lblPort.setText(t.getString("label.connection.port"));
+        chkboxSSL.setText(t.getString("label.connection.useSSL"));
+        lblStatus.setText(t.getString("label.connection.status"));
+
+        // todo: make this field to update the text correspondingly -> with accessing a variable where the current
+        //  connection status is saved:
+        lblStatusCurrent.setText(t.getString("label.connection.status-failed"));
+
+        lblAccountSection.setText(t.getString("label.account"));
 
         // left section
-        buddiesSection.setText(t.getString("label.buddies"));
-        chatroomsSection.setText(t.getString("label.chatrooms"));
+        lblBuddiesSection.setText(t.getString("label.buddies"));
+        lblChatroomsSection.setText(t.getString("label.chatrooms"));
 
         // center section
-        chatSection.setText(t.getString("label.chat"));
+        lblChatSection.setText(t.getString("label.chat"));
 
         // Other controls
         btnClick.setText(t.getString("button.clickMe"));

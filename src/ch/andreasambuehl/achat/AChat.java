@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  * then edited and adopted by Andreas Ambühl)
  *
  * <p>
- * @version 0.2d
+ * @version 0.2e
  *
  * <p>
  * Copyright 2019, Andreas Ambühl. All rights reserved. This code

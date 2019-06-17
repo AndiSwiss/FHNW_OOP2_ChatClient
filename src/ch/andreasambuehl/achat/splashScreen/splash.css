@@ -1,4 +1,5 @@
 #splash {
+    /* load the picture (Pixabay license: Free for commercial use, mo attribution required) */
     -fx-background-image: url("agate_pixabay_free_license_480x360.png");
     -fx-background-color: transparent;
     -fx-background-repeat: stretch;
