@@ -17,10 +17,11 @@ import javafx.stage.Stage;
  *
  * @author Andreas Ambühl (with code fragments by Prof. Dr. Brad Richards)
  * (particularly: this application is built on the "JavaFX_App_Template v2" by
- * Prof. Dr. Brad Richards, then edited and adopted by Andreas Ambühl)
+ * Prof. Dr. Brad Richards (Copyright 2015, BSD 3-clause license),
+ * then edited and adopted by Andreas Ambühl)
  *
  * <p>
- * @version 0.1g
+ * @version 0.2a
  *
  * <p>
  * Copyright 2019, Andreas Ambühl. All rights reserved. This code

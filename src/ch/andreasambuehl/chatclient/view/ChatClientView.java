@@ -17,9 +17,6 @@ import java.util.logging.Logger;
  * This is the main view for the chat client.
  */
 public class ChatClientView extends View<ChatClientModel> {
-    private ServiceLocator sl = ServiceLocator.getServiceLocator();
-    private Logger logger = sl.getLogger();
-
     private Menu menuFile;
     private Menu menuFileLanguage;
     private Menu menuHelp;
@@ -29,11 +26,14 @@ public class ChatClientView extends View<ChatClientModel> {
 
     public ChatClientView(Stage stage, ChatClientModel model) {
         super(stage, model);
-        logger.info("Application view initialized");
+        ServiceLocator.getServiceLocator().getLogger().info("Application view initialized");
     }
 
     @Override
     protected Scene create_GUI() {
+        ServiceLocator sl = ServiceLocator.getServiceLocator();
+        Logger logger = sl.getLogger();
+
         MenuBar menuBar = new MenuBar();
         menuFile = new Menu();
         menuFileLanguage = new Menu();
@@ -78,7 +78,7 @@ public class ChatClientView extends View<ChatClientModel> {
     }
 
     protected void updateTexts() {
-        Translator t = sl.getTranslator();
+        Translator t = ServiceLocator.getServiceLocator().getTranslator();
 
         // The menu entries
         menuFile.setText(t.getString("program.menu.file"));
