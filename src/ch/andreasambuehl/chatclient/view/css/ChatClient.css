@@ -18,3 +18,10 @@
     -fx-text-fill: #634B47;
     -fx-min-width: 200;
 }
+
+.menu .label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #800080;
+    -fx-border-width: 0px;
+}
