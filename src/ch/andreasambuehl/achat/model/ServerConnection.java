@@ -58,6 +58,7 @@ public class ServerConnection extends Thread {
                 try (Scanner in = new Scanner(System.in)) {
                     while (in.hasNext()) {
                         String line = in.nextLine();
+                        if (line.toLowerCase().equals("quit")) break;
                         socketOut.write(line + "\n");
                         socketOut.flush();
                         System.out.println("Sent: " + line);
