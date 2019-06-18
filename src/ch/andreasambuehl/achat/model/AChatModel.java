@@ -4,71 +4,94 @@ import ch.andreasambuehl.achat.abstractClasses.Model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.concurrent.Task;
+
+import java.util.logging.Logger;
 
 /**
  * This is the main model for the chat client AChat.
  */
 public class AChatModel extends Model {
     private ServiceLocator serviceLocator;
+    private Logger logger;
 
     // server connection
     public static volatile SimpleBooleanProperty isServerConnected;
     private static ServerConnection serverConnection;
+    private Task serverTask;
+    private Thread serverThread;
     public static volatile SimpleListProperty<String> serverAnswers;
 
     public AChatModel() {
         isServerConnected = new SimpleBooleanProperty(false);
         serverConnection = null;
         serverAnswers = new SimpleListProperty<>();
+        serverTask = null;
 
         serviceLocator = ServiceLocator.getServiceLocator();
-        serviceLocator.getLogger().info("Application model initialized");
+        logger = serviceLocator.getLogger();
+        logger.info("Application model initialized");
+
     }
 
 
     public void connectServer(String ipAddress, String portString, boolean useSSL) {
         boolean valid = validateIpAddress(ipAddress);
         if (!valid) {
-            ServiceLocator.getServiceLocator().getLogger().warning("ipAddress was not valid: " + ipAddress);
+            logger.warning("ipAddress was not valid: " + ipAddress);
             return;
         }
 
         valid = validatePortNumber(portString);
         if (!valid) {
-            ServiceLocator.getServiceLocator().getLogger().warning("portString was not valid: " + portString);
+            logger.warning("portString was not valid: " + portString);
             return;
         }
         int port = Integer.parseInt(portString);
 
-        serverConnection = new ServerConnection(ipAddress, port, false);
 
-
-        // todo: maybe realize the whole thing with a task?  -> 11_Threads_Networking.pdf, slides 16...
 /*
-        Task task = new Task() {
+        // todo: maybe realize the whole thing with a task?  -> 11_Threads_Networking.pdf, slides 16...
+        //  the problem: it works like before, but the user-interface is still blocked!!!
+        serverTask = new Task() {
             @Override
             protected Object call() throws Exception {
+                serverConnection = new ServerConnection(ipAddress, port, false);
                 return null;
             }
         };
+        serverTask.run();
 */
+
+        // Instead, try with runnable -> works :-)
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                serverConnection = new ServerConnection(ipAddress, port, false);
+            }
+        };
+        serverThread = new Thread(r);
+        serverThread.start();
+
+
 
 
         // todo: set the isServerConnected, when everything was successful
         isServerConnected.set(true);
 
 
-
-
     }
 
     public void disconnectServer() {
 
-        serverConnection.interrupt();
-        serverConnection = null;
+        serverThread.interrupt();
+
+//        serverConnection.interrupt();
+//        serverConnection = null;
 
         // todo: set the isServerConnected to false, when everything was successful
         isServerConnected.set(false);
+        logger.info("Server is disconnected.");
     }
 
 
