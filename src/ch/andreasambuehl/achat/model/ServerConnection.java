@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ServerConnection extends Thread {
+public class ServerConnection {
 
     private String serverIpAddress;
     private int serverPort;
@@ -56,7 +56,7 @@ public class ServerConnection extends Thread {
                 // Note: We still have our scanner
                 System.out.println("Enter commands or enter 'quit'");
                 try (Scanner in = new Scanner(System.in)) {
-                    while (in.hasNext()) {
+                    while (AChatModel.isServerConnected.get()) {
                         String line = in.nextLine();
                         if (line.toLowerCase().equals("quit")) break;
                         socketOut.write(line + "\n");
@@ -80,15 +80,21 @@ public class ServerConnection extends Thread {
 
     }
 
+/*
     @Override
     public void run() {
         super.run();
     }
+*/
 
 
+/*
     @Override
+*/
     public void interrupt() {
         ServiceLocator.getServiceLocator().getLogger().info("Disconnected from server");
+/*
         super.interrupt();
+*/
     }
 }

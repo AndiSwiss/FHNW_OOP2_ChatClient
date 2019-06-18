@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -51,6 +52,13 @@ public class AChatView extends View<AChatModel> {
 
     // center section:
     private Label lblChatSection;
+
+    // bottom section:
+    private Label lblCommand;
+    public TextField txtCommand;
+    public Button btnCommand;
+    private Label lblServerAnswers;
+    public ListView listServerAnswers;
 
 
     /**
@@ -184,6 +192,28 @@ public class AChatView extends View<AChatModel> {
         centerSection.getChildren().addAll(lblChatSection);
         centerSection.getStyleClass().add("boxedSection");
         root.setCenter(centerSection);
+
+        //-----------------//
+        // bottom section: //
+        //-----------------//
+        lblCommand = new Label("Command:");
+        txtCommand = new TextField("enter your command...");
+        btnCommand = new Button("Send");
+        lblServerAnswers = new Label("Server Answers:");
+        listServerAnswers = new ListView();
+
+        GridPane bottomGrid = new GridPane();
+        bottomGrid.add(lblServerAnswers, 0, 0);
+        bottomGrid.add(listServerAnswers, 1, 0);
+        bottomGrid.add(lblCommand, 0, 1);
+
+        HBox commandAndSend = new HBox();
+        commandAndSend.getChildren().addAll(txtCommand, btnCommand);
+        bottomGrid.add(commandAndSend, 1, 1);
+        bottomGrid.getStyleClass().addAll("boxedSection");
+        root.setBottom(bottomGrid);
+
+
 
         updateTexts();
 
