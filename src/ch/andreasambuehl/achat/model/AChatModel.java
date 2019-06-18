@@ -3,6 +3,7 @@ package ch.andreasambuehl.achat.model;
 import ch.andreasambuehl.achat.abstractClasses.Model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.concurrent.Task;
 
 /**
@@ -13,13 +14,15 @@ public class AChatModel extends Model {
     private int value;
 
     // server connection
-    public volatile SimpleBooleanProperty isServerConnected;
-    private ServerConnection serverConnection;
+    public static volatile SimpleBooleanProperty isServerConnected;
+    private static ServerConnection serverConnection;
+    public static volatile SimpleListProperty<String> serverAnswers;
 
     public AChatModel() {
         value = 0;
         isServerConnected = new SimpleBooleanProperty(false);
         serverConnection = null;
+        serverAnswers = new SimpleListProperty<>();
 
         serviceLocator = ServiceLocator.getServiceLocator();
         serviceLocator.getLogger().info("Application model initialized");
