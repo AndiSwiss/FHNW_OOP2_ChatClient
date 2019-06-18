@@ -16,10 +16,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         super(model, view);
 
         // register to listen for button clicks
-        // todo: replace this dummy test with actual stuff!
-        view.btnClick.setOnAction(event1 -> incrementOnClick());
-
-
         // Server connection:
         view.btnConnect.setOnAction(event -> {
             if (model.isServerConnected.get()) {
@@ -43,10 +39,5 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         serviceLocator.getLogger().info("Application controller initialized");
     }
 
-    private void incrementOnClick() {
-        // todo: replace this dummy test with actual stuff!
-        model.incrementValue();
-        String newText = Integer.toString(model.getValue());
-        view.lblNumber.setText(newText);
-    }
+
 }

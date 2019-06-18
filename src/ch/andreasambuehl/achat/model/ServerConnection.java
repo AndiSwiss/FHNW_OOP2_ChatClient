@@ -22,7 +22,7 @@ public class ServerConnection extends Thread {
         this.serverPort = serverPort;
         this.serverUseSSL = serverUseSSL;
 
-        // todo: implement SSL secure
+        // todo: implement SSL secure connection
 
         try {
             socket = new Socket(serverIpAddress, serverPort);

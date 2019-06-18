@@ -52,10 +52,6 @@ public class AChatView extends View<AChatModel> {
     // center section:
     private Label lblChatSection;
 
-    // todo: remove testing-objects
-    public Label lblNumber;
-    public Button btnClick;
-
 
     /**
      * Constructor
@@ -183,16 +179,9 @@ public class AChatView extends View<AChatModel> {
         // center section: //
         //-----------------//
         lblChatSection = new Label();
-        lblNumber = new Label();
-        lblNumber.setText(Integer.toString(model.getValue()));
-        lblNumber.setMinWidth(200);
-        lblNumber.setAlignment(Pos.BASELINE_CENTER);
-
-        btnClick = new Button();
-        btnClick.setMinWidth(200);
 
         VBox centerSection = new VBox();
-        centerSection.getChildren().addAll(lblChatSection, lblNumber, btnClick);
+        centerSection.getChildren().addAll(lblChatSection);
         centerSection.getStyleClass().add("boxedSection");
         root.setCenter(centerSection);
 
@@ -222,7 +211,7 @@ public class AChatView extends View<AChatModel> {
         lblServer.setText(t.getString("label.connection.server"));
         lblPort.setText(t.getString("label.connection.port"));
 
-        if (model.isServerConnected.get()) {
+        if (AChatModel.isServerConnected.get()) {
             btnConnect.setText(t.getString("button.disconnect"));
         } else {
             btnConnect.setText(t.getString("button.connect"));
@@ -242,9 +231,6 @@ public class AChatView extends View<AChatModel> {
 
         // center section
         lblChatSection.setText(t.getString("label.chat"));
-
-        // Other controls
-        btnClick.setText(t.getString("button.clickMe"));
 
         stage.setTitle(t.getString("program.name"));
     }

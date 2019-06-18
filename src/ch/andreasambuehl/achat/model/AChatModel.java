@@ -4,14 +4,12 @@ import ch.andreasambuehl.achat.abstractClasses.Model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.concurrent.Task;
 
 /**
  * This is the main model for the chat client AChat.
  */
 public class AChatModel extends Model {
     private ServiceLocator serviceLocator;
-    private int value;
 
     // server connection
     public static volatile SimpleBooleanProperty isServerConnected;
@@ -19,25 +17,12 @@ public class AChatModel extends Model {
     public static volatile SimpleListProperty<String> serverAnswers;
 
     public AChatModel() {
-        value = 0;
         isServerConnected = new SimpleBooleanProperty(false);
         serverConnection = null;
         serverAnswers = new SimpleListProperty<>();
 
         serviceLocator = ServiceLocator.getServiceLocator();
         serviceLocator.getLogger().info("Application model initialized");
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public int incrementValue() {
-        // todo: replace this simple test with actual stuff for the chat-client
-
-        value++;
-        serviceLocator.getLogger().info("Application model: value incremented to " + value);
-        return value;
     }
 
 
