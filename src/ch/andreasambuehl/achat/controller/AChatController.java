@@ -19,6 +19,23 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // todo: replace this dummy test with actual stuff!
         view.btnClick.setOnAction(event1 -> incrementOnClick());
 
+
+        // Server connection:
+        view.btnConnect.setOnAction(event -> {
+            if (model.isServerConnected.get()) {
+                model.disconnectServer();
+                view.btnConnect.setText(serviceLocator.getTranslator().getString("button.connect"));
+            } else {
+                String ipAddress = view.txtServer.getText();
+                String portString = view.txtPort.getText();
+                boolean useSSL = view.chkboxSSL.isSelected();
+
+                model.connectServer(ipAddress, portString, useSSL);
+                view.btnConnect.setText(serviceLocator.getTranslator().getString("button.disconnect"));
+            }
+        });
+
+
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> Platform.exit());
 

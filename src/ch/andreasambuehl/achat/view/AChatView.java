@@ -34,14 +34,13 @@ public class AChatView extends View<AChatModel> {
     // connectionSection
     private Label lblConnectionSection;
     private Label lblServer;
-    private TextField txtServer;
+    public TextField txtServer;
     private Label lblPort;
-    private TextField txtPort;
-    private CheckBox chkboxSSL;
-    private Button btnConnect;
-    private Button btnDisconnect;
+    public TextField txtPort;
+    public CheckBox chkboxSSL;
+    public Button btnConnect;
     private Label lblStatus;
-    private Label lblStatusCurrent;
+    public Label lblStatusCurrent;
 
 
     private Label lblAccountSection;
@@ -113,19 +112,19 @@ public class AChatView extends View<AChatModel> {
         // connection section
         lblConnectionSection = new Label();
         lblServer = new Label();
-        txtServer = new TextField();
+        // todo: instead of providing the initial server-value here, I should read it from the config-file!
+        txtServer = new TextField("147.86.8.31");
         lblPort = new Label();
-        txtPort = new TextField();
+        txtPort = new TextField("50001");
         chkboxSSL = new CheckBox();
 
         btnConnect = new Button();
-        btnDisconnect = new Button();
         lblStatus = new Label();
         lblStatusCurrent = new Label();
         HBox connection1 = new HBox();
         connection1.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL);
         HBox connection2 = new HBox();
-        connection2.getChildren().addAll(btnConnect, btnDisconnect, lblStatus, lblStatusCurrent);
+        connection2.getChildren().addAll(btnConnect, lblStatus, lblStatusCurrent);
 
         connection2.setId("specialHBox");
 
@@ -221,10 +220,13 @@ public class AChatView extends View<AChatModel> {
         // connection section
         lblConnectionSection.setText(t.getString("label.connection"));
         lblServer.setText(t.getString("label.connection.server"));
-        txtServer.setText(t.getString("txt.connection.server"));
         lblPort.setText(t.getString("label.connection.port"));
-        btnConnect.setText(t.getString("button.connect"));
-        btnDisconnect.setText(t.getString("button.disconnect"));
+
+        if (model.isServerConnected.get()) {
+            btnConnect.setText(t.getString("button.disconnect"));
+        } else {
+            btnConnect.setText(t.getString("button.connect"));
+        }
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
         lblStatus.setText(t.getString("label.connection.status"));
 
