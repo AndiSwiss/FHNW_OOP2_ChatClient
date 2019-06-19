@@ -6,7 +6,6 @@ import ch.andreasambuehl.achat.common.Translator;
 import ch.andreasambuehl.achat.model.AChatModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -56,7 +55,7 @@ public class AChatView extends View<AChatModel> {
     // bottom section:
     private Label lblCommand;
     public TextField txtCommand;
-    public Button btnCommand;
+    public Button btnSendCommand;
     private Label lblServerAnswers;
     public ListView listServerAnswers;
 
@@ -199,7 +198,7 @@ public class AChatView extends View<AChatModel> {
         //-----------------//
         lblCommand = new Label("Command:");
         txtCommand = new TextField();
-        btnCommand = new Button("Send");
+        btnSendCommand = new Button("Send");
         lblServerAnswers = new Label("Server Answers:");
         listServerAnswers = new ListView();
 
@@ -209,7 +208,7 @@ public class AChatView extends View<AChatModel> {
         bottomGrid.add(lblCommand, 0, 1);
 
         HBox commandAndSend = new HBox();
-        commandAndSend.getChildren().addAll(txtCommand, btnCommand);
+        commandAndSend.getChildren().addAll(txtCommand, btnSendCommand);
         bottomGrid.add(commandAndSend, 1, 1);
         bottomGrid.getStyleClass().addAll("boxedSection");
         root.setBottom(bottomGrid);
