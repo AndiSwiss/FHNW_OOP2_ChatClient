@@ -1,7 +1,9 @@
 package ch.andreasambuehl.achat.common;
 
 import ch.andreasambuehl.achat.AChat;
+import ch.andreasambuehl.achat.model.ServerConnection;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -33,6 +35,7 @@ public class ServiceLocator {
     private Logger logger;
     private Configuration configuration;
     private Translator translator;
+    private ServerConnection serverConnection;
 
     /**
      * Factory method for returning the singleton
@@ -51,6 +54,35 @@ public class ServiceLocator {
         // We must define this constructor, because otherwise, the default
         // constructor would be public -> then it wouldn't be singleton anymore.
     }
+
+
+    public ServerConnection createServerConnection(String serverIpAddress, int serverPort) {
+        serverConnection = new ServerConnection(serverIpAddress, serverPort);
+        return serverConnection;
+    }
+
+    public ServerConnection getServerConnection() {
+        // todo: realize as singleton?
+        //  but the serverConnection is anyhow singleton, because the serviceLocator is a singleton, hence it's
+        //  fields (in particular serverConnection) is also singleton!
+//        if (serverConnection == null) {
+//            serverConnection = new ServerConnection(  read from the config file);
+//        }
+        return serverConnection;
+    }
+
+    public void disconnectServer() {
+        // first close the sockets (otherwise, the application cannot be really closed by just ending the application!
+        try {
+            serviceLocator.getServerConnection().socketIn.close();
+            serviceLocator.getServerConnection().socketOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        serverConnection = null;
+    }
+
 
     public Class<?> getAPP_CLASS() {
         return APP_CLASS;

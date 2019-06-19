@@ -16,17 +16,17 @@ public class AChatModel extends Model {
     private Logger logger;
 
     // server connection
-    public static volatile SimpleBooleanProperty isServerConnected;
-    private static ServerConnection serverConnection;
-    private Task serverTask;
-    private Thread serverThread;
-    public static volatile SimpleListProperty<String> serverAnswers;
+    public static SimpleBooleanProperty isServerConnected;
+//    private static ServerConnection serverConnection;
+//    private Task serverTask;
+//    private Thread serverThread;
+    public static SimpleListProperty<String> serverAnswers;
 
     public AChatModel() {
         isServerConnected = new SimpleBooleanProperty(false);
-        serverConnection = null;
+//        serverConnection = null;
+//        serverTask = null;
         serverAnswers = new SimpleListProperty<>();
-        serverTask = null;
 
         serviceLocator = ServiceLocator.getServiceLocator();
         logger = serviceLocator.getLogger();
@@ -50,29 +50,24 @@ public class AChatModel extends Model {
         int port = Integer.parseInt(portString);
 
 
-/*
-        // todo: maybe realize the whole thing with a task?  -> 11_Threads_Networking.pdf, slides 16...
-        //  the problem: it works like before, but the user-interface is still blocked!!!
-        serverTask = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                serverConnection = new ServerConnection(ipAddress, port, false);
-                return null;
-            }
-        };
-        serverTask.run();
-*/
 
-        // Instead, try with runnable -> works :-)
+/*
+        // create a separate thread:
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                serverConnection = new ServerConnection(ipAddress, port, false);
+                serverConnection = new ServerConnection(ipAddress, port);
             }
         };
         serverThread = new Thread(r);
         serverThread.start();
+*/
 
+        // new: create the server-connection via the ServiceLocator
+        // and don't create a new Thread. Otherwise, all messages to send have to go via an individual task with
+        // all the code-overhead of each task!
+
+        serviceLocator.createServerConnection(ipAddress, port);
 
 
 
@@ -84,7 +79,7 @@ public class AChatModel extends Model {
 
     public void disconnectServer() {
 
-        serverThread.interrupt();
+        serviceLocator.disconnectServer();
 
 //        serverConnection.interrupt();
 //        serverConnection = null;

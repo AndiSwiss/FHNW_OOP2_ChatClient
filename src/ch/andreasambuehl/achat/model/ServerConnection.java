@@ -2,10 +2,7 @@ package ch.andreasambuehl.achat.model;
 
 import ch.andreasambuehl.achat.common.ServiceLocator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -16,21 +13,18 @@ public class ServerConnection {
 
     private String serverIpAddress;
     private int serverPort;
-    private boolean serverUseSSL;
     public OutputStreamWriter socketOut;
+    public DataInputStream socketIn;
 
     private Socket socket;
 
-    public ServerConnection(String serverIpAddress, int serverPort, boolean serverUseSSL) {
+    public ServerConnection(String serverIpAddress, int serverPort) {
 
         logger = ServiceLocator.getServiceLocator().getLogger();
 
         this.serverIpAddress = serverIpAddress;
         this.serverPort = serverPort;
-        this.serverUseSSL = serverUseSSL;
 
-
-        // todo: implement SSL secure connection
 
         try {
             socket = new Socket(serverIpAddress, serverPort);
@@ -39,39 +33,40 @@ public class ServerConnection {
             AChatModel.isServerConnected.set(true);
 
 
-            try (BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-                // Create thread to read incoming messages
+            // Create thread to read incoming messages
 
-                Runnable r = new Runnable() {
-                    @Override
-                    public void run() {
-                        while (AChatModel.isServerConnected.get()) {
-                            String msg;
-                            try {
-                                msg = socketIn.readLine();
+            socketIn = new DataInputStream(socket.getInputStream());
 
-                                // todo: remove the println as soon as I can communicate via the GUI
-                                System.out.println("Received: " + msg);
+            Runnable r = () -> {
+                while (true) {
+                    String msg;
+                    try {
+                        msg = socketIn.readLine();
 
-                                // todo: fix the following line, because currently, this line produces an error:
-                                //  Exception in thread "Thread-6" java.lang.UnsupportedOperationException
-                                AChatModel.serverAnswers.add(msg);
-                            } catch (IOException e) {
-                                break;
-                            }
-                            if (msg == null) break; // In case the server closes the socket
-                        }
-                        logger.info("Finished reading inputs from socketIn from the server");
+                        // todo: remove the println as soon as I can communicate via the GUI
+                        System.out.println("Received: " + msg);
 
+                        // todo: fix the following line, because currently, this line produces an error:
+                        //  Exception in thread "Thread-6" java.lang.UnsupportedOperationException
+//                                AChatModel.serverAnswers.add(msg);
+                    } catch (IOException e) {
+                        break;
                     }
-                };
-                Thread t = new Thread(r);
-                t.start();
+                    if (msg == null) break; // In case the server closes the socket
+                }
+                logger.info("Finished reading inputs from socketIn from the server");
+
+            };
+            Thread t = new Thread(r);
+            t.start();
 
 
-                socketOut = new OutputStreamWriter(socket.getOutputStream());
+            socketOut = new OutputStreamWriter(socket.getOutputStream());
+
+            logger.info("Server connection established");
+
+/*
                 // Loop, allowing the user to send messages to the server
-                // Note: We still have our scanner
                 System.out.println("Enter commands:");
                 try (Scanner in = new Scanner(System.in)) {
                     while (AChatModel.isServerConnected.get()) {
@@ -83,9 +78,7 @@ public class ServerConnection {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                logger.info("Finished reading input from terminal and closed the Scanner");
-
-            }
+*/
 
 
         } catch (IOException e) {

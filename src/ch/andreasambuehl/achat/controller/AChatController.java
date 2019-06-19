@@ -6,6 +6,7 @@ import ch.andreasambuehl.achat.model.AChatModel;
 import ch.andreasambuehl.achat.view.AChatView;
 import javafx.application.Platform;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
@@ -49,7 +50,10 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
         // register to handle window-closing event
-        view.getStage().setOnCloseRequest(event -> Platform.exit());
+        view.getStage().setOnCloseRequest(event -> {
+            serviceLocator.disconnectServer();
+            Platform.exit();
+        });
 
 
         logger.info("Application controller initialized");
