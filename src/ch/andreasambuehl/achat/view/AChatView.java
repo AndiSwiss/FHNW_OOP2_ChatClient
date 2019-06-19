@@ -198,7 +198,7 @@ public class AChatView extends View<AChatModel> {
         // bottom section: //
         //-----------------//
         lblCommand = new Label("Command:");
-        txtCommand = new TextField("enter your command...");
+        txtCommand = new TextField();
         btnCommand = new Button("Send");
         lblServerAnswers = new Label("Server Answers:");
         listServerAnswers = new ListView();

@@ -49,7 +49,13 @@ public class ServerConnection {
                             String msg;
                             try {
                                 msg = socketIn.readLine();
+
+                                // todo: remove the println as soon as I can communicate via the GUI
                                 System.out.println("Received: " + msg);
+
+                                // todo: fix the following line, because currently, this line produces an error:
+                                //  Exception in thread "Thread-6" java.lang.UnsupportedOperationException
+                                AChatModel.serverAnswers.add(msg);
                             } catch (IOException e) {
                                 break;
                             }
@@ -66,19 +72,14 @@ public class ServerConnection {
                 socketOut = new OutputStreamWriter(socket.getOutputStream());
                 // Loop, allowing the user to send messages to the server
                 // Note: We still have our scanner
-                System.out.println("Enter commands or enter 'quit'");
+                System.out.println("Enter commands:");
                 try (Scanner in = new Scanner(System.in)) {
                     while (AChatModel.isServerConnected.get()) {
                         String line = in.nextLine();
-                        if (line.toLowerCase().equals("quit")) {
-                            break;
-                        }
                         socketOut.write(line + "\n");
                         socketOut.flush();
                         System.out.println("Sent: " + line);
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

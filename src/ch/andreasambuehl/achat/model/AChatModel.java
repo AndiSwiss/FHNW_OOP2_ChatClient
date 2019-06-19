@@ -95,7 +95,8 @@ public class AChatModel extends Model {
     }
 
     public void sendMessage(String message) {
-        // todo: forward the message to the server-thread
+        // todo: forward the message to the server-connection, which is living inside
+        //  the thread 'serverThread' -> so how can I forward this message?
     }
 
     /**
