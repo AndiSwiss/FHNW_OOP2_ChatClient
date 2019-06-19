@@ -38,12 +38,18 @@ public class AChatView extends View<AChatModel> {
     private Label lblPort;
     public TextField txtPort;
     public CheckBox chkboxSSL;
-    public Button btnConnect;
+    public Button btnConnectDisconnect;
     private Label lblStatus;
     public Label lblStatusCurrent;
 
-
+    // accountSection
     private Label lblAccountSection;
+    private Label lblUsername;
+    public TextField txtUsername;
+    private Label lblPassword;
+    public TextField txtPassword;
+    public Button btnSignInSignOut;
+    public Button btnCreateLogin;
 
     // left section:
     private Label lblBuddiesSection;
@@ -122,14 +128,15 @@ public class AChatView extends View<AChatModel> {
         chkboxSSL = new CheckBox();
         chkboxSSL.setDisable(true);
 
-        btnConnect = new Button();
+        btnConnectDisconnect = new Button();
         lblStatus = new Label();
         lblStatusCurrent = new Label();
         HBox connection1 = new HBox();
         connection1.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL);
         HBox connection2 = new HBox();
-        connection2.getChildren().addAll(btnConnect, lblStatus, lblStatusCurrent);
+        connection2.getChildren().addAll(btnConnectDisconnect, lblStatus, lblStatusCurrent);
 
+        // todo: optimize CSS-Styling!!
         connection2.setId("specialHBox");
 
         VBox connectionVBox = new VBox();
@@ -141,8 +148,24 @@ public class AChatView extends View<AChatModel> {
 
         // account section
         lblAccountSection = new Label();
+
+        lblUsername = new Label();
+        txtUsername = new TextField();
+        lblPassword = new Label();
+        txtPassword = new TextField();
+        btnSignInSignOut = new Button();
+        btnCreateLogin = new Button();
+
+        HBox account1 = new HBox();
+        account1.getChildren().addAll(lblUsername, txtUsername, lblPassword, txtPassword);
+        HBox account2 = new HBox();
+        account2.getChildren().addAll(btnSignInSignOut, btnCreateLogin);
+
+        // todo: optimize CSS-Styling!!
+        account2.setId("specialHBox");
+
         VBox accountVBox = new VBox();
-        accountVBox.getChildren().addAll(lblAccountSection);
+        accountVBox.getChildren().addAll(lblAccountSection, account1, account2);
         accountVBox.getStyleClass().add("boxedSection");
 
         VBox topSection = new VBox();
@@ -214,7 +237,6 @@ public class AChatView extends View<AChatModel> {
         root.setBottom(bottomGrid);
 
 
-
         updateTexts();
 
         Scene scene = new Scene(root);
@@ -242,9 +264,9 @@ public class AChatView extends View<AChatModel> {
         lblPort.setText(t.getString("label.connection.port"));
 
         if (AChatModel.isServerConnected.get()) {
-            btnConnect.setText(t.getString("button.disconnect"));
+            btnConnectDisconnect.setText(t.getString("button.disconnect"));
         } else {
-            btnConnect.setText(t.getString("button.connect"));
+            btnConnectDisconnect.setText(t.getString("button.connect"));
         }
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
         lblStatus.setText(t.getString("label.connection.status"));
@@ -253,7 +275,13 @@ public class AChatView extends View<AChatModel> {
         //  connection status is saved:
         lblStatusCurrent.setText(t.getString("label.connection.status-failed"));
 
+        // account section
         lblAccountSection.setText(t.getString("label.account"));
+        lblUsername.setText(t.getString("label.account.username"));
+        lblPassword.setText(t.getString("label.account.password"));
+        // todo: make this button to update to signIn/SignOut
+        btnSignInSignOut.setText(t.getString("button.account.signIn"));
+        btnCreateLogin.setText(t.getString("button.account.createLogin"));
 
         // left section
         lblBuddiesSection.setText(t.getString("label.buddies"));

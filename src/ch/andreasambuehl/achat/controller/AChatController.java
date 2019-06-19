@@ -23,17 +23,17 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         // register to listen for button clicks
         // Server connection:
-        view.btnConnect.setOnAction(event -> {
+        view.btnConnectDisconnect.setOnAction(event -> {
             if (AChatModel.isServerConnected.get()) {
                 model.disconnectServer();
-                view.btnConnect.setText(serviceLocator.getTranslator().getString("button.connect"));
+                view.btnConnectDisconnect.setText(serviceLocator.getTranslator().getString("button.connect"));
             } else {
                 String ipAddress = view.txtServer.getText();
                 String portString = view.txtPort.getText();
                 boolean useSSL = view.chkboxSSL.isSelected();
 
                 model.connectServer(ipAddress, portString, useSSL);
-                view.btnConnect.setText(serviceLocator.getTranslator().getString("button.disconnect"));
+                view.btnConnectDisconnect.setText(serviceLocator.getTranslator().getString("button.disconnect"));
             }
         });
 
