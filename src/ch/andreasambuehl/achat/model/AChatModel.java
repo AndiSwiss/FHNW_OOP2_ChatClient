@@ -20,13 +20,11 @@ public class AChatModel extends Model {
 //    private static ServerConnection serverConnection;
 //    private Task serverTask;
 //    private Thread serverThread;
-    public static SimpleListProperty<String> serverAnswers;
 
     public AChatModel() {
         isServerConnected = new SimpleBooleanProperty(false);
 //        serverConnection = null;
 //        serverTask = null;
-        serverAnswers = new SimpleListProperty<>();
 
         serviceLocator = ServiceLocator.getServiceLocator();
         logger = serviceLocator.getLogger();
@@ -89,9 +87,8 @@ public class AChatModel extends Model {
         logger.info("Server is disconnected.");
     }
 
-    public void sendMessage(String message) {
-        // todo: forward the message to the server-connection, which is living inside
-        //  the thread 'serverThread' -> so how can I forward this message?
+    public String sendCommand(String message) {
+        return serviceLocator.getServerConnection().sendCommand(message);
     }
 
     /**

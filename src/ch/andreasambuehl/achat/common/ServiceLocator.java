@@ -3,7 +3,6 @@ package ch.andreasambuehl.achat.common;
 import ch.andreasambuehl.achat.AChat;
 import ch.andreasambuehl.achat.model.ServerConnection;
 
-import java.io.IOException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -62,22 +61,18 @@ public class ServiceLocator {
     }
 
     public ServerConnection getServerConnection() {
-        // todo: realize as singleton?
-        //  but the serverConnection is anyhow singleton, because the serviceLocator is a singleton, hence it's
-        //  fields (in particular serverConnection) is also singleton!
-//        if (serverConnection == null) {
-//            serverConnection = new ServerConnection(  read from the config file);
-//        }
+        // this behaves like a singleton, because the serverConnection is anyhow singleton, because the serviceLocator
+        // is a singleton, hence it's fields (in particular serverConnection) is also singleton!
         return serverConnection;
     }
 
     public void disconnectServer() {
         // first close the sockets (otherwise, the application cannot be really closed by just ending the application!
         try {
-            serviceLocator.getServerConnection().socketIn.close();
-            serviceLocator.getServerConnection().socketOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            serviceLocator.getServerConnection().inStream.close();
+            serviceLocator.getServerConnection().outStream.close();
+        } catch (Exception e) {
+            // do nothing (e.g. if there is no server connection)
         }
 
         serverConnection = null;

@@ -6,7 +6,7 @@ import ch.andreasambuehl.achat.model.AChatModel;
 import ch.andreasambuehl.achat.view.AChatView;
 import javafx.application.Platform;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -38,16 +38,20 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
-        view.btnCommand.setOnAction(event -> {
-            model.sendMessage(view.txtCommand.getText());
+        view.btnSendCommand.setOnAction(event -> {
             logger.info("Sending command: " + view.txtCommand.getText());
+            String answer = model.sendCommand(view.txtCommand.getText());
+            view.listServerAnswers.getItems().add(answer);
+
         });
 
         // todo: create a listener for receiving server-answers in the GUI
-        AChatModel.serverAnswers.addListener((observable, oldValue, newValue) -> {
+/*
+        serviceLocator.getServerConnection().serverAnswer.addListener((observable, oldValue, newValue) -> {
             view.listServerAnswers.getItems().add(newValue);
             logger.info("Received answer from server: " + newValue);
         });
+*/
 
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> {
