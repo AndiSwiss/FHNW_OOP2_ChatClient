@@ -55,21 +55,36 @@ public class ServiceLocator {
         // constructor would be public -> then it wouldn't be singleton anymore.
     }
 
+    /**
+     * Creates a new server connection (always on the same instance)
+     *
+     * @param serverIpAddress ipAddress
+     * @param serverPort      port
+     */
     public void createServerConnection(String serverIpAddress, int serverPort) {
         serverConnection = new ServerConnection(serverIpAddress, serverPort);
     }
 
+    /**
+     * Returns the ServerConnection. This behaves like a singleton, because the serverConnection is anyhow singleton,
+     * because the serviceLocator is a singleton, hence it's fields (in particular serverConnection) is also singleton!
+     *
+     * @return ServerConnection
+     */
     public ServerConnection getServerConnection() {
         // this behaves like a singleton, because the serverConnection is anyhow singleton, because the serviceLocator
         // is a singleton, hence it's fields (in particular serverConnection) is also singleton!
         return serverConnection;
     }
 
+    /**
+     * Disconnects from the server. First closes the inStream and outStream, otherwise the application cannot be really
+     * closed by just ending the application; it would just live on until a force quit is performed!
+     */
     public void disconnectServer() {
-        // first close the sockets (otherwise, the application cannot be really closed by just ending the application!
         try {
-            serviceLocator.getServerConnection().inStream.close();
-            serviceLocator.getServerConnection().outStream.close();
+            serverConnection.inStream.close();
+            serverConnection.outStream.close();
             AChatModel.isServerConnected.set(false);
         } catch (Exception e) {
             // do nothing (e.g. if there is no server connection)

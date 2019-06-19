@@ -67,7 +67,7 @@ public class AChatView extends View<AChatModel> {
 
 
     /**
-     * Constructor
+     * Constructor of the view
      *
      * @param stage stage
      * @param model model

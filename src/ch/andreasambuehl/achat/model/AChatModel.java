@@ -16,6 +16,9 @@ public class AChatModel extends Model {
     // server connection
     public static SimpleBooleanProperty isServerConnected;
 
+    /**
+     * Constructor of the model
+     */
     public AChatModel() {
         isServerConnected = new SimpleBooleanProperty(false);
 
@@ -24,6 +27,14 @@ public class AChatModel extends Model {
         logger.info("Application model initialized");
     }
 
+    /**
+     * Connect with the server
+     *
+     * @param ipAddress  ipAddress
+     * @param portString port as as String
+     * @param useSSL     whether to use SSL
+     * @return true if connection was successfully established
+     */
     public boolean connectServer(String ipAddress, String portString, boolean useSSL) {
         boolean valid = validateIpAddress(ipAddress);
         if (!valid) {
@@ -43,6 +54,9 @@ public class AChatModel extends Model {
         return isServerConnected.get();
     }
 
+    /**
+     * Disconnects from the server
+     */
     public void disconnectServer() {
         serviceLocator.disconnectServer();
         // set the isServerConnected to false, when everything was successful
@@ -50,9 +64,28 @@ public class AChatModel extends Model {
         logger.info("Server is disconnected.");
     }
 
-    public String sendCommand(String message) {
+
+    /**
+     * Method for sending any command to the server with a raw answer (simple String)
+     *
+     * @param message message
+     * @return String with the full answer of the server
+     */
+    public String sendDirectCommand(String message) {
         return serviceLocator.getServerConnection().sendCommand(message);
     }
+
+    /**
+     * Internal method for sending any command to the server with a structured answer (String[])
+     *
+     * @param message message
+     * @return answer in separated parts
+     */
+    private String[] sendCommand(String message) {
+        String answer = sendDirectCommand(message);
+        return answer.split("\\|");
+    }
+
 
     /**
      * Validates an ip-address

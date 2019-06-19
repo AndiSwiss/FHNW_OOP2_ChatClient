@@ -17,6 +17,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
     private Logger logger;
     private Translator t;
 
+    /**
+     * Constructor of the controller. Also initializes all the listeners and action handlers.
+     *
+     * @param model model
+     * @param view  view
+     */
     public AChatController(AChatModel model, AChatView view) {
         super(model, view);
 
@@ -47,7 +53,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         view.btnSendCommand.setOnAction(event -> {
             logger.info("Sending command: " + view.txtCommand.getText());
-            String answer = model.sendCommand(view.txtCommand.getText());
+            String answer = model.sendDirectCommand(view.txtCommand.getText());
             view.listServerAnswers.getItems().add(answer);
 
         });
