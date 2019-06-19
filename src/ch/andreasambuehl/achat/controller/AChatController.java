@@ -2,6 +2,7 @@ package ch.andreasambuehl.achat.controller;
 
 import ch.andreasambuehl.achat.abstractClasses.Controller;
 import ch.andreasambuehl.achat.common.ServiceLocator;
+import ch.andreasambuehl.achat.common.Translator;
 import ch.andreasambuehl.achat.model.AChatModel;
 import ch.andreasambuehl.achat.view.AChatView;
 import javafx.application.Platform;
@@ -14,26 +15,33 @@ import java.util.logging.Logger;
 public class AChatController extends Controller<AChatModel, AChatView> {
     private ServiceLocator serviceLocator;
     private Logger logger;
+    private Translator t;
 
     public AChatController(AChatModel model, AChatView view) {
         super(model, view);
 
         serviceLocator = ServiceLocator.getServiceLocator();
         logger = serviceLocator.getLogger();
+        t = serviceLocator.getTranslator();
+
 
         // register to listen for button clicks
         // Server connection:
         view.btnConnectDisconnect.setOnAction(event -> {
             if (AChatModel.isServerConnected.get()) {
                 model.disconnectServer();
-                view.btnConnectDisconnect.setText(serviceLocator.getTranslator().getString("button.connect"));
+                view.btnConnectDisconnect.setText(t.getString("button.connect"));
+                view.lblStatusCurrent.setText(t.getString("label.connection.status-failed"));
             } else {
                 String ipAddress = view.txtServer.getText();
                 String portString = view.txtPort.getText();
                 boolean useSSL = view.chkboxSSL.isSelected();
 
-                model.connectServer(ipAddress, portString, useSSL);
-                view.btnConnectDisconnect.setText(serviceLocator.getTranslator().getString("button.disconnect"));
+                boolean successful = model.connectServer(ipAddress, portString, useSSL);
+                if (successful) {
+                    view.btnConnectDisconnect.setText(t.getString("button.disconnect"));
+                    view.lblStatusCurrent.setText(t.getString("label.connection.status-connected"));
+                }
             }
         });
 
@@ -54,7 +62,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> {
-            serviceLocator.disconnectServer();
+            model.disconnectServer();
             Platform.exit();
         });
 

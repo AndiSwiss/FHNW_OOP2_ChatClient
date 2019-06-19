@@ -27,8 +27,6 @@ public class ServerConnection {
             Socket socket = new Socket(serverIpAddress, serverPort);
             logger.info("Connected with server " + serverIpAddress
                     + ":" + serverPort);
-            AChatModel.isServerConnected.set(true);
-
             requestPending = false;
 
             // Create thread to read incoming messages
@@ -48,13 +46,13 @@ public class ServerConnection {
                     }
                     if (msg == null) break; // In case the server closes the socket
                 }
-                logger.info("Finished reading inputs from inStream from the server");
             };
             Thread t = new Thread(r);
             t.start();
 
             outStream = new OutputStreamWriter(socket.getOutputStream());
             logger.info("Server connection established");
+            AChatModel.isServerConnected.set(true);
         } catch (IOException e) {
             logger.info("Connection with server failed: " + serverIpAddress
                     + ":" + serverPort);

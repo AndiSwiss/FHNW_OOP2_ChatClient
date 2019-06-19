@@ -1,6 +1,7 @@
 package ch.andreasambuehl.achat.common;
 
 import ch.andreasambuehl.achat.AChat;
+import ch.andreasambuehl.achat.model.AChatModel;
 import ch.andreasambuehl.achat.model.ServerConnection;
 
 import java.util.Locale;
@@ -69,6 +70,7 @@ public class ServiceLocator {
         try {
             serviceLocator.getServerConnection().inStream.close();
             serviceLocator.getServerConnection().outStream.close();
+            AChatModel.isServerConnected.set(false);
         } catch (Exception e) {
             // do nothing (e.g. if there is no server connection)
         }

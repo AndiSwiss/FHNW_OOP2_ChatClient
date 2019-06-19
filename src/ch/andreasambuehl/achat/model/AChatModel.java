@@ -24,24 +24,23 @@ public class AChatModel extends Model {
         logger.info("Application model initialized");
     }
 
-    public void connectServer(String ipAddress, String portString, boolean useSSL) {
+    public boolean connectServer(String ipAddress, String portString, boolean useSSL) {
         boolean valid = validateIpAddress(ipAddress);
         if (!valid) {
             logger.warning("ipAddress was not valid: " + ipAddress);
-            return;
+            return false;
         }
 
         valid = validatePortNumber(portString);
         if (!valid) {
             logger.warning("portString was not valid: " + portString);
-            return;
+            return false;
         }
         int port = Integer.parseInt(portString);
 
         serviceLocator.createServerConnection(ipAddress, port);
 
-        // set the isServerConnected, when everything was successful
-        isServerConnected.set(true);
+        return isServerConnected.get();
     }
 
     public void disconnectServer() {
