@@ -32,12 +32,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
 
         // register to listen for button clicks
-        // Server connection:
+        // Server section:
         view.btnConnectDisconnect.setOnAction(event -> {
             if (AChatModel.isServerConnected.get()) {
                 model.disconnectServer();
                 view.btnConnectDisconnect.setText(t.getString("button.connect"));
-                view.lblStatusCurrent.setText(t.getString("label.connection.status-failed"));
+                view.lblStatusServer.setText(t.getString("label.connection.status-failed"));
             } else {
                 String ipAddress = view.txtServer.getText();
                 String portString = view.txtPort.getText();
@@ -46,8 +46,21 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 boolean successful = model.connectServer(ipAddress, portString, useSSL);
                 if (successful) {
                     view.btnConnectDisconnect.setText(t.getString("button.disconnect"));
-                    view.lblStatusCurrent.setText(t.getString("label.connection.status-connected"));
+                    view.lblStatusServer.setText(t.getString("label.connection.status-connected"));
                 }
+            }
+        });
+
+        // Account section:
+        view.btnCreateLogin.setOnAction(event -> {
+            String name = view.txtUsername.getText();
+            String password = view.txtPassword.getText();
+            boolean successful = model.createLogin(name, password);
+
+            if (successful) {
+                view.lblStatusAccount.setText(t.getString("label.account.status.accountCreated"));
+            } else {
+                view.lblStatusAccount.setText(t.getString("label.account.status.accountCreationFailed"));
             }
         });
 
@@ -58,13 +71,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         });
 
-        // todo: create a listener for receiving server-answers in the GUI
-/*
-        serviceLocator.getServerConnection().serverAnswer.addListener((observable, oldValue, newValue) -> {
-            view.listServerAnswers.getItems().add(newValue);
-            logger.info("Received answer from server: " + newValue);
-        });
-*/
 
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> {

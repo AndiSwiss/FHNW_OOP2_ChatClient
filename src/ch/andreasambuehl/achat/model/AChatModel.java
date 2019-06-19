@@ -72,6 +72,7 @@ public class AChatModel extends Model {
      * @return String with the full answer of the server
      */
     public String sendDirectCommand(String message) {
+
         return serviceLocator.getServerConnection().sendCommand(message);
     }
 
@@ -82,8 +83,20 @@ public class AChatModel extends Model {
      * @return answer in separated parts
      */
     private String[] sendCommand(String message) {
-        String answer = sendDirectCommand(message);
+        String answer = serviceLocator.getServerConnection().sendCommand(message);
         return answer.split("\\|");
+    }
+
+    public boolean createLogin(String name, String password) {
+        String[] answer = sendCommand("CreateLogin|" + name + '|' + password);
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            logger.info("Login created successfully");
+            return true;
+        } else {
+            logger.warning("Login was not created");
+            return false;
+        }
     }
 
 

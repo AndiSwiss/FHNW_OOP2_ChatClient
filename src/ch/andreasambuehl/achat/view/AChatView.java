@@ -31,6 +31,9 @@ public class AChatView extends View<AChatModel> {
     private Menu menuHelp;
     private MenuItem menuAbout;
 
+    // general
+    private Label lblStatus;
+
     // connectionSection
     private Label lblConnectionSection;
     private Label lblServer;
@@ -39,8 +42,9 @@ public class AChatView extends View<AChatModel> {
     public TextField txtPort;
     public CheckBox chkboxSSL;
     public Button btnConnectDisconnect;
-    private Label lblStatus;
-    public Label lblStatusCurrent;
+    // todo: implement TestConnection:
+    public Button btnTestConnection;
+    public Label lblStatusServer;
 
     // accountSection
     private Label lblAccountSection;
@@ -50,6 +54,7 @@ public class AChatView extends View<AChatModel> {
     public TextField txtPassword;
     public Button btnSignInSignOut;
     public Button btnCreateLogin;
+    public Label lblStatusAccount;
 
     // left section:
     private Label lblBuddiesSection;
@@ -130,11 +135,11 @@ public class AChatView extends View<AChatModel> {
 
         btnConnectDisconnect = new Button();
         lblStatus = new Label();
-        lblStatusCurrent = new Label();
+        lblStatusServer = new Label();
         HBox connection1 = new HBox();
         connection1.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL);
         HBox connection2 = new HBox();
-        connection2.getChildren().addAll(btnConnectDisconnect, lblStatus, lblStatusCurrent);
+        connection2.getChildren().addAll(btnConnectDisconnect, lblStatus, lblStatusServer);
 
         // todo: optimize CSS-Styling!!
         connection2.setId("specialHBox");
@@ -155,11 +160,12 @@ public class AChatView extends View<AChatModel> {
         txtPassword = new TextField();
         btnSignInSignOut = new Button();
         btnCreateLogin = new Button();
+        lblStatusAccount = new Label();
 
         HBox account1 = new HBox();
         account1.getChildren().addAll(lblUsername, txtUsername, lblPassword, txtPassword);
         HBox account2 = new HBox();
-        account2.getChildren().addAll(btnSignInSignOut, btnCreateLogin);
+        account2.getChildren().addAll(btnSignInSignOut, btnCreateLogin, lblStatus, lblStatusAccount);
 
         // todo: optimize CSS-Styling!!
         account2.setId("specialHBox");
@@ -236,7 +242,6 @@ public class AChatView extends View<AChatModel> {
         bottomGrid.getStyleClass().addAll("boxedSection");
         root.setBottom(bottomGrid);
 
-
         updateTexts();
 
         Scene scene = new Scene(root);
@@ -258,6 +263,9 @@ public class AChatView extends View<AChatModel> {
         menuHelp.setText(t.getString("program.menu.help"));
         menuAbout.setText(t.getString("program.menu.help.about"));
 
+        // general
+        lblStatus.setText(t.getString("label.status"));
+
         // connection section
         lblConnectionSection.setText(t.getString("label.connection"));
         lblServer.setText(t.getString("label.connection.server"));
@@ -269,11 +277,10 @@ public class AChatView extends View<AChatModel> {
             btnConnectDisconnect.setText(t.getString("button.connect"));
         }
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
-        lblStatus.setText(t.getString("label.connection.status"));
 
         // todo: make this field to update the text correspondingly -> with accessing a variable where the current
         //  connection status is saved:
-        lblStatusCurrent.setText(t.getString("label.connection.status-failed"));
+        lblStatusServer.setText(t.getString("label.connection.status-failed"));
 
         // account section
         lblAccountSection.setText(t.getString("label.account"));
@@ -282,6 +289,7 @@ public class AChatView extends View<AChatModel> {
         // todo: make this button to update to signIn/SignOut
         btnSignInSignOut.setText(t.getString("button.account.signIn"));
         btnCreateLogin.setText(t.getString("button.account.createLogin"));
+        lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
 
         // left section
         lblBuddiesSection.setText(t.getString("label.buddies"));

@@ -74,7 +74,7 @@ public class ServerConnection {
         requestPending = true;
         // while waiting for the response (from the other thread)
 
-        logger.info("Waiting for server to answer to my command: " + command);
+        logger.info("Message sent: " + command);
 
         while (requestPending) Thread.yield();
 
