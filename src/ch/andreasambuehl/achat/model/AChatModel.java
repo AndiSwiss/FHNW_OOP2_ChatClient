@@ -94,6 +94,9 @@ public class AChatModel extends Model {
         logger.info("Server is disconnected.");
     }
 
+    public void sendMessage(String message) {
+        // todo: forward the message to the server-thread
+    }
 
     /**
      * Validates an ip-address

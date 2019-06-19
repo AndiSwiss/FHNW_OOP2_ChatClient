@@ -31,6 +31,8 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
+        view.btnCommand.setOnAction(event -> model.sendMessage(view.txtCommand.getText()));
+
 
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> Platform.exit());

@@ -121,6 +121,7 @@ public class AChatView extends View<AChatModel> {
         lblPort = new Label();
         txtPort = new TextField("50001");
         chkboxSSL = new CheckBox();
+        chkboxSSL.setDisable(true);
 
         btnConnect = new Button();
         lblStatus = new Label();
