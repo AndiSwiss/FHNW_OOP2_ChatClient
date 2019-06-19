@@ -13,7 +13,6 @@ import javafx.concurrent.Worker;
  */
 public class SplashController extends Controller<SplashModel, SplashView> {
 
-
     public SplashController(final AChat main, SplashModel model, SplashView view) {
         super(model, view);
 

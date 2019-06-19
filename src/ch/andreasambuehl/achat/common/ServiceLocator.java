@@ -54,10 +54,8 @@ public class ServiceLocator {
         // constructor would be public -> then it wouldn't be singleton anymore.
     }
 
-
-    public ServerConnection createServerConnection(String serverIpAddress, int serverPort) {
+    public void createServerConnection(String serverIpAddress, int serverPort) {
         serverConnection = new ServerConnection(serverIpAddress, serverPort);
-        return serverConnection;
     }
 
     public ServerConnection getServerConnection() {
@@ -74,7 +72,6 @@ public class ServiceLocator {
         } catch (Exception e) {
             // do nothing (e.g. if there is no server connection)
         }
-
         serverConnection = null;
     }
 

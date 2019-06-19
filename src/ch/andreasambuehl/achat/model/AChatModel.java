@@ -3,8 +3,6 @@ package ch.andreasambuehl.achat.model;
 import ch.andreasambuehl.achat.abstractClasses.Model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.concurrent.Task;
 
 import java.util.logging.Logger;
 
@@ -17,21 +15,14 @@ public class AChatModel extends Model {
 
     // server connection
     public static SimpleBooleanProperty isServerConnected;
-//    private static ServerConnection serverConnection;
-//    private Task serverTask;
-//    private Thread serverThread;
 
     public AChatModel() {
         isServerConnected = new SimpleBooleanProperty(false);
-//        serverConnection = null;
-//        serverTask = null;
 
         serviceLocator = ServiceLocator.getServiceLocator();
         logger = serviceLocator.getLogger();
         logger.info("Application model initialized");
-
     }
-
 
     public void connectServer(String ipAddress, String portString, boolean useSSL) {
         boolean valid = validateIpAddress(ipAddress);
@@ -47,42 +38,15 @@ public class AChatModel extends Model {
         }
         int port = Integer.parseInt(portString);
 
-
-
-/*
-        // create a separate thread:
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                serverConnection = new ServerConnection(ipAddress, port);
-            }
-        };
-        serverThread = new Thread(r);
-        serverThread.start();
-*/
-
-        // new: create the server-connection via the ServiceLocator
-        // and don't create a new Thread. Otherwise, all messages to send have to go via an individual task with
-        // all the code-overhead of each task!
-
         serviceLocator.createServerConnection(ipAddress, port);
 
-
-
-        // todo: set the isServerConnected, when everything was successful
+        // set the isServerConnected, when everything was successful
         isServerConnected.set(true);
-
-
     }
 
     public void disconnectServer() {
-
         serviceLocator.disconnectServer();
-
-//        serverConnection.interrupt();
-//        serverConnection = null;
-
-        // todo: set the isServerConnected to false, when everything was successful
+        // set the isServerConnected to false, when everything was successful
         isServerConnected.set(false);
         logger.info("Server is disconnected.");
     }

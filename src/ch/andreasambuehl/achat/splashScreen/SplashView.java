@@ -21,7 +21,6 @@ import javafx.stage.StageStyle;
 public class SplashView extends View<SplashModel> {
 
     ProgressBar progress;
-    private Label lblStatus;
 
     public SplashView(Stage stage, SplashModel model) {
         super(stage, model);
@@ -33,7 +32,7 @@ public class SplashView extends View<SplashModel> {
         BorderPane root = new BorderPane();
         root.setId("splash");
 
-        lblStatus = new Label("Loading AChat ...");
+        Label lblStatus = new Label("Loading AChat ...");
         root.setTop(lblStatus);
 
         progress = new ProgressBar();

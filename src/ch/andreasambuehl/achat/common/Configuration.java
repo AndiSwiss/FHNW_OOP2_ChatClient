@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  */
 public class Configuration {
     // for easy reference:
-    ServiceLocator sl = ServiceLocator.getServiceLocator();
-    Logger logger = sl.getLogger();
+    private ServiceLocator sl = ServiceLocator.getServiceLocator();
+    private Logger logger = sl.getLogger();
 
     private Properties defaultOptions;
     private Properties localOptions;

@@ -14,7 +14,7 @@ public class Translator {
     private ServiceLocator sl = ServiceLocator.getServiceLocator();
     private Logger logger = sl.getLogger();
 
-    protected Locale currentLocale;
+    private Locale currentLocale;
     private ResourceBundle resourceBundle;
 
     public Translator(String localeString) {
@@ -39,7 +39,6 @@ public class Translator {
                 }
             }
         }
-
 
         // Load the resource strings
         resourceBundle = ResourceBundle.getBundle(sl.getAPP_CLASS().getName(), locale);

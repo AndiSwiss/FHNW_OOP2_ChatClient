@@ -6,7 +6,6 @@ import ch.andreasambuehl.achat.model.AChatModel;
 import ch.andreasambuehl.achat.view.AChatView;
 import javafx.application.Platform;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -25,7 +24,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // register to listen for button clicks
         // Server connection:
         view.btnConnect.setOnAction(event -> {
-            if (model.isServerConnected.get()) {
+            if (AChatModel.isServerConnected.get()) {
                 model.disconnectServer();
                 view.btnConnect.setText(serviceLocator.getTranslator().getString("button.connect"));
             } else {
