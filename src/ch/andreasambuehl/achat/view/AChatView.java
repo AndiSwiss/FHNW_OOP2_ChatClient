@@ -31,9 +31,6 @@ public class AChatView extends View<AChatModel> {
     private Menu menuHelp;
     private MenuItem menuAbout;
 
-    // general
-    private Label lblStatus;
-
     // connectionSection
     private Label lblConnectionSection;
     private Label lblServer;
@@ -42,8 +39,7 @@ public class AChatView extends View<AChatModel> {
     public TextField txtPort;
     public CheckBox chkboxSSL;
     public Button btnConnectDisconnect;
-    // todo: implement TestConnection:
-    public Button btnTestConnection;
+    public Button btnPingServer;
     public Label lblStatusServer;
 
     // accountSection
@@ -54,6 +50,7 @@ public class AChatView extends View<AChatModel> {
     public TextField txtPassword;
     public Button btnSignInSignOut;
     public Button btnCreateLogin;
+    public Button btnDeleteLogin;
     public Label lblStatusAccount;
 
     // left section:
@@ -134,12 +131,13 @@ public class AChatView extends View<AChatModel> {
         chkboxSSL.setDisable(true);
 
         btnConnectDisconnect = new Button();
-        lblStatus = new Label();
+        btnPingServer = new Button();
+        btnPingServer.setDisable(true);
         lblStatusServer = new Label();
         HBox connection1 = new HBox();
         connection1.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL);
         HBox connection2 = new HBox();
-        connection2.getChildren().addAll(btnConnectDisconnect, lblStatus, lblStatusServer);
+        connection2.getChildren().addAll(btnConnectDisconnect, btnPingServer, lblStatusServer);
 
         // todo: optimize CSS-Styling!!
         connection2.setId("specialHBox");
@@ -161,11 +159,12 @@ public class AChatView extends View<AChatModel> {
         btnSignInSignOut = new Button();
         btnCreateLogin = new Button();
         lblStatusAccount = new Label();
+        btnDeleteLogin = new Button();
 
         HBox account1 = new HBox();
         account1.getChildren().addAll(lblUsername, txtUsername, lblPassword, txtPassword);
         HBox account2 = new HBox();
-        account2.getChildren().addAll(btnSignInSignOut, btnCreateLogin, lblStatus, lblStatusAccount);
+        account2.getChildren().addAll(btnSignInSignOut, btnCreateLogin, btnDeleteLogin, lblStatusAccount);
 
         // todo: optimize CSS-Styling!!
         account2.setId("specialHBox");
@@ -256,15 +255,16 @@ public class AChatView extends View<AChatModel> {
     protected void updateTexts() {
         Translator t = ServiceLocator.getServiceLocator().getTranslator();
 
+        // todo: Problem: if I change the language anytime during running the application,
+        //  many labels having different current states. How can I detect those current states for the language translation
+        //  to be correct??
+
         // top section
         // the menu entries
         menuFile.setText(t.getString("program.menu.file"));
         menuFileLanguage.setText(t.getString("program.menu.file.language"));
         menuHelp.setText(t.getString("program.menu.help"));
         menuAbout.setText(t.getString("program.menu.help.about"));
-
-        // general
-        lblStatus.setText(t.getString("label.status"));
 
         // connection section
         lblConnectionSection.setText(t.getString("label.connection"));
@@ -276,10 +276,10 @@ public class AChatView extends View<AChatModel> {
         } else {
             btnConnectDisconnect.setText(t.getString("button.connect"));
         }
+        btnPingServer.setText(t.getString("button.connection.pingServer"));
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
 
-        // todo: make this field to update the text correspondingly -> with accessing a variable where the current
-        //  connection status is saved:
+
         lblStatusServer.setText(t.getString("label.connection.status-failed"));
 
         // account section
@@ -289,6 +289,7 @@ public class AChatView extends View<AChatModel> {
         // todo: make this button to update to signIn/SignOut
         btnSignInSignOut.setText(t.getString("button.account.signIn"));
         btnCreateLogin.setText(t.getString("button.account.createLogin"));
+        btnDeleteLogin.setText(t.getString("button.account.deleteLogin"));
         lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
 
         // left section

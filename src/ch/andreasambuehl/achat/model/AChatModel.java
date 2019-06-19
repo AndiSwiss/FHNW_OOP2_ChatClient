@@ -16,6 +16,9 @@ public class AChatModel extends Model {
     // server connection
     public static SimpleBooleanProperty isServerConnected;
 
+    // account
+    private static String token;
+
     /**
      * Constructor of the model
      */
@@ -87,6 +90,28 @@ public class AChatModel extends Model {
         return answer.split("\\|");
     }
 
+    /**
+     * Pings server
+     */
+    public boolean pingServer() {
+        String[] answer = sendCommand("Ping");
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            logger.info("Ping successful");
+            return true;
+        } else {
+            logger.warning("Ping failed");
+            return false;
+        }
+    }
+
+    /**
+     * Creates a login
+     *
+     * @param name     username
+     * @param password password
+     * @return success
+     */
     public boolean createLogin(String name, String password) {
         String[] answer = sendCommand("CreateLogin|" + name + '|' + password);
 
@@ -95,6 +120,67 @@ public class AChatModel extends Model {
             return true;
         } else {
             logger.warning("Login was not created");
+            return false;
+        }
+    }
+
+    /**
+     * Deletes a login. Only works when you are logged in!
+     * @return success
+     */
+    public boolean deleteLogin() {
+        String[] answer = sendCommand("DeleteLogin|" + token);
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            logger.info("Account deleted successfully");
+
+            // also reset the token:
+            token = null;
+            return true;
+        } else {
+            logger.warning("Account was not deleted!");
+            return false;
+        }
+    }
+
+    /**
+     * Log in to the server. The returned token is saved to the static field 'token'
+     *
+     * @param name     username
+     * @param password password
+     * @return success
+     */
+    public boolean login(String name, String password) {
+        String[] answer = sendCommand("Login|" + name + '|' + password);
+
+        // todo: save token
+        //  handle the return correctly
+        if (answer.length == 3 && answer[1].equals("true")) {
+            token = answer[2];
+            logger.info("Login successful. Token received: " + answer[2]);
+            return true;
+        } else {
+            logger.warning("Login was not successful!");
+            return false;
+        }
+    }
+
+
+    /**
+     * Log out from the server. And set the token to 'null'
+     *
+     * @return success
+     */
+    public boolean logout() {
+        String[] answer = sendCommand("Logout");
+
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            token = null;
+            logger.info("Logout was successful");
+            return true;
+        } else {
+            logger.warning("Logout was not successful!");
             return false;
         }
     }
@@ -148,4 +234,10 @@ public class AChatModel extends Model {
     }
 
 
+
+    // getters and setters:
+
+    public static String getToken() {
+        return token;
+    }
 }

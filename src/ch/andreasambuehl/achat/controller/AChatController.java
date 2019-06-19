@@ -37,6 +37,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             if (AChatModel.isServerConnected.get()) {
                 model.disconnectServer();
                 view.btnConnectDisconnect.setText(t.getString("button.connect"));
+                view.btnPingServer.setDisable(true);
                 view.lblStatusServer.setText(t.getString("label.connection.status-failed"));
             } else {
                 String ipAddress = view.txtServer.getText();
@@ -46,12 +47,49 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 boolean successful = model.connectServer(ipAddress, portString, useSSL);
                 if (successful) {
                     view.btnConnectDisconnect.setText(t.getString("button.disconnect"));
+                    view.btnPingServer.setDisable(false);
                     view.lblStatusServer.setText(t.getString("label.connection.status-connected"));
                 }
             }
         });
 
+        view.btnPingServer.setOnAction(event -> {
+            boolean success = model.pingServer();
+            if (success) {
+                view.lblStatusServer.setText(t.getString("label.connection.status.pingSuccess"));
+            } else {
+                view.lblStatusServer.setText(t.getString("label.connection.status.pingFailed"));
+            }
+        });
+
         // Account section:
+        view.btnSignInSignOut.setOnAction(event -> {
+            if (AChatModel.getToken() == null) {
+                String name = view.txtUsername.getText();
+                String password = view.txtPassword.getText();
+                boolean successful = model.login(name, password);
+
+                if (successful) {
+                    view.btnSignInSignOut.setText(t.getString("button.account.signOut"));
+                    view.lblStatusAccount.setText(t.getString("label.account.status.loggedIn"));
+                    view.btnCreateLogin.setDisable(true);
+                } else {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.loginFailed"));
+                }
+            } else {
+                boolean successful = model.logout();
+
+                if (successful) {
+                    view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
+                    view.lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
+                    view.btnCreateLogin.setDisable(false);
+                } else {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.logoutFailed"));
+                }
+            }
+        });
+
+
         view.btnCreateLogin.setOnAction(event -> {
             String name = view.txtUsername.getText();
             String password = view.txtPassword.getText();
@@ -64,6 +102,32 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
+
+        view.btnDeleteLogin.setOnAction(event -> {
+            // Login if not already logged in:
+            boolean loginSuccess = true;
+            if (AChatModel.getToken() == null) {
+                String name = view.txtUsername.getText();
+                String password = view.txtPassword.getText();
+                loginSuccess = model.login(name, password);
+
+            }
+            if (loginSuccess) {
+                boolean deleteSuccess = model.deleteLogin();
+                if (deleteSuccess) {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeleted"));
+                    view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
+
+                } else {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionFailed"));
+                }
+            } else {
+                view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionNotFound"));
+            }
+        });
+
+
+        // for development:
         view.btnSendCommand.setOnAction(event -> {
             logger.info("Sending command: " + view.txtCommand.getText());
             String answer = model.sendDirectCommand(view.txtCommand.getText());
