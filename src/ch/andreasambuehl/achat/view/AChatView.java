@@ -54,7 +54,7 @@ public class AChatView extends View<AChatModel> {
     public Label lblStatusAccount;
 
     // left section:
-    private Label lblBuddiesSection;
+    private Label lblPeopleSection;
     private Label lblChatroomsSection;
 
     // center section:
@@ -181,17 +181,17 @@ public class AChatView extends View<AChatModel> {
         //---------------//
         // left section: //
         //---------------//
-        // buddies section
-        lblBuddiesSection = new Label();
-        VBox buddiesVBox = new VBox();
+        // people section
+        lblPeopleSection = new Label();
+        VBox peopleVBox = new VBox();
 
-        String[] exampleBuddiesList = {"Hanna", "Dario", "Luca"};
-        ObservableList observableExampleBuddiesList = FXCollections.<String>observableArrayList(Arrays.asList(exampleBuddiesList));
-        ListView<String> buddiesList = new ListView<String>(observableExampleBuddiesList);
-        buddiesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        String[] examplePeopleList = {"Hanna", "Dario", "Luca"};
+        ObservableList observableExamplePeopleList = FXCollections.<String>observableArrayList(Arrays.asList(examplePeopleList));
+        ListView<String> peopleList = new ListView<String>(observableExamplePeopleList);
+        peopleList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        buddiesVBox.getChildren().addAll(lblBuddiesSection, buddiesList);
-        buddiesVBox.getStyleClass().add("boxedSection");
+        peopleVBox.getChildren().addAll(lblPeopleSection, peopleList);
+        peopleVBox.getStyleClass().add("boxedSection");
 
         // chatrooms section
         lblChatroomsSection = new Label();
@@ -207,7 +207,7 @@ public class AChatView extends View<AChatModel> {
 
 
         VBox leftSection = new VBox();
-        leftSection.getChildren().addAll(buddiesVBox, chatroomsVBox);
+        leftSection.getChildren().addAll(peopleVBox, chatroomsVBox);
         root.setLeft(leftSection);
 
 
@@ -280,7 +280,7 @@ public class AChatView extends View<AChatModel> {
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
 
 
-        lblStatusServer.setText(t.getString("label.connection.status-failed"));
+        lblStatusServer.setText(t.getString("label.connection.status.failed"));
 
         // account section
         lblAccountSection.setText(t.getString("label.account"));
@@ -293,7 +293,7 @@ public class AChatView extends View<AChatModel> {
         lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
 
         // left section
-        lblBuddiesSection.setText(t.getString("label.buddies"));
+        lblPeopleSection.setText(t.getString("label.people"));
         lblChatroomsSection.setText(t.getString("label.chatrooms"));
 
         // center section

@@ -38,7 +38,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 model.disconnectServer();
                 view.btnConnectDisconnect.setText(t.getString("button.connect"));
                 view.btnPingServer.setDisable(true);
-                view.lblStatusServer.setText(t.getString("label.connection.status-failed"));
+                view.lblStatusServer.setText(t.getString("label.connection.status.failed"));
             } else {
                 String ipAddress = view.txtServer.getText();
                 String portString = view.txtPort.getText();
@@ -48,7 +48,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 if (successful) {
                     view.btnConnectDisconnect.setText(t.getString("button.disconnect"));
                     view.btnPingServer.setDisable(false);
-                    view.lblStatusServer.setText(t.getString("label.connection.status-connected"));
+                    view.lblStatusServer.setText(t.getString("label.connection.status.connected"));
                 }
             }
         });
