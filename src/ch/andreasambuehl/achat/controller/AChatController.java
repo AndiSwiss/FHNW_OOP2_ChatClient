@@ -1,6 +1,5 @@
 package ch.andreasambuehl.achat.controller;
 
-import ch.andreasambuehl.achat.AChat;
 import ch.andreasambuehl.achat.abstractClasses.Controller;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.common.Translator;
@@ -179,12 +178,13 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
             TextField roomName = new TextField();
             roomName.setPromptText("chatroom-name");
-            CheckBox isPrivate = new CheckBox();
+            CheckBox isPublic = new CheckBox();
+            isPublic.setSelected(true);
 
             grid.add(new Label("Chatroom name:"), 0, 0);
             grid.add(roomName, 1, 0);
-            grid.add(new Label("Private:"), 0, 1);
-            grid.add(isPrivate,1,1);
+            grid.add(new Label("Public:"), 0, 1);
+            grid.add(isPublic,1,1);
 
             dialog.getDialogPane().setContent(grid);
 
@@ -194,7 +194,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             // Convert the result to a username-password-pair when the login button is clicked.
             dialog.setResultConverter(dialogButton -> {
                 if (dialogButton == btnCreate) {
-                    return new Pair<>(roomName.getText(), isPrivate.isSelected());
+                    return new Pair<>(roomName.getText(), isPublic.isSelected());
                 }
                 return null;
             });
