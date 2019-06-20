@@ -10,7 +10,9 @@
     /*-fx-alignment: center;*/
     /*-fx-text-alignment: center;*/
 
-    -fx-label-padding: 10px;
+    /* todo: this padding works for most labels, but not for the
+         titles for the left-sections ?!?!?!?  -> temporarily disable*/
+    -fx-label-padding: 5px;
 }
 
 .button {
@@ -44,11 +46,11 @@
 }
 
 .check-box {
-    -fx-padding: 10px;
+    -fx-padding: 5px;
 }
 
 
 #specialHBox {
-    -fx-spacing: 10px; /* if not set, then the buttons don't have spacing next to each other */
-    -fx-padding: 10px; /* if not set, then the first button is sticking right at the border */
+    -fx-spacing: 5px; /* if not set, then the buttons don't have spacing next to each other */
+    -fx-padding: 5px; /* if not set, then the first button is sticking right at the border */
 }
