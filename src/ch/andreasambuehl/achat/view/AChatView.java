@@ -23,7 +23,7 @@ public class AChatView extends View<AChatModel> {
     //--------------//
     // menu
     private Menu menuFile;
-    private Menu menuFileLanguage;
+    public Menu menuFileLanguage;
     private Menu menuHelp;
     private MenuItem menuAbout;
 
@@ -102,13 +102,6 @@ public class AChatView extends View<AChatModel> {
         for (Locale locale : sl.getLocales()) {
             MenuItem language = new MenuItem(locale.getLanguage());
             menuFileLanguage.getItems().add(language);
-
-            // todo: I think that the following code should be moved to the controller!
-            language.setOnAction(event -> {
-                sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
-                sl.setTranslator(new Translator(locale.getLanguage()));
-                updateTexts();
-            });
         }
 
         menuHelp = new Menu();
@@ -235,7 +228,7 @@ public class AChatView extends View<AChatModel> {
     /**
      * Updates all texts with the chosen translation
      */
-    protected void updateTexts() {
+    public void updateTexts() {
         Translator t = ServiceLocator.getServiceLocator().getTranslator();
 
         // todo: Problem: if I change the language anytime during running the application,

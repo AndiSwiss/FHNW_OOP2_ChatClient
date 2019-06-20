@@ -35,6 +35,16 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         //--------------//
         // top section: //
         //--------------//
+        // Language:
+        view.menuFileLanguage.getItems().forEach(menuItem -> {
+            String language = menuItem.getText();
+            menuItem.setOnAction(event -> {
+                serviceLocator.getConfiguration().setLocalOption("Language", language);
+                serviceLocator.setTranslator(new Translator(language));
+                view.updateTexts();
+            });
+        });
+
         // Server section:
         view.btnConnectDisconnect.setOnAction(event -> {
             if (AChatModel.isServerConnected.get()) {
