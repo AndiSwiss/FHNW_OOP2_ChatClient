@@ -166,9 +166,11 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         //---------------//
         view.btnUpdateChatroomsList.setOnAction(event -> {
             boolean success = model.listChatrooms();
-
-            // todo: introduce a general status field in the GUI for being able to post success-messages (maybe even
-            //  the logger messages themselves, for less overhead in the code!
+            if (success) {
+                view.lblLastStatus.setText(t.getString("label.status.updateChatroomsList"));
+            } else {
+                view.lblLastStatus.setText(t.getString("label.status.updateChatroomsListFailed"));
+            }
         });
 
         view.btnCreateChatroom.setOnAction(event -> {
@@ -216,9 +218,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             result.ifPresent(r -> {
                 boolean success = model.createChatroom(r.getKey(), r.getValue());
                 model.listChatrooms();
+                if (success) {
+                    view.lblLastStatus.setText(t.getString("label.status.createChatroomSuccess"));
+                } else {
+                    view.lblLastStatus.setText(t.getString("label.status.createChatroomFailed"));
+                }
 
-                // todo: introduce a general status field in the GUI for being able to post success-messages (maybe even
-                //  the logger messages themselves, for less overhead in the code!
             });
         });
 
@@ -235,8 +240,11 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 boolean success = model.deleteChatroom(name);
                 model.listChatrooms();
 
-                // todo: introduce a general status field in the GUI for being able to post success-messages (maybe even
-                //  the logger messages themselves, for less overhead in the code!
+                if (success) {
+                    view.lblLastStatus.setText(t.getString("label.status.deleteChatroomSuccess"));
+                } else {
+                    view.lblLastStatus.setText(t.getString("label.status.deleteChatroomFailed"));
+                }
             });
         });
 

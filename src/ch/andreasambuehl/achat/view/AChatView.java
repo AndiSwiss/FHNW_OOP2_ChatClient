@@ -240,28 +240,30 @@ public class AChatView extends View<AChatModel> {
         statusHBox.getChildren().addAll(lblStatusSection, lblLastStatus);
         statusHBox.getStyleClass().add("boxedSection");
 
-        // dev section:
+        // dev section (no translations for dev-section!)
         lblDevSection = new Label("Dev/debug:");
         lblDevSection.setId("labelSmall");
         lblCommand = new Label("Direct command:");
         lblServerAnswer = new Label("Last server answer:");
-        lastServerAnswerContent = new Label("... (none yet) ...");
+        lastServerAnswerContent = new Label("(only answers from commands sent from here!)");
         txtCommand = new TextField();
         btnSendCommand = new Button("Send");
 
         GridPane devGrid = new GridPane();
-        devGrid.add(lblDevSection, 0,0);
-        devGrid.add(lblCommand, 0, 2);
-        devGrid.add(lblServerAnswer, 0, 1);
-        devGrid.add(lastServerAnswerContent, 1, 1);
+        devGrid.add(lblCommand, 0, 1);
+        devGrid.add(lblServerAnswer, 0, 0);
+        devGrid.add(lastServerAnswerContent, 1, 0);
 
         HBox commandAndSend = new HBox();
         commandAndSend.getChildren().addAll(txtCommand, btnSendCommand);
-        devGrid.add(commandAndSend, 1, 2);
-        devGrid.getStyleClass().add("boxedSection");
+        devGrid.add(commandAndSend, 1, 1);
+
+        HBox devHBox = new HBox();
+        devHBox.getChildren().addAll(lblDevSection, devGrid);
+        devHBox.getStyleClass().add("boxedSection");
 
         VBox bottomVBox = new VBox();
-        bottomVBox.getChildren().addAll(statusHBox, devGrid);
+        bottomVBox.getChildren().addAll(statusHBox, devHBox);
 
         root.setBottom(bottomVBox);
 
