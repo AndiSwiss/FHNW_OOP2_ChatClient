@@ -120,10 +120,9 @@ public class AChatView extends View<AChatModel> {
         // connection section
         lblConnectionSection = new Label();
         lblServer = new Label();
-        // todo: instead of providing the initial server-value here, I should read it from the config-file!
-        txtServer = new TextField("147.86.8.31");
+        txtServer = new TextField();
         lblPort = new Label();
-        txtPort = new TextField("50001");
+        txtPort = new TextField();
         chkboxSSL = new CheckBox();
         chkboxSSL.setDisable(true);
 
