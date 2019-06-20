@@ -1,5 +1,6 @@
 package ch.andreasambuehl.achat.controller;
 
+import ch.andreasambuehl.achat.AChat;
 import ch.andreasambuehl.achat.abstractClasses.Controller;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.common.Translator;
@@ -53,6 +54,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // Server section:
         view.btnConnectDisconnect.setOnAction(event -> {
             if (AChatModel.isServerConnected.get()) {
+                if (AChatModel.getToken() != null) {
+                    model.logout();
+                    view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
+                    view.lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
+                    view.btnCreateLogin.setDisable(false);
+                }
                 model.disconnectServer();
                 view.btnConnectDisconnect.setText(t.getString("button.connect"));
                 view.btnPingServer.setDisable(true);
