@@ -61,8 +61,8 @@ public class AChatView extends View<AChatModel> {
     private Label lblCommand;
     public TextField txtCommand;
     public Button btnSendCommand;
-    private Label lblServerAnswers;
-    public ListView<String> listServerAnswers;
+    private Label lblServerAnswer;
+    public Label lastServerAnswerContent;
 
 
     /**
@@ -208,21 +208,21 @@ public class AChatView extends View<AChatModel> {
         //-----------------//
         // bottom section: //
         //-----------------//
-        lblCommand = new Label("Command:");
+        lblCommand = new Label("Direct command:");
+        lblServerAnswer = new Label("Last server answer:");
+        lastServerAnswerContent = new Label("... (none yet) ...");
         txtCommand = new TextField();
         btnSendCommand = new Button("Send");
-        lblServerAnswers = new Label("Server Answers:");
-        listServerAnswers = new ListView<>();
 
         GridPane bottomGrid = new GridPane();
-        bottomGrid.add(lblServerAnswers, 0, 0);
-        bottomGrid.add(listServerAnswers, 1, 0);
         bottomGrid.add(lblCommand, 0, 1);
+        bottomGrid.add(lblServerAnswer, 0, 0);
+        bottomGrid.add(lastServerAnswerContent, 1, 0);
 
         HBox commandAndSend = new HBox();
         commandAndSend.getChildren().addAll(txtCommand, btnSendCommand);
         bottomGrid.add(commandAndSend, 1, 1);
-        bottomGrid.getStyleClass().addAll("boxedSection");
+        bottomGrid.getStyleClass().add("boxedSection");
         root.setBottom(bottomGrid);
 
         updateTexts();
