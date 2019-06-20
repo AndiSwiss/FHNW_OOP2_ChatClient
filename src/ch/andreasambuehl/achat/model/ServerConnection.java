@@ -3,12 +3,16 @@ package ch.andreasambuehl.achat.model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
 public class ServerConnection {
 
     private Logger logger;
+
+    private Socket socket;
 
     public OutputStreamWriter outStream;
     public DataInputStream inStream;
@@ -24,7 +28,8 @@ public class ServerConnection {
         logger = ServiceLocator.getServiceLocator().getLogger();
 
         try {
-            Socket socket = new Socket(serverIpAddress, serverPort);
+            socket = new Socket(serverIpAddress, serverPort);
+
             logger.info("Connected with server " + serverIpAddress
                     + ":" + serverPort);
             requestPending = false;
@@ -56,29 +61,61 @@ public class ServerConnection {
         } catch (IOException e) {
             logger.info("Connection with server failed: " + serverIpAddress
                     + ":" + serverPort);
-            // todo: what should I do, when the connection doesn't work?
         }
     }
 
 
-    // todo: eventually change to private!
     String sendCommand(String command) {
+        // todo: first check, whether the socket still has a connection
+        //  I tried a lot with
+        //   - socket.isConnected()
+        //   - reachable = InetAddress.getByName("javaprojects.ch").isReachable(1000);
+        //      - and hundreds of variants of it, never worked
+        //  -
+        //  But trying to just resolve the name, that helped to determine, whether there is actually still a
+        //  connection to the server or not!
+        //  -
+        //  BUT: THAT ONLY WORKS JUST ONCE!!!!!!!! It seems, that somewhere on my machine, this request gets cached,
+        //  so this only works once!!!!!!!!!!!!!!!!!    Why????
+        //  -
+        //  Everything I tried was in official documentations and I didn't find any information about why this shouldn't
+        //  work
+        //  -
+        //  I don't have another idea to realize this now... and I lost too many hours reaching nothing :-(
+/*
+        boolean reachable;
         try {
-            outStream.write(command + '\n');
-            outStream.flush();
-        } catch (IOException e) {
-            logger.warning("Error while trying to write the following command to the outStream: " + command);
-            logger.warning(e.getMessage());
+            InetAddress ipAdressFromName = InetAddress.getByName("javaprojects.ch");
+            System.out.printf("ipAdressFromName: %s\n", ipAdressFromName);
+            reachable = true;
+        } catch (UnknownHostException e) {
+            reachable = false;
+            System.out.println("was not reachable!!");
         }
+*/
+        // todo: for now, just set it to true!
+        boolean reachable = true;
 
-        requestPending = true;
-        // while waiting for the response (from the other thread)
+        if (reachable) {
+            try {
+                outStream.write(command + '\n');
+                outStream.flush();
+            } catch (IOException e) {
+                logger.warning("Error while trying to write the following command to the outStream: " + command);
+                logger.warning(e.getMessage());
+            }
 
-        logger.info("Message sent: " + command);
+            requestPending = true;
+            // while waiting for the response (from the other thread)
 
-        while (requestPending) Thread.yield();
+            logger.info("Message sent: " + command);
 
-        return serverAnswer;
+            while (requestPending) Thread.yield();
+
+            return serverAnswer;
+        } else {
+            return "Server not answering!!";
+        }
     }
 
 }
