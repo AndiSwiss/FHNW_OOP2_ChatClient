@@ -222,6 +222,13 @@ public class AChatModel extends Model {
         }
     }
 
+    /**
+     * Create a chatroom
+     *
+     * @param name     name of the chatroom
+     * @param isPublic public or private
+     * @return success
+     */
     public boolean createChatroom(String name, boolean isPublic) {
         String[] answer = sendCommand("CreateChatroom|" + token + '|' + name + '|' + isPublic);
 
@@ -229,11 +236,17 @@ public class AChatModel extends Model {
             logger.info("Chatroom created successful");
             return true;
         } else {
-            logger.warning("Chatroom could not be created");
+            logger.warning("Chatroom could not be created!");
             return false;
         }
     }
 
+    /**
+     * Delete a chatroom
+     *
+     * @param name name of the chatroom
+     * @return success
+     */
     public boolean deleteChatroom(String name) {
         String[] answer = sendCommand("DeleteChatroom|" + token + '|' + name);
 
@@ -241,7 +254,26 @@ public class AChatModel extends Model {
             logger.info("Chatroom deleted successful");
             return true;
         } else {
-            logger.warning("Chatroom could not be deleted");
+            logger.warning("Chatroom could not be deleted!");
+            return false;
+        }
+    }
+
+    /**
+     * Joining a chatroom
+     *
+     * @param name name of the chatroom
+     * @param user username (either oneself or somebody else (only the creator can add user to a private chatroom!)
+     * @return success
+     */
+    public boolean joinChatroom(String name, String user) {
+        String[] answer = sendCommand("JoinChatroom|" + token + '|' + name + '|' + user);
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            logger.info("Joined chatroom");
+            return true;
+        } else {
+            logger.warning("Chatroom could not be joined!");
             return false;
         }
     }

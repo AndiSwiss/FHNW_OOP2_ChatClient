@@ -248,6 +248,21 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             });
         });
 
+        view.btnJoinSelectedChatroom.setOnAction(event -> {
+            String selectedItem = view.chatroomsList.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                boolean success = model.joinChatroom(selectedItem, view.txtUsername.getText());
+
+                if (success) {
+                    view.lblLastStatus.setText(t.getString("label.status.joinChatSuccess"));
+                } else {
+                    view.lblLastStatus.setText(t.getString("label.status.joinChatFailed"));
+                }
+            } else {
+                view.lblLastStatus.setText(t.getString("label.status.noChatroomSelected"));
+            }
+        });
+
 
         // for development:
         view.btnSendCommand.setOnAction(event -> {

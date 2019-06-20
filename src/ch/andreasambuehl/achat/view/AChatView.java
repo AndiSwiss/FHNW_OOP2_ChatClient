@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -58,6 +59,8 @@ public class AChatView extends View<AChatModel> {
     public Button btnJoinSelectedChatroom;
     public Button btnJoinPrivateChatroom;
     public Label lblPublicChatrooms;
+    public ListView<String> chatroomsList;
+
 
     // center section:
     private Label lblChatSection;
@@ -199,7 +202,6 @@ public class AChatView extends View<AChatModel> {
         btnJoinPrivateChatroom = new Button();
 
         // todo: not yet implemented:
-        btnJoinSelectedChatroom.setDisable(true);
         btnJoinPrivateChatroom.setDisable(true);
 
         lblPublicChatrooms = new Label();
@@ -208,7 +210,7 @@ public class AChatView extends View<AChatModel> {
         chatroom1.getChildren().addAll(btnUpdateChatroomsList, btnCreateChatroom, btnDeleteChatroom);
         HBox chatroom2 = new HBox();
         chatroom2.getChildren().addAll(btnJoinSelectedChatroom, btnJoinPrivateChatroom);
-        ListView<String> chatroomsList = new ListView<>(model.observableChatroomsList);
+        chatroomsList = new ListView<>(model.observableChatroomsList);
         chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         VBox chatroomsVBox = new VBox();
         chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroom1, chatroom2, lblPublicChatrooms, chatroomsList);
