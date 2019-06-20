@@ -113,9 +113,9 @@ public class AChatView extends View<AChatModel> {
         // connection section
         lblConnectionSection = new Label();
         lblServer = new Label();
-        txtServer = new TextField();
+        txtServer = new TextField(sl.getConfiguration().getOption("ServerIP"));
         lblPort = new Label();
-        txtPort = new TextField();
+        txtPort = new TextField(sl.getConfiguration().getOption("ServerPort"));
         chkboxSSL = new CheckBox();
         chkboxSSL.setDisable(true);
 
@@ -141,9 +141,9 @@ public class AChatView extends View<AChatModel> {
         // account section
         lblAccountSection = new Label();
         lblUsername = new Label();
-        txtUsername = new TextField();
+        txtUsername = new TextField(sl.getConfiguration().getOption("Username"));
         lblPassword = new Label();
-        txtPassword = new TextField();
+        txtPassword = new TextField(sl.getConfiguration().getOption("Password"));
         btnSignInSignOut = new Button();
         btnCreateLogin = new Button();
         lblStatusAccount = new Label();

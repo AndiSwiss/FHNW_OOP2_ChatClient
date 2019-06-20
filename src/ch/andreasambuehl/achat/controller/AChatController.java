@@ -161,7 +161,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> {
-            model.disconnectServer();
             Platform.exit();
         });
 

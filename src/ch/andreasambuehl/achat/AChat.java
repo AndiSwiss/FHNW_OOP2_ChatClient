@@ -1,5 +1,6 @@
 package ch.andreasambuehl.achat;
 
+import ch.andreasambuehl.achat.common.Configuration;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.controller.AChatController;
 import ch.andreasambuehl.achat.model.AChatModel;
@@ -25,12 +26,11 @@ import javafx.stage.Stage;
  * then edited and adopted by Andreas Ambühl)
  *
  * <p>
- * @version 0.5e
+ * @version 0.5f
  *
  * <p>
  * Copyright 2019, Andreas Ambühl. All rights reserved. This code
- * is licensed under the terms of the BSD 3-clause license (see the file
- * license.txt).
+ * is licensed under the terms of the BSD 3-clause license (see the file license.txt).
  *
  * <p>
  * This copyright is also applicable for all the code found inside this folder or its sub-folders,
@@ -40,6 +40,8 @@ public class AChat extends Application {
     private static AChat mainProgram; // singleton
     private SplashView splashView;
     private AChatView view;
+    private AChatModel model;
+
 
     private ServiceLocator serviceLocator; // resources, after initialization
 
@@ -111,7 +113,7 @@ public class AChat extends Application {
         // Initialize the application MVC components. Note that these components
         // can only be initialized now, because they may depend on the
         // resources initialized by the splash screen
-        AChatModel model = new AChatModel();
+        model = new AChatModel();
         view = new AChatView(appStage, model);
         new AChatController(model, view);
 
@@ -137,16 +139,26 @@ public class AChat extends Application {
      */
     @Override
     public void stop() {
-        serviceLocator.getConfiguration().save();
+        // Make the view invisible:
         if (view != null) {
-            // Make the view invisible
             view.stop();
         }
 
-        // More cleanup code as needed
-        // todo: check, if more cleanup is needed!
+        // read some entered values for restoring them the next time:
+        Configuration config = serviceLocator.getConfiguration();
+        config.setLocalOption("ServerIP", view.txtServer.getText());
+        config.setLocalOption("ServerPort", view.txtPort.getText());
+        config.setLocalOption("Username", view.txtUsername.getText());
+        config.setLocalOption("Password", view.txtPassword.getText());
 
-        serviceLocator.getLogger().info("Application terminated");
+        // and save the config:
+        config.save();
+
+        // logout and disconnect
+        if (AChatModel.getToken() != null) model.logout();
+        model.disconnectServer();
+
+        serviceLocator.getLogger().info("Application terminated (incl. logout + disconnect + configuration saved)");
     }
 
     /**
