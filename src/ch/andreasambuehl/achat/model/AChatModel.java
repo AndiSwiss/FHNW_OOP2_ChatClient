@@ -234,6 +234,17 @@ public class AChatModel extends Model {
         }
     }
 
+    public boolean deleteChatroom(String name) {
+        String[] answer = sendCommand("DeleteChatroom|" + token + '|' + name);
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            logger.info("Chatroom deleted successful");
+            return true;
+        } else {
+            logger.warning("Chatroom could not be deleted");
+            return false;
+        }
+    }
 
     /**
      * Validates an ip-address

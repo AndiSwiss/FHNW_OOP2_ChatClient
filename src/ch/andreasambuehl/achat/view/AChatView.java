@@ -54,11 +54,21 @@ public class AChatView extends View<AChatModel> {
     private Label lblChatroomsSection;
     public Button btnUpdateChatroomsList;
     public Button btnCreateChatroom;
+    public Button btnDeleteChatroom;
+    public Button btnJoinSelectedChatroom;
+    public Button btnJoinPrivateChatroom;
+    public Label lblPublicChatrooms;
 
     // center section:
     private Label lblChatSection;
 
     // bottom section:
+    // status section:
+    private Label lblStatusSection;
+    public Label lblLastStatus;
+
+    // dev section:
+    private Label lblDevSection;
     private Label lblCommand;
     public TextField txtCommand;
     public Button btnSendCommand;
@@ -113,6 +123,7 @@ public class AChatView extends View<AChatModel> {
 
         // connection section
         lblConnectionSection = new Label();
+        lblConnectionSection.setId("labelSmall");
         lblServer = new Label();
         txtServer = new TextField(sl.getConfiguration().getOption("ServerIP"));
         lblPort = new Label();
@@ -141,6 +152,7 @@ public class AChatView extends View<AChatModel> {
 
         // account section
         lblAccountSection = new Label();
+        lblAccountSection.setId("labelSmall");
         lblUsername = new Label();
         txtUsername = new TextField(sl.getConfiguration().getOption("Username"));
         lblPassword = new Label();
@@ -170,6 +182,7 @@ public class AChatView extends View<AChatModel> {
         //---------------//
         // people section
         lblPeopleSection = new Label();
+        lblPeopleSection.setId("labelSmall");
         VBox peopleVBox = new VBox();
         ListView<String> peopleList = new ListView<>(model.observablePeopleList);
         peopleList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -178,14 +191,27 @@ public class AChatView extends View<AChatModel> {
 
         // chatrooms section
         lblChatroomsSection = new Label();
+        lblChatroomsSection.setId("labelSmall");
         btnUpdateChatroomsList = new Button();
         btnCreateChatroom = new Button();
+        btnDeleteChatroom = new Button();
+        btnJoinSelectedChatroom = new Button();
+        btnJoinPrivateChatroom = new Button();
+
+        // todo: not yet implemented:
+        btnJoinSelectedChatroom.setDisable(true);
+        btnJoinPrivateChatroom.setDisable(true);
+
+        lblPublicChatrooms = new Label();
+        lblPublicChatrooms.setId("labelSmall");
         HBox chatroom1 = new HBox();
-        chatroom1.getChildren().addAll(btnUpdateChatroomsList, btnCreateChatroom);
+        chatroom1.getChildren().addAll(btnUpdateChatroomsList, btnCreateChatroom, btnDeleteChatroom);
+        HBox chatroom2 = new HBox();
+        chatroom2.getChildren().addAll(btnJoinSelectedChatroom, btnJoinPrivateChatroom);
         ListView<String> chatroomsList = new ListView<>(model.observableChatroomsList);
         chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         VBox chatroomsVBox = new VBox();
-        chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroom1, chatroomsList);
+        chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroom1, chatroom2, lblPublicChatrooms, chatroomsList);
         chatroomsVBox.getStyleClass().add("boxedSection");
         VBox leftSection = new VBox();
         leftSection.getChildren().addAll(peopleVBox, chatroomsVBox);
@@ -196,6 +222,7 @@ public class AChatView extends View<AChatModel> {
         // center section: //
         //-----------------//
         lblChatSection = new Label();
+        lblChatSection.setId("labelSmall");
 
         VBox centerSection = new VBox();
         centerSection.getChildren().addAll(lblChatSection);
@@ -205,22 +232,38 @@ public class AChatView extends View<AChatModel> {
         //-----------------//
         // bottom section: //
         //-----------------//
+        // status section:
+        lblStatusSection = new Label();
+        lblStatusSection.setId("labelSmall");
+        lblLastStatus = new Label();
+        HBox statusHBox = new HBox();
+        statusHBox.getChildren().addAll(lblStatusSection, lblLastStatus);
+        statusHBox.getStyleClass().add("boxedSection");
+
+        // dev section:
+        lblDevSection = new Label("Dev/debug:");
+        lblDevSection.setId("labelSmall");
         lblCommand = new Label("Direct command:");
         lblServerAnswer = new Label("Last server answer:");
         lastServerAnswerContent = new Label("... (none yet) ...");
         txtCommand = new TextField();
         btnSendCommand = new Button("Send");
 
-        GridPane bottomGrid = new GridPane();
-        bottomGrid.add(lblCommand, 0, 1);
-        bottomGrid.add(lblServerAnswer, 0, 0);
-        bottomGrid.add(lastServerAnswerContent, 1, 0);
+        GridPane devGrid = new GridPane();
+        devGrid.add(lblDevSection, 0,0);
+        devGrid.add(lblCommand, 0, 2);
+        devGrid.add(lblServerAnswer, 0, 1);
+        devGrid.add(lastServerAnswerContent, 1, 1);
 
         HBox commandAndSend = new HBox();
         commandAndSend.getChildren().addAll(txtCommand, btnSendCommand);
-        bottomGrid.add(commandAndSend, 1, 1);
-        bottomGrid.getStyleClass().add("boxedSection");
-        root.setBottom(bottomGrid);
+        devGrid.add(commandAndSend, 1, 2);
+        devGrid.getStyleClass().add("boxedSection");
+
+        VBox bottomVBox = new VBox();
+        bottomVBox.getChildren().addAll(statusHBox, devGrid);
+
+        root.setBottom(bottomVBox);
 
         updateTexts();
 
@@ -282,9 +325,16 @@ public class AChatView extends View<AChatModel> {
         lblChatroomsSection.setText(t.getString("label.chatrooms"));
         btnUpdateChatroomsList.setText(t.getString("button.chatrooms.updateChatroomsList"));
         btnCreateChatroom.setText(t.getString("button.chatrooms.createChatroom"));
+        btnDeleteChatroom.setText(t.getString("button.chatrooms.deleteChatroom"));
+        btnJoinSelectedChatroom.setText(t.getString("button.chatrooms.joinSelectedChatroom"));
+        btnJoinPrivateChatroom.setText(t.getString("button.chatrooms.joinPrivateChatroom"));
+        lblPublicChatrooms.setText(t.getString("label.chatrooms.publicChatrooms"));
 
         // center section
         lblChatSection.setText(t.getString("label.chat"));
+
+        // bottom section:
+        lblStatusSection.setText(t.getString("label.status"));
 
         stage.setTitle(t.getString("program.name"));
     }

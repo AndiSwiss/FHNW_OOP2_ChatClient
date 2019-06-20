@@ -88,7 +88,9 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         // Account section:
         view.btnSignInSignOut.setOnAction(event -> {
-            if (AChatModel.getToken() == null) {
+            if (!AChatModel.isServerConnected.get()) {
+                view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
+            } else if (AChatModel.getToken() == null) {
                 String name = view.txtUsername.getText();
                 String password = view.txtPassword.getText();
                 boolean successful = model.login(name, password);
@@ -115,39 +117,47 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
 
         view.btnCreateLogin.setOnAction(event -> {
-            String name = view.txtUsername.getText();
-            String password = view.txtPassword.getText();
-            boolean successful = model.createLogin(name, password);
-
-            if (successful) {
-                view.lblStatusAccount.setText(t.getString("label.account.status.accountCreated"));
+            if (!AChatModel.isServerConnected.get()) {
+                view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
             } else {
-                view.lblStatusAccount.setText(t.getString("label.account.status.accountCreationFailed"));
+                String name = view.txtUsername.getText();
+                String password = view.txtPassword.getText();
+                boolean successful = model.createLogin(name, password);
+
+                if (successful) {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.accountCreated"));
+                } else {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.accountCreationFailed"));
+                }
             }
         });
 
 
         view.btnDeleteLogin.setOnAction(event -> {
-            // Login if not already logged in:
-            boolean loginSuccess = true;
-            if (AChatModel.getToken() == null) {
-                String name = view.txtUsername.getText();
-                String password = view.txtPassword.getText();
-                loginSuccess = model.login(name, password);
-
-            }
-            if (loginSuccess) {
-                boolean deleteSuccess = model.deleteLogin();
-                if (deleteSuccess) {
-                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeleted"));
-                    view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
-                    view.btnCreateLogin.setDisable(false);
-
-                } else {
-                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionFailed"));
-                }
+            if (!AChatModel.isServerConnected.get()) {
+                view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
             } else {
-                view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionNotFound"));
+                // Login if not already logged in:
+                boolean loginSuccess = true;
+                if (AChatModel.getToken() == null) {
+                    String name = view.txtUsername.getText();
+                    String password = view.txtPassword.getText();
+                    loginSuccess = model.login(name, password);
+
+                }
+                if (loginSuccess) {
+                    boolean deleteSuccess = model.deleteLogin();
+                    if (deleteSuccess) {
+                        view.lblStatusAccount.setText(t.getString("label.account.status.accountDeleted"));
+                        view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
+                        view.btnCreateLogin.setDisable(false);
+
+                    } else {
+                        view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionFailed"));
+                    }
+                } else {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionNotFound"));
+                }
             }
         });
 
@@ -165,6 +175,8 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             // open a dialog
             // adapted code from https://code.makery.ch/blog/javafx-dialogs-official/ -> section "Custom Login Dialog"
             Dialog<Pair<String, Boolean>> dialog = new Dialog<>();
+
+            // todo: add translations for the whole dialog!
             dialog.setTitle("Create a chatroom");
             dialog.setHeaderText("You can create a chatroom, if it doesn't already exist.");
 
@@ -184,7 +196,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             grid.add(new Label("Chatroom name:"), 0, 0);
             grid.add(roomName, 1, 0);
             grid.add(new Label("Public:"), 0, 1);
-            grid.add(isPublic,1,1);
+            grid.add(isPublic, 1, 1);
 
             dialog.getDialogPane().setContent(grid);
 
@@ -203,12 +215,30 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
             result.ifPresent(r -> {
                 boolean success = model.createChatroom(r.getKey(), r.getValue());
+                model.listChatrooms();
 
                 // todo: introduce a general status field in the GUI for being able to post success-messages (maybe even
                 //  the logger messages themselves, for less overhead in the code!
             });
         });
 
+        view.btnDeleteChatroom.setOnAction(event -> {
+            TextInputDialog dialog = new TextInputDialog();
+            // todo: if the translation changes during runtime, somehow the translation only get's changed after
+            //  restarting the app (this seems not really logical at this point)
+            //  -> try to find a fix
+            dialog.setTitle(t.getString("dialog.deleteChatroom.title"));
+            dialog.setHeaderText(t.getString("dialog.deleteChatroom.header"));
+            dialog.setContentText(t.getString("dialog.deleteChatroom.content"));
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                boolean success = model.deleteChatroom(name);
+                model.listChatrooms();
+
+                // todo: introduce a general status field in the GUI for being able to post success-messages (maybe even
+                //  the logger messages themselves, for less overhead in the code!
+            });
+        });
 
 
         // for development:

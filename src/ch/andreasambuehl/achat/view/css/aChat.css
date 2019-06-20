@@ -54,3 +54,8 @@
     -fx-spacing: 5px; /* if not set, then the buttons don't have spacing next to each other */
     -fx-padding: 5px; /* if not set, then the first button is sticking right at the border */
 }
+
+#labelSmall{
+    -fx-label-padding: 3px;
+    -fx-font-size: 10px;
+}
