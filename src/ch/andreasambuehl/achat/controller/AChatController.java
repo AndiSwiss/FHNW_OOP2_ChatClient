@@ -6,7 +6,12 @@ import ch.andreasambuehl.achat.common.Translator;
 import ch.andreasambuehl.achat.model.AChatModel;
 import ch.andreasambuehl.achat.view.AChatView;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -150,6 +155,52 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             //  the logger messages themselves, for less overhead in the code!
         });
 
+        view.btnCreateChatroom.setOnAction(event -> {
+            // open a dialog
+            // adapted code from https://code.makery.ch/blog/javafx-dialogs-official/ -> section "Custom Login Dialog"
+            Dialog<Pair<String, Boolean>> dialog = new Dialog<>();
+            dialog.setTitle("Create a chatroom");
+            dialog.setHeaderText("You can create a chatroom, if it doesn't already exist.");
+
+            ButtonType btnCreate = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(btnCreate, ButtonType.CANCEL);
+
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
+
+            TextField roomName = new TextField();
+            roomName.setPromptText("chatroom-name");
+            CheckBox isPrivate = new CheckBox();
+
+            grid.add(new Label("Chatroom name:"), 0, 0);
+            grid.add(roomName, 1, 0);
+            grid.add(new Label("Private:"), 0, 1);
+            grid.add(isPrivate,1,1);
+
+            dialog.getDialogPane().setContent(grid);
+
+            // Request focus on the username filed by default
+            Platform.runLater(roomName::requestFocus);
+
+            // Convert the result to a username-password-pair when the login button is clicked.
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == btnCreate) {
+                    return new Pair<>(roomName.getText(), isPrivate.isSelected());
+                }
+                return null;
+            });
+
+            Optional<Pair<String, Boolean>> result = dialog.showAndWait();
+
+            result.ifPresent(r -> {
+                boolean success = model.createChatroom(r.getKey(), r.getValue());
+
+                // todo: introduce a general status field in the GUI for being able to post success-messages (maybe even
+                //  the logger messages themselves, for less overhead in the code!
+            });
+        });
 
 
 

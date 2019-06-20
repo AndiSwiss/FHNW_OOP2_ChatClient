@@ -226,7 +226,6 @@ public class AChatModel extends Model {
         String[] answer = sendCommand("CreateChatroom|" + token + '|' + name + '|' + isPublic);
 
         if (answer.length == 2 && answer[1].equals("true")) {
-            token = null;
             logger.info("Chatroom created successful");
             return true;
         } else {
