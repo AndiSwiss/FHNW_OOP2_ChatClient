@@ -32,6 +32,9 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
 
         // register to listen for button clicks
+        //--------------//
+        // top section: //
+        //--------------//
         // Server section:
         view.btnConnectDisconnect.setOnAction(event -> {
             if (AChatModel.isServerConnected.get()) {
@@ -125,6 +128,17 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionNotFound"));
             }
         });
+
+        //---------------//
+        // left section: //
+        //---------------//
+        view.btnUpdateChatroomsList.setOnAction(event -> {
+            boolean success = model.listChatrooms();
+
+            // todo: introduce a general status field in the GUI for being able to post success-messages (maybe even
+            //  the logger messages themselves, for less overhead in the code!
+        });
+
 
 
         // for development:

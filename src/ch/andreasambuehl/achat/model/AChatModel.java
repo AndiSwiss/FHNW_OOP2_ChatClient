@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -37,6 +38,9 @@ public class AChatModel extends Model {
         logger.info("Application model initialized");
     }
 
+    //--------------//
+    // top section: //
+    //--------------//
     /**
      * Connect with the server
      *
@@ -188,6 +192,22 @@ public class AChatModel extends Model {
             return true;
         } else {
             logger.warning("Logout was not successful!");
+            return false;
+        }
+    }
+
+    //---------------//
+    // left section: //
+    //---------------//
+    public boolean listChatrooms() {
+        String[] answer = sendCommand("ListChatrooms|" + token);
+
+        if (answer.length > 1 && answer[1].equals("true")) {
+            observableChatroomsList.addAll(Arrays.asList(answer).subList(2, answer.length));
+            logger.info("Chatroom-list successfully fetched");
+            return true;
+        } else {
+            logger.warning("ListChatrooms failed!");
             return false;
         }
     }

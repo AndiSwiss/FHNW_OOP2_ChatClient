@@ -4,8 +4,6 @@ import ch.andreasambuehl.achat.abstractClasses.View;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.common.Translator;
 import ch.andreasambuehl.achat.model.AChatModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -13,8 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -59,6 +55,7 @@ public class AChatView extends View<AChatModel> {
 
     // center section:
     private Label lblChatSection;
+    public Button btnUpdateChatroomsList;
 
     // bottom section:
     private Label lblCommand;
@@ -187,10 +184,11 @@ public class AChatView extends View<AChatModel> {
 
         // chatrooms section
         lblChatroomsSection = new Label();
-        VBox chatroomsVBox = new VBox();
+        btnUpdateChatroomsList = new Button();
         ListView<String> chatroomsList = new ListView<>(model.observableChatroomsList);
         chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroomsList);
+        VBox chatroomsVBox = new VBox();
+        chatroomsVBox.getChildren().addAll(lblChatroomsSection, btnUpdateChatroomsList, chatroomsList);
         chatroomsVBox.getStyleClass().add("boxedSection");
         VBox leftSection = new VBox();
         leftSection.getChildren().addAll(peopleVBox, chatroomsVBox);
@@ -285,6 +283,7 @@ public class AChatView extends View<AChatModel> {
         // left section
         lblPeopleSection.setText(t.getString("label.people"));
         lblChatroomsSection.setText(t.getString("label.chatrooms"));
+        btnUpdateChatroomsList.setText(t.getString("label.chatrooms.updateChatroomsList"));
 
         // center section
         lblChatSection.setText(t.getString("label.chat"));
