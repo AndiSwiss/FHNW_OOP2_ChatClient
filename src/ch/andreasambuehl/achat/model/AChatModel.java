@@ -3,6 +3,8 @@ package ch.andreasambuehl.achat.model;
 import ch.andreasambuehl.achat.abstractClasses.Model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.logging.Logger;
 
@@ -18,6 +20,11 @@ public class AChatModel extends Model {
 
     // account
     private static String token;
+
+    // left section
+    public ObservableList<String> observablePeopleList = FXCollections.observableArrayList();
+    public ObservableList<String> observableChatroomsList = FXCollections.observableArrayList();
+
 
     /**
      * Constructor of the model

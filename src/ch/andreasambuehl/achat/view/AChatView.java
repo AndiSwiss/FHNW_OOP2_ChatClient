@@ -65,7 +65,7 @@ public class AChatView extends View<AChatModel> {
     public TextField txtCommand;
     public Button btnSendCommand;
     private Label lblServerAnswers;
-    public ListView listServerAnswers;
+    public ListView<String> listServerAnswers;
 
 
     /**
@@ -151,7 +151,6 @@ public class AChatView extends View<AChatModel> {
 
         // account section
         lblAccountSection = new Label();
-
         lblUsername = new Label();
         txtUsername = new TextField();
         lblPassword = new Label();
@@ -168,14 +167,11 @@ public class AChatView extends View<AChatModel> {
 
         // todo: optimize CSS-Styling!!
         account2.setId("specialHBox");
-
         VBox accountVBox = new VBox();
         accountVBox.getChildren().addAll(lblAccountSection, account1, account2);
         accountVBox.getStyleClass().add("boxedSection");
-
         VBox topSection = new VBox();
         topSection.getChildren().addAll(menuBar, connectionVBox, accountVBox);
-
         root.setTop(topSection);
 
         //---------------//
@@ -184,28 +180,18 @@ public class AChatView extends View<AChatModel> {
         // people section
         lblPeopleSection = new Label();
         VBox peopleVBox = new VBox();
-
-        String[] examplePeopleList = {"Hanna", "Dario", "Luca"};
-        ObservableList observableExamplePeopleList = FXCollections.<String>observableArrayList(Arrays.asList(examplePeopleList));
-        ListView<String> peopleList = new ListView<String>(observableExamplePeopleList);
+        ListView<String> peopleList = new ListView<>(model.observablePeopleList);
         peopleList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         peopleVBox.getChildren().addAll(lblPeopleSection, peopleList);
         peopleVBox.getStyleClass().add("boxedSection");
 
         // chatrooms section
         lblChatroomsSection = new Label();
         VBox chatroomsVBox = new VBox();
-
-        String[] exampleChatroomsList = {"CatChat", "oop2"};
-        ObservableList observableExampleChatroomsList = FXCollections.<String>observableArrayList(Arrays.asList(exampleChatroomsList));
-        ListView<String> chatroomsList = new ListView<String>(observableExampleChatroomsList);
+        ListView<String> chatroomsList = new ListView<>(model.observableChatroomsList);
         chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroomsList);
         chatroomsVBox.getStyleClass().add("boxedSection");
-
-
         VBox leftSection = new VBox();
         leftSection.getChildren().addAll(peopleVBox, chatroomsVBox);
         root.setLeft(leftSection);
@@ -228,7 +214,7 @@ public class AChatView extends View<AChatModel> {
         txtCommand = new TextField();
         btnSendCommand = new Button("Send");
         lblServerAnswers = new Label("Server Answers:");
-        listServerAnswers = new ListView();
+        listServerAnswers = new ListView<>();
 
         GridPane bottomGrid = new GridPane();
         bottomGrid.add(lblServerAnswers, 0, 0);
@@ -287,7 +273,11 @@ public class AChatView extends View<AChatModel> {
         lblUsername.setText(t.getString("label.account.username"));
         lblPassword.setText(t.getString("label.account.password"));
         // todo: make this button to update to signIn/SignOut
-        btnSignInSignOut.setText(t.getString("button.account.signIn"));
+        if (AChatModel.getToken() == null) {
+            btnSignInSignOut.setText(t.getString("button.account.signIn"));
+        } else {
+            btnSignInSignOut.setText(t.getString("button.account.signOut"));
+        }
         btnCreateLogin.setText(t.getString("button.account.createLogin"));
         btnDeleteLogin.setText(t.getString("button.account.deleteLogin"));
         lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));

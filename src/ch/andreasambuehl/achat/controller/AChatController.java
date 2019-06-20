@@ -142,7 +142,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             Platform.exit();
         });
 
-
         logger.info("Application controller initialized");
     }
 
