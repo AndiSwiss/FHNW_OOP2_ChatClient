@@ -178,11 +178,11 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             // adapted code from https://code.makery.ch/blog/javafx-dialogs-official/ -> section "Custom Login Dialog"
             Dialog<Pair<String, Boolean>> dialog = new Dialog<>();
 
-            // todo: add translations for the whole dialog!
-            dialog.setTitle("Create a chatroom");
-            dialog.setHeaderText("You can create a chatroom, if it doesn't already exist.");
+            dialog.setTitle(t.getString("dialog.createChatroom.title"));
+            dialog.setHeaderText(t.getString("dialog.createChatroom.header"));
 
-            ButtonType btnCreate = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+            String buttonText = t.getString("dialog.createChatroom.btnCreate");
+            ButtonType btnCreate = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().addAll(btnCreate, ButtonType.CANCEL);
 
             GridPane grid = new GridPane();
@@ -191,13 +191,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             grid.setPadding(new Insets(20, 150, 10, 10));
 
             TextField roomName = new TextField();
-            roomName.setPromptText("chatroom-name");
             CheckBox isPublic = new CheckBox();
             isPublic.setSelected(true);
 
-            grid.add(new Label("Chatroom name:"), 0, 0);
+            grid.add(new Label(t.getString("dialog.createChatroom.name")), 0, 0);
             grid.add(roomName, 1, 0);
-            grid.add(new Label("Public:"), 0, 1);
+            grid.add(new Label(t.getString("dialog.createChatroom.public")), 0, 1);
             grid.add(isPublic, 1, 1);
 
             dialog.getDialogPane().setContent(grid);
