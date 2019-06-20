@@ -130,6 +130,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 if (deleteSuccess) {
                     view.lblStatusAccount.setText(t.getString("label.account.status.accountDeleted"));
                     view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
+                    view.btnCreateLogin.setDisable(false);
 
                 } else {
                     view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionFailed"));

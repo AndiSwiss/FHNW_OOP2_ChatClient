@@ -43,7 +43,7 @@ public class AChatView extends View<AChatModel> {
     private Label lblUsername;
     public TextField txtUsername;
     private Label lblPassword;
-    public TextField txtPassword;
+    public PasswordField txtPassword;
     public Button btnSignInSignOut;
     public Button btnCreateLogin;
     public Button btnDeleteLogin;
@@ -143,7 +143,8 @@ public class AChatView extends View<AChatModel> {
         lblUsername = new Label();
         txtUsername = new TextField(sl.getConfiguration().getOption("Username"));
         lblPassword = new Label();
-        txtPassword = new TextField(sl.getConfiguration().getOption("Password"));
+        txtPassword = new PasswordField();
+        txtPassword.setText(sl.getConfiguration().getOption("Password"));
         btnSignInSignOut = new Button();
         btnCreateLogin = new Button();
         lblStatusAccount = new Label();
