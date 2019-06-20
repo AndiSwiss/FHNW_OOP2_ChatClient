@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -41,6 +42,7 @@ public class AChatModel extends Model {
     //--------------//
     // top section: //
     //--------------//
+
     /**
      * Connect with the server
      *
@@ -137,6 +139,7 @@ public class AChatModel extends Model {
 
     /**
      * Deletes a login. Only works when you are logged in!
+     *
      * @return success
      */
     public boolean deleteLogin() {
@@ -196,6 +199,11 @@ public class AChatModel extends Model {
         }
     }
 
+    /**
+     * Shows (and updates) the list of chatrooms
+     *
+     * @return success
+     */
     //---------------//
     // left section: //
     //---------------//
@@ -203,11 +211,26 @@ public class AChatModel extends Model {
         String[] answer = sendCommand("ListChatrooms|" + token);
 
         if (answer.length > 1 && answer[1].equals("true")) {
-            observableChatroomsList.addAll(Arrays.asList(answer).subList(2, answer.length));
+            List<String> rooms = Arrays.asList(answer).subList(2, answer.length);
+            rooms.sort(String::compareToIgnoreCase);
+            observableChatroomsList.setAll(rooms);
             logger.info("Chatroom-list successfully fetched");
             return true;
         } else {
             logger.warning("ListChatrooms failed!");
+            return false;
+        }
+    }
+
+    public boolean createChatroom(String name, boolean isPublic) {
+        String[] answer = sendCommand("CreateChatroom|" + token + '|' + name + '|' + isPublic);
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            token = null;
+            logger.info("Chatroom created successful");
+            return true;
+        } else {
+            logger.warning("Chatroom could not be created");
             return false;
         }
     }
@@ -259,7 +282,6 @@ public class AChatModel extends Model {
         }
         return formatOK;
     }
-
 
 
     // getters and setters:

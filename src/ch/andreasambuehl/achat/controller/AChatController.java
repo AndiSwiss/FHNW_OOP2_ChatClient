@@ -152,6 +152,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
 
 
+
         // for development:
         view.btnSendCommand.setOnAction(event -> {
             logger.info("Sending command: " + view.txtCommand.getText());

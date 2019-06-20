@@ -52,10 +52,11 @@ public class AChatView extends View<AChatModel> {
     // left section:
     private Label lblPeopleSection;
     private Label lblChatroomsSection;
+    public Button btnUpdateChatroomsList;
+    public Button btnCreateChatroom;
 
     // center section:
     private Label lblChatSection;
-    public Button btnUpdateChatroomsList;
 
     // bottom section:
     private Label lblCommand;
@@ -178,10 +179,13 @@ public class AChatView extends View<AChatModel> {
         // chatrooms section
         lblChatroomsSection = new Label();
         btnUpdateChatroomsList = new Button();
+        btnCreateChatroom = new Button();
+        HBox chatroom1 = new HBox();
+        chatroom1.getChildren().addAll(btnUpdateChatroomsList, btnCreateChatroom);
         ListView<String> chatroomsList = new ListView<>(model.observableChatroomsList);
         chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         VBox chatroomsVBox = new VBox();
-        chatroomsVBox.getChildren().addAll(lblChatroomsSection, btnUpdateChatroomsList, chatroomsList);
+        chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroom1, chatroomsList);
         chatroomsVBox.getStyleClass().add("boxedSection");
         VBox leftSection = new VBox();
         leftSection.getChildren().addAll(peopleVBox, chatroomsVBox);
@@ -276,7 +280,8 @@ public class AChatView extends View<AChatModel> {
         // left section
         lblPeopleSection.setText(t.getString("label.people"));
         lblChatroomsSection.setText(t.getString("label.chatrooms"));
-        btnUpdateChatroomsList.setText(t.getString("label.chatrooms.updateChatroomsList"));
+        btnUpdateChatroomsList.setText(t.getString("button.chatrooms.updateChatroomsList"));
+        btnCreateChatroom.setText(t.getString("button.chatrooms.createChatroom"));
 
         // center section
         lblChatSection.setText(t.getString("label.chat"));
