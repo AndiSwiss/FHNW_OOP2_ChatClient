@@ -4,6 +4,7 @@ import ch.andreasambuehl.achat.abstractClasses.View;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.common.Translator;
 import ch.andreasambuehl.achat.model.AChatModel;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -64,6 +65,12 @@ public class AChatView extends View<AChatModel> {
 
     // center section:
     private Label lblChatSection;
+    // todo: check the type of the following list!
+    public TextField txtChatSearch;
+    public ListView<VBox> chatHistoryList;
+    public TextField txtSendChat;
+    public Button btnSendToSelectedChatroom;
+
 
     // bottom section:
     // status section:
@@ -234,9 +241,30 @@ public class AChatView extends View<AChatModel> {
         //-----------------//
         lblChatSection = new Label();
         lblChatSection.getStyleClass().add("labelSmall");
+        txtChatSearch = new TextField();
+        txtChatSearch.setAlignment(Pos.BASELINE_RIGHT);
+        chatHistoryList = new ListView<>(model.observableChatHistory);
+        txtSendChat = new TextField();
+        btnSendToSelectedChatroom = new Button();
+
+        // todo: not yet implemented:
+        txtChatSearch.setDisable(true);
+        txtChatSearch.getStyleClass().add("notImplemented");
+        chatHistoryList.setDisable(true);
+        chatHistoryList.getStyleClass().add("notImplemented");
+        txtSendChat.setDisable(true);
+        txtSendChat.getStyleClass().add("notImplemented");
+        btnSendToSelectedChatroom.setDisable(true);
+        btnSendToSelectedChatroom.getStyleClass().add("notImplemented");
+
+
+        HBox chatBox1 = new HBox();
+        chatBox1.getChildren().addAll(txtChatSearch);
+        HBox chatBox2 = new HBox();
+        chatBox2.getChildren().addAll(txtSendChat, btnSendToSelectedChatroom);
 
         VBox centerSection = new VBox();
-        centerSection.getChildren().addAll(lblChatSection);
+        centerSection.getChildren().addAll(lblChatSection, chatBox1, chatHistoryList, chatBox2);
         centerSection.getStyleClass().add("boxedSection");
         root.setCenter(centerSection);
 
@@ -298,6 +326,7 @@ public class AChatView extends View<AChatModel> {
         // todo: Problem: if I change the language anytime during running the application,
         //  many labels having different current states. How can I detect those current states for the language translation
         //  to be correct??
+        //  Also: the dialog text don't get updated until the application is restarted!
 
         // top section
         // the menu entries
@@ -326,7 +355,6 @@ public class AChatView extends View<AChatModel> {
         lblAccountSection.setText(t.getString("label.account"));
         lblUsername.setText(t.getString("label.account.username"));
         lblPassword.setText(t.getString("label.account.password"));
-        // todo: make this button to update to signIn/SignOut
         if (AChatModel.getToken() == null) {
             btnSignInSignOut.setText(t.getString("button.account.signIn"));
         } else {
@@ -351,6 +379,9 @@ public class AChatView extends View<AChatModel> {
 
         // center section
         lblChatSection.setText(t.getString("label.chat"));
+        txtChatSearch.setPromptText(t.getString("txt.chat.search"));
+        txtSendChat.setPromptText(t.getString("txt.chat.sendChat"));
+        btnSendToSelectedChatroom.setText(t.getString("button.chat.sendToSelectedChatroom"));
 
         // bottom section:
         lblStatusSection.setText(t.getString("label.status"));

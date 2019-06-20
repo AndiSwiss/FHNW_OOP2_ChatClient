@@ -5,6 +5,7 @@ import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,8 @@ public class AChatModel extends Model {
     public ObservableList<String> observablePeopleList = FXCollections.observableArrayList();
     public ObservableList<String> observableChatroomsList = FXCollections.observableArrayList();
 
+    // center section
+    public ObservableList<VBox> observableChatHistory = FXCollections.observableArrayList();
 
     /**
      * Constructor of the model
