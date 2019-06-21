@@ -84,8 +84,14 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
 
-        // todo: create about-dialog
-//        view.menuAbout.setOnAction(event -> );
+        view.menuAbout.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(t.getString("dialog.about.title"));
+            alert.setHeaderText(t.getString("dialog.about.header"));
+            alert.setContentText(t.getString("dialog.about.content"));
+
+            alert.showAndWait();
+        });
 
 
         //---------------------//
