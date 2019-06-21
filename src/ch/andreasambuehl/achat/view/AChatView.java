@@ -66,7 +66,10 @@ public class AChatView extends View<AChatModel> {
     // todo: check the type of the following list!
     public TextField txtChatSearch;
     public TextField txtSendChat;
+    private Label lblSendTo;
     public Button btnSendToSelectedChatroom;
+    public Button btnSendToPrivateChatroom;
+    public Button btnSendToPerson;
 
 
     // bottom section:
@@ -256,7 +259,12 @@ public class AChatView extends View<AChatModel> {
 
         chatHistoryList = new ListView<>(model.observableChatHistory);
         txtSendChat = new TextField();
+        lblSendTo = new Label();
         btnSendToSelectedChatroom = new Button();
+        btnSendToPrivateChatroom = new Button();
+        btnSendToPerson = new Button();
+
+        txtSendChat.setPrefWidth(500);
 
         // todo: not yet implemented:
         txtChatSearch.setDisable(true);
@@ -267,15 +275,20 @@ public class AChatView extends View<AChatModel> {
         txtSendChat.getStyleClass().add("notImplemented");
         btnSendToSelectedChatroom.setDisable(true);
         btnSendToSelectedChatroom.getStyleClass().add("notImplemented");
-
+        btnSendToPrivateChatroom.setDisable(true);
+        btnSendToPrivateChatroom.getStyleClass().add("notImplemented");
+        btnSendToPerson.setDisable(true);
+        btnSendToPerson.getStyleClass().add("notImplemented");
 
         HBox chatBox1 = new HBox();
         chatBox1.getChildren().addAll(chatSearchRight);
         HBox chatBox2 = new HBox();
-        chatBox2.getChildren().addAll(txtSendChat, btnSendToSelectedChatroom);
+        chatBox2.getChildren().addAll(txtSendChat);
+        HBox chatBox3 = new HBox();
+        chatBox3.getChildren().addAll(lblSendTo, btnSendToSelectedChatroom, btnSendToPrivateChatroom, btnSendToPerson);
 
         VBox centerSection = new VBox();
-        centerSection.getChildren().addAll(lblChatSection, chatBox1, chatHistoryList, chatBox2);
+        centerSection.getChildren().addAll(lblChatSection, chatBox1, chatHistoryList, chatBox2, chatBox3);
         centerSection.getStyleClass().add("boxedSection");
         root.setCenter(centerSection);
 
@@ -390,9 +403,13 @@ public class AChatView extends View<AChatModel> {
 
         // center section
         lblChatSection.setText(t.getString("label.chat"));
-        txtChatSearch.setPromptText(t.getString("txt.chat.search"));
-        txtSendChat.setPromptText(t.getString("txt.chat.sendChat"));
+        txtChatSearch.setPromptText(t.getString("text.chat.search"));
+        txtSendChat.setPromptText(t.getString("text.chat.sendChat"));
+        lblSendTo.setText(t.getString("label.chat.sendTo"));
         btnSendToSelectedChatroom.setText(t.getString("button.chat.sendToSelectedChatroom"));
+        btnSendToPrivateChatroom.setText(t.getString("button.chat.sendToPrivateChatroom"));
+        btnSendToPerson.setText(t.getString("button.chat.sendToPerson"));
+
 
         // bottom section:
         lblStatusSection.setText(t.getString("label.status"));
