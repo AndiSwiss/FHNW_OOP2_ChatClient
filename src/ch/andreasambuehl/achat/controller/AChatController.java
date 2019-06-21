@@ -267,6 +267,21 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
+        view.btnLeaveSelectedChatroom.setOnAction(event -> {
+            String selectedItem = view.chatroomsList.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                boolean success = model.leaveChatroom(selectedItem, view.txtUsername.getText());
+
+                if (success) {
+                    view.lblLastStatus.setText(t.getString("label.status.leaveChatSuccess"));
+                } else {
+                    view.lblLastStatus.setText(t.getString("label.status.leaveChatFailed"));
+                }
+            } else {
+                view.lblLastStatus.setText(t.getString("label.status.noChatroomSelected"));
+            }
+        });
+
 
         //---------------//
         // chat section: //

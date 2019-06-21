@@ -235,8 +235,6 @@ public class AChatView extends View<AChatModel> {
         btnLeavePrivateChatroom = new Button();
 
         // todo: not yet implemented:
-        btnLeaveSelectedChatroom.setDisable(true);
-        btnLeaveSelectedChatroom.getStyleClass().add("notImplemented");
         btnJoinPrivateChatroom.setDisable(true);
         btnJoinPrivateChatroom.getStyleClass().add("notImplemented");
         btnLeavePrivateChatroom.setDisable(true);

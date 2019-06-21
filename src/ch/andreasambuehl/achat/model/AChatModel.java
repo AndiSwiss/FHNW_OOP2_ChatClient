@@ -295,6 +295,25 @@ public class AChatModel extends Model {
         }
     }
 
+    /**
+     * Leaving a chatroom.
+     * You can always remove yourself. Chatroom creator can remove anyone.
+     *
+     * @param name name of the chatroom
+     * @param user username
+     * @return success
+     */
+    public boolean leaveChatroom(String name, String user) {
+        String[] answer = sendCommand("LeaveChatroom|" + token + '|' + name + '|' + user);
+        if (answer.length == 2 && answer[1].equals("true")) {
+            logger.info("Left chatroom");
+            return true;
+        } else {
+            logger.warning("Chatroom could not be left!");
+            return false;
+        }
+    }
+
 
     //---------------//
     // chat section: //
@@ -322,13 +341,19 @@ public class AChatModel extends Model {
             // That is why I have to introduce a second check:
             // If the server broadcasts the whole message, such as: MessageText|andi|chatroom1|my message
             // then sending of a public message was a success
-            String[] ans = sendChatMsgAnswer;
-            if (ans != null && ans.length == 4
-                    && ans[0].equals("MessageText") && ans[2].equals(target) && ans[3].equals(message)) {
+            String[] ans2 = sendChatMsgAnswer;
+            if (ans2 != null && ans2.length == 4
+                    && ans2[0].equals("MessageText") && ans2[2].equals(target) && ans2[3].equals(message)) {
                 logger.info("Sent message '" + message + "' to target '" + target + "'");
+
+                // reset to null for the next message:
+                sendChatMsgAnswer = null;
                 return "success";
             } else {
                 logger.warning("Problems while sending a message!");
+
+                // reset to null for the next message (most likely not necessary, because it should already be null!):
+                sendChatMsgAnswer = null;
                 return "noBroadcast";
             }
         } else {
