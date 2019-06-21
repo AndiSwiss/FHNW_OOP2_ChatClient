@@ -41,10 +41,10 @@ public class AChatView extends View<AChatModel> {
     //------------------//
     // account section: //
     //------------------//
-    private Label lblAccountSection;
-    private Label lblUsername;
+    public Label lblAccountSection;
+    public Label lblUsername;
     public TextField txtUsername;
-    private Label lblPassword;
+    public Label lblPassword;
     public PasswordField txtPassword;
     public Button btnSignInSignOut;
     public Button btnCreateLogin;

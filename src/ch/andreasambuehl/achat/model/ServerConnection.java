@@ -1,6 +1,7 @@
 package ch.andreasambuehl.achat.model;
 
 import ch.andreasambuehl.achat.common.ServiceLocator;
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
@@ -59,11 +60,14 @@ public class ServerConnection {
                                 model.setSendChatMsgAnswer(msg.split("\\|"));
                             }
 
-                            // todo: when doing the following for the first time, everything seems to be fine. But
-                            //  if I do it for the 2nd and later times, it works, but it throws an error:
-                            //  Exception in thread "Thread-7" java.lang.IllegalStateException: Not on FX application thread; currentThread = Thread-7
+                            // If I just write the following line:
+                            //   model.getObservableChatHistory().add(LocalDateTime.now().toString() + "|" + msg;
+                            // then doing the following for the first time, everything seems to be fine. But
+                            // if I do it for the 2nd and later times, it works, but it throws an error:
+                            // Exception in thread "Thread-7" java.lang.IllegalStateException: Not on FX application thread; currentThread = Thread-7
+                            // Since I write something to another thread, I have to realize that with Platform.runLater().
                             //  -> see https://stackoverflow.com/questions/17850191/why-am-i-getting-java-lang-illegalstateexception-not-on-fx-application-thread
-                            model.getObservableChatHistory().add(LocalDateTime.now().toString() + "|" + msg);
+                            Platform.runLater(() -> model.getObservableChatHistory().add(LocalDateTime.now().toString() + "|" + msg));
 
                         } else {
                             logger.warning("received a message other than 'Result|...' or 'MessageText|...': "

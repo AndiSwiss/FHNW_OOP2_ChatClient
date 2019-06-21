@@ -35,8 +35,9 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         logger = serviceLocator.getLogger();
         t = serviceLocator.getTranslator();
 
-
-        // register to listen for button clicks
+        //======================================//
+        // register to listen for button clicks //
+        //======================================//
 
         //---------------//
         // menu section: //
@@ -312,9 +313,20 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
 
-        //--------//
+        //=========================//
+        // register for properties //
+        //=========================//
+        // set visibility of objects depending whether the connection of the server is active
+        model.isServerConnectedProperty().addListener((observable, oldValue, newValue) -> {
+            toggleAccountSection(newValue);
+        });
+
+        // set initial visibility:
+        toggleAccountSection(false);
+
+        //========//
         // other: //
-        //--------//
+        //========//
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> {
             Platform.exit();
@@ -345,4 +357,21 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         return success;
     }
+
+
+    private void toggleAccountSection(boolean enable) {
+        view.lblAccountSection.setDisable(!enable);
+        view.lblUsername.setDisable(!enable);
+        view.txtUsername.setDisable(!enable);
+        view.lblPassword.setDisable(!enable);
+        view.txtPassword.setDisable(!enable);
+        view.btnSignInSignOut.setDisable(!enable);
+        view.btnCreateLogin.setDisable(!enable);
+        view.btnDeleteLogin.setDisable(!enable);
+        view.lblStatusAccount.setDisable(!enable);
+    }
+
+
+
+
 }
