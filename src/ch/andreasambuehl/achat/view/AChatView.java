@@ -54,6 +54,8 @@ public class AChatView extends View<AChatModel> {
     //-----------------//
     // people section: //
     //-----------------//
+    public VBox leftSection;
+
     private Label lblPeopleSection;
 
     //-------------------//
@@ -73,6 +75,7 @@ public class AChatView extends View<AChatModel> {
     //---------------//
     // chat section: //
     //---------------//
+    public VBox chatSection;
     private Label lblChatSection;
     // todo: check the type of the following list -> probably change to VBox or something else
     public TextField txtChatSearch;
@@ -253,7 +256,7 @@ public class AChatView extends View<AChatModel> {
         VBox chatroomsVBox = new VBox();
         chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroom1, chatroom2, chatroom3, lblPublicChatrooms, chatroomsList);
         chatroomsVBox.getStyleClass().add("boxedSection");
-        VBox leftSection = new VBox();
+        leftSection = new VBox();
         leftSection.getChildren().addAll(peopleVBox, chatroomsVBox);
         root.setLeft(leftSection);
 
@@ -302,10 +305,10 @@ public class AChatView extends View<AChatModel> {
         HBox chatBox3 = new HBox();
         chatBox3.getChildren().addAll(lblSendTo, btnSendToSelectedChatroom, btnSendToPrivateChatroom, btnSendToPerson);
 
-        VBox centerSection = new VBox();
-        centerSection.getChildren().addAll(lblChatSection, chatBox1, chatHistoryList, chatBox2, chatBox3);
-        centerSection.getStyleClass().add("boxedSection");
-        root.setCenter(centerSection);
+        chatSection = new VBox();
+        chatSection.getChildren().addAll(lblChatSection, chatBox1, chatHistoryList, chatBox2, chatBox3);
+        chatSection.getStyleClass().add("boxedSection");
+        root.setCenter(chatSection);
 
 
         //-----------------//

@@ -11,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -319,12 +317,18 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // register listeners and actions: //
         //=================================//
         // set visibility of objects depending whether the connection of the server is active
-        model.serverConnectedProperty().addListener((observable, oldValue, newValue) -> {
-            toggleAccountSection(newValue);
+        model.serverConnectedProperty().addListener((observable, oldValue, newValue) -> toggleAccountSection(newValue));
+
+        model.tokenProperty().addListener((observable, oldValue, newValue) -> {
+            boolean loggedIn = newValue != null;
+            view.leftSection.setVisible(loggedIn);
+            view.chatSection.setVisible(loggedIn);
         });
 
         // set initial visibility:
         toggleAccountSection(false);
+        view.leftSection.setVisible(false);
+        view.chatSection.setVisible(false);
 
 
         //========//
@@ -383,4 +387,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         view.btnDeleteLogin.setDisable(!enable);
         view.lblStatusAccount.setDisable(!enable);
     }
+
+
 }

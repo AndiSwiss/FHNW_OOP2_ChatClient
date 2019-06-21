@@ -3,6 +3,7 @@ package ch.andreasambuehl.achat.model;
 import ch.andreasambuehl.achat.abstractClasses.Model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,7 +23,7 @@ public class AChatModel extends Model {
 
     // todo: make all private and work with getters/setters
     // account section:
-    private String token;
+    private SimpleStringProperty token;
 
     // people section:
     private ObservableList<String> observablePeopleList = FXCollections.observableArrayList();
@@ -40,6 +41,7 @@ public class AChatModel extends Model {
      */
     public AChatModel() {
         serverConnected = new SimpleBooleanProperty(false);
+        token = new SimpleStringProperty();
 
         serviceLocator = ServiceLocator.getServiceLocator();
         logger = serviceLocator.getLogger();
@@ -160,13 +162,13 @@ public class AChatModel extends Model {
      * @return success
      */
     public boolean deleteLogin() {
-        String[] answer = sendCommand("DeleteLogin|" + token);
+        String[] answer = sendCommand("DeleteLogin|" + token.get());
 
         if (answer.length == 2 && answer[1].equals("true")) {
             logger.info("Account deleted successfully");
 
             // also reset the token:
-            token = null;
+            token.set(null);
             return true;
         } else {
             logger.warning("Account was not deleted!");
@@ -185,7 +187,7 @@ public class AChatModel extends Model {
         String[] answer = sendCommand("Login|" + name + '|' + password);
 
         if (answer.length == 3 && answer[1].equals("true")) {
-            token = answer[2];
+            token.set(answer[2]);
             logger.info("Login successful. Token received: " + answer[2]);
             return true;
         } else {
@@ -204,7 +206,7 @@ public class AChatModel extends Model {
 
 
         if (answer.length == 2 && answer[1].equals("true")) {
-            token = null;
+            token.set(null);
             logger.info("Logout was successful");
             return true;
         } else {
@@ -224,7 +226,7 @@ public class AChatModel extends Model {
      * @return success
      */
     public boolean listChatrooms() {
-        String[] answer = sendCommand("ListChatrooms|" + token);
+        String[] answer = sendCommand("ListChatrooms|" + token.get());
 
         if (answer.length > 1 && answer[1].equals("true")) {
             List<String> rooms = Arrays.asList(answer).subList(2, answer.length);
@@ -246,7 +248,7 @@ public class AChatModel extends Model {
      * @return success
      */
     public boolean createChatroom(String name, boolean isPublic) {
-        String[] answer = sendCommand("CreateChatroom|" + token + '|' + name + '|' + isPublic);
+        String[] answer = sendCommand("CreateChatroom|" + token.get() + '|' + name + '|' + isPublic);
 
         if (answer.length == 2 && answer[1].equals("true")) {
             logger.info("Chatroom created successful");
@@ -264,7 +266,7 @@ public class AChatModel extends Model {
      * @return success
      */
     public boolean deleteChatroom(String name) {
-        String[] answer = sendCommand("DeleteChatroom|" + token + '|' + name);
+        String[] answer = sendCommand("DeleteChatroom|" + token.get() + '|' + name);
 
         if (answer.length == 2 && answer[1].equals("true")) {
             logger.info("Chatroom deleted successful");
@@ -283,7 +285,7 @@ public class AChatModel extends Model {
      * @return success
      */
     public boolean joinChatroom(String name, String user) {
-        String[] answer = sendCommand("JoinChatroom|" + token + '|' + name + '|' + user);
+        String[] answer = sendCommand("JoinChatroom|" + token.get() + '|' + name + '|' + user);
 
         if (answer.length == 2 && answer[1].equals("true")) {
             logger.info("Joined chatroom");
@@ -303,7 +305,7 @@ public class AChatModel extends Model {
      * @return success
      */
     public boolean leaveChatroom(String name, String user) {
-        String[] answer = sendCommand("LeaveChatroom|" + token + '|' + name + '|' + user);
+        String[] answer = sendCommand("LeaveChatroom|" + token.get() + '|' + name + '|' + user);
         if (answer.length == 2 && answer[1].equals("true")) {
             logger.info("Left chatroom");
             return true;
@@ -332,7 +334,7 @@ public class AChatModel extends Model {
         message = message.replace('|', '_');
 
 
-        String[] answer = sendCommand("SendMessage|" + token + '|' + target + '|' + message);
+        String[] answer = sendCommand("SendMessage|" + token.get() + '|' + target + '|' + message);
 
         if (answer.length == 2 && answer[1].equals("true")) {
             // But there is a problem: If I try to send the message to a public chatroom of which I'm not a member,
@@ -418,6 +420,10 @@ public class AChatModel extends Model {
     // getters and setters: //
     //----------------------//
     public String getToken() {
+        return token.get();
+    }
+
+    public SimpleStringProperty tokenProperty() {
         return token;
     }
 
