@@ -22,7 +22,7 @@ public class ServerConnection {
     private String serverAnswer;
 
 
-    public ServerConnection(String serverIpAddress, int serverPort) {
+    public ServerConnection(AChatModel model, String serverIpAddress, int serverPort) {
 
         logger = ServiceLocator.getServiceLocator().getLogger();
 
@@ -56,11 +56,14 @@ public class ServerConnection {
                             // If I sent the message, also save to sendChatMsgAnswer for validation in the
                             // model
                             if (requestPending) {
-                                AChatModel.sendChatMsgAnswer = msg.split("\\|");
+                                model.setSendChatMsgAnswer(msg.split("\\|"));
                             }
 
-                            // todo: add to the observable list in the model
-                            AChatModel.observableChatHistory.add(LocalDateTime.now().toString() + "|" + msg);
+                            // todo: when doing the following for the first time, everything seems to be fine. But
+                            //  if I do it for the 2nd and later times, it works, but it throws an error:
+                            //  Exception in thread "Thread-7" java.lang.IllegalStateException: Not on FX application thread; currentThread = Thread-7
+                            //  -> see https://stackoverflow.com/questions/17850191/why-am-i-getting-java-lang-illegalstateexception-not-on-fx-application-thread
+                            model.getObservableChatHistory().add(LocalDateTime.now().toString() + "|" + msg);
 
                         } else {
                             logger.warning("received a message other than 'Result|...' or 'MessageText|...': "
@@ -78,7 +81,7 @@ public class ServerConnection {
 
             outStream = new OutputStreamWriter(socket.getOutputStream());
             logger.info("Server connection established");
-            AChatModel.isServerConnected.set(true);
+            model.setIsServerConnected(true);
         } catch (IOException e) {
             logger.info("Connection with server failed: " + serverIpAddress
                     + ":" + serverPort);

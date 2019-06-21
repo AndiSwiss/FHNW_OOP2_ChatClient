@@ -61,8 +61,8 @@ public class ServiceLocator {
      * @param serverIpAddress ipAddress
      * @param serverPort      port
      */
-    public void createServerConnection(String serverIpAddress, int serverPort) {
-        serverConnection = new ServerConnection(serverIpAddress, serverPort);
+    public void createServerConnection(AChatModel model, String serverIpAddress, int serverPort) {
+        serverConnection = new ServerConnection(model, serverIpAddress, serverPort);
     }
 
     /**
@@ -81,11 +81,11 @@ public class ServiceLocator {
      * Disconnects from the server. First closes the inStream and outStream, otherwise the application cannot be really
      * closed by just ending the application; it would just live on until a force quit is performed!
      */
-    public void disconnectServer() {
+    public void disconnectServer(AChatModel model) {
         try {
             serverConnection.inStream.close();
             serverConnection.outStream.close();
-            AChatModel.isServerConnected.set(false);
+            model.setIsServerConnected(false);
         } catch (Exception e) {
             // do nothing (e.g. if there is no server connection)
         }

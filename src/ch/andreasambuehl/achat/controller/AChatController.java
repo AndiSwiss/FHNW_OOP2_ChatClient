@@ -56,8 +56,8 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // connection section: //
         //---------------------//
         view.btnConnectDisconnect.setOnAction(event -> {
-            if (AChatModel.isServerConnected.get()) {
-                if (AChatModel.getToken() != null) {
+            if (model.isIsServerConnected()) {
+                if (model.getToken() != null) {
                     model.logout();
                     view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
                     view.lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
@@ -95,9 +95,9 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // account section: //
         //------------------//
         view.btnSignInSignOut.setOnAction(event -> {
-            if (!AChatModel.isServerConnected.get()) {
+            if (!model.isIsServerConnected()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
-            } else if (AChatModel.getToken() == null) {
+            } else if (model.getToken() == null) {
                 String name = view.txtUsername.getText();
                 String password = view.txtPassword.getText();
                 boolean successful = model.login(name, password);
@@ -123,7 +123,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
         view.btnCreateLogin.setOnAction(event -> {
-            if (!AChatModel.isServerConnected.get()) {
+            if (!model.isIsServerConnected()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
             } else {
                 String name = view.txtUsername.getText();
@@ -139,12 +139,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
         view.btnDeleteLogin.setOnAction(event -> {
-            if (!AChatModel.isServerConnected.get()) {
+            if (!model.isIsServerConnected()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
             } else {
                 // Login if not already logged in:
                 boolean loginSuccess = true;
-                if (AChatModel.getToken() == null) {
+                if (model.getToken() == null) {
                     String name = view.txtUsername.getText();
                     String password = view.txtPassword.getText();
                     loginSuccess = model.login(name, password);

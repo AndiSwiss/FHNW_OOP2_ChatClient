@@ -215,7 +215,7 @@ public class AChatView extends View<AChatModel> {
         lblPeopleSection = new Label();
         lblPeopleSection.getStyleClass().add("labelSmall");
         VBox peopleVBox = new VBox();
-        ListView<String> peopleList = new ListView<>(model.observablePeopleList);
+        ListView<String> peopleList = new ListView<>(model.getObservablePeopleList());
         peopleList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         peopleVBox.getChildren().addAll(lblPeopleSection, peopleList);
         peopleVBox.getStyleClass().add("boxedSection");
@@ -248,7 +248,7 @@ public class AChatView extends View<AChatModel> {
         chatroom2.getChildren().addAll(btnJoinSelectedChatroom, btnLeaveSelectedChatroom);
         HBox chatroom3 = new HBox(btnJoinPrivateChatroom, btnLeavePrivateChatroom);
 
-        chatroomsList = new ListView<>(model.observableChatroomsList);
+        chatroomsList = new ListView<>(model.getObservableChatroomsList());
         chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         VBox chatroomsVBox = new VBox();
         chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroom1, chatroom2, chatroom3, lblPublicChatrooms, chatroomsList);
@@ -278,7 +278,7 @@ public class AChatView extends View<AChatModel> {
         chatSearchRight.setMaxWidth(Double.MAX_VALUE);
         chatSearchRight.getChildren().addAll(blindLbl1, txtChatSearch);
 
-        chatHistoryList = new ListView<>(model.observableChatHistory);
+        chatHistoryList = new ListView<>(model.getObservableChatHistory());
         txtSendChat = new TextField();
         lblSendTo = new Label();
         btnSendToSelectedChatroom = new Button();
@@ -388,7 +388,7 @@ public class AChatView extends View<AChatModel> {
         lblConnectionSection.setText(t.getString("label.connection"));
         lblServer.setText(t.getString("label.connection.server"));
         lblPort.setText(t.getString("label.connection.port"));
-        if (AChatModel.isServerConnected.get()) {
+        if (model.isIsServerConnected()) {
             btnConnectDisconnect.setText(t.getString("button.disconnect"));
         } else {
             btnConnectDisconnect.setText(t.getString("button.connect"));
@@ -401,7 +401,7 @@ public class AChatView extends View<AChatModel> {
         lblAccountSection.setText(t.getString("label.account"));
         lblUsername.setText(t.getString("label.account.username"));
         lblPassword.setText(t.getString("label.account.password"));
-        if (AChatModel.getToken() == null) {
+        if (model.getToken() == null) {
             btnSignInSignOut.setText(t.getString("button.account.signIn"));
         } else {
             btnSignInSignOut.setText(t.getString("button.account.signOut"));

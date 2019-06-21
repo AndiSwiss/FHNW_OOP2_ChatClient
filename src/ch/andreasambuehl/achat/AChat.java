@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  * then edited and adopted by Andreas Ambühl)
  *
  * <p>
- * @version 0.7c
+ * @version 0.7d
  *
  * <p>
  * Copyright 2019, Andreas Ambühl. All rights reserved. This code
@@ -155,7 +155,7 @@ public class AChat extends Application {
         config.save();
 
         // logout and disconnect
-        if (AChatModel.getToken() != null) model.logout();
+        if (model.getToken() != null) model.logout();
         model.disconnectServer();
 
         serviceLocator.getLogger().info("Application terminated (incl. logout + disconnect + configuration saved)");

@@ -17,23 +17,22 @@ public class AChatModel extends Model {
     private ServiceLocator serviceLocator;
     private Logger logger;
 
-    // todo: make all private and work with getters/setters
-
     // connection section:
-    public static SimpleBooleanProperty isServerConnected;
+    private SimpleBooleanProperty isServerConnected;
 
+    // todo: make all private and work with getters/setters
     // account section:
-    private static String token;
+    private String token;
 
     // people section:
-    public ObservableList<String> observablePeopleList = FXCollections.observableArrayList();
+    private ObservableList<String> observablePeopleList = FXCollections.observableArrayList();
 
     // chatroom section:
-    public ObservableList<String> observableChatroomsList = FXCollections.observableArrayList();
+    private ObservableList<String> observableChatroomsList = FXCollections.observableArrayList();
 
     // chat section:
-    public static ObservableList<String> observableChatHistory = FXCollections.observableArrayList();
-    public static String[] sendChatMsgAnswer;
+    private ObservableList<String> observableChatHistory = FXCollections.observableArrayList();
+    private String[] sendChatMsgAnswer;
 
 
     /**
@@ -101,7 +100,7 @@ public class AChatModel extends Model {
         }
         int port = Integer.parseInt(portString);
 
-        serviceLocator.createServerConnection(ipAddress, port);
+        serviceLocator.createServerConnection(this, ipAddress, port);
 
         return isServerConnected.get();
     }
@@ -110,7 +109,7 @@ public class AChatModel extends Model {
      * Disconnects from the server
      */
     public void disconnectServer() {
-        serviceLocator.disconnectServer();
+        serviceLocator.disconnectServer(this);
         // set the isServerConnected to false, when everything was successful
         isServerConnected.set(false);
         logger.info("Server is disconnected.");
@@ -418,7 +417,36 @@ public class AChatModel extends Model {
     //----------------------//
     // getters and setters: //
     //----------------------//
-    public static String getToken() {
+    public String getToken() {
         return token;
+    }
+
+    public ObservableList<String> getObservableChatHistory() {
+        return observableChatHistory;
+    }
+
+    public void setSendChatMsgAnswer(String[] sendChatMsgAnswer) {
+        this.sendChatMsgAnswer = sendChatMsgAnswer;
+    }
+
+
+    public boolean isIsServerConnected() {
+        return isServerConnected.get();
+    }
+
+    public SimpleBooleanProperty isServerConnectedProperty() {
+        return isServerConnected;
+    }
+
+    public void setIsServerConnected(boolean isServerConnected) {
+        this.isServerConnected.set(isServerConnected);
+    }
+
+    public ObservableList<String> getObservablePeopleList() {
+        return observablePeopleList;
+    }
+
+    public ObservableList<String> getObservableChatroomsList() {
+        return observableChatroomsList;
     }
 }
