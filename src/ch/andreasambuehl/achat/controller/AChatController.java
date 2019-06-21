@@ -315,9 +315,9 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
 
-        //=========================//
-        // register for properties //
-        //=========================//
+        //=================================//
+        // register listeners and actions: //
+        //=================================//
         // set visibility of objects depending whether the connection of the server is active
         model.serverConnectedProperty().addListener((observable, oldValue, newValue) -> {
             toggleAccountSection(newValue);
@@ -325,6 +325,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         // set initial visibility:
         toggleAccountSection(false);
+
 
         //========//
         // other: //
@@ -344,25 +345,31 @@ public class AChatController extends Controller<AChatModel, AChatView> {
      * @param message message
      */
     private String sendChatMessage(String target, String message) {
-        String success = model.sendChatMessage(target, message);
 
-        if (success.equals("success")) {
-            view.lblLastStatus.setText(t.getString("label.status.chatMessageSent") + target);
-        } else if (success.equals("noBroadcast")) {
-            // this happens when sending a message to a public/private chatroom of which I'm not a member and when
-            // sending a message directly to another person
-            // just forward the message to the caller -> individual handling!
-            return success;
+        // only send message if it contains something:
+        if (message.length() == 0) {
+            return "no message sent";
         } else {
-            view.lblLastStatus.setText(t.getString("label.status.chatMessageSendingFailed"));
-        }
+            String success = model.sendChatMessage(target, message);
 
-        return success;
+            if (success.equals("success")) {
+                view.lblLastStatus.setText(t.getString("label.status.chatMessageSent") + target);
+            } else if (success.equals("noBroadcast")) {
+                // this happens when sending a message to a public/private chatroom of which I'm not a member and when
+                // sending a message directly to another person
+                // just forward the message to the caller -> individual handling!
+                return success;
+            } else {
+                view.lblLastStatus.setText(t.getString("label.status.chatMessageSendingFailed"));
+            }
+            return success;
+        }
     }
 
 
     /**
      * Toggles 'disabled' for the elements in the account section
+     *
      * @param enable enable/disable
      */
     private void toggleAccountSection(boolean enable) {
