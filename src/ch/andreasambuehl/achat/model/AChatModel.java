@@ -5,7 +5,6 @@ import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,18 +17,24 @@ public class AChatModel extends Model {
     private ServiceLocator serviceLocator;
     private Logger logger;
 
-    // server connection
+    // todo: make all private and work with getters/setters
+
+    // connection section:
     public static SimpleBooleanProperty isServerConnected;
 
-    // account
+    // account section:
     private static String token;
 
-    // left section
+    // people section:
     public ObservableList<String> observablePeopleList = FXCollections.observableArrayList();
+
+    // chatroom section:
     public ObservableList<String> observableChatroomsList = FXCollections.observableArrayList();
 
-    // center section
-    public ObservableList<VBox> observableChatHistory = FXCollections.observableArrayList();
+    // chat section:
+    public static ObservableList<String> observableChatHistory = FXCollections.observableArrayList();
+    public static String[] sendChatMsgAnswer;
+
 
     /**
      * Constructor of the model
@@ -302,15 +307,33 @@ public class AChatModel extends Model {
      * @param message message
      * @return success
      */
-    public boolean sendChatMessage(String target, String message) {
+    public String sendChatMessage(String target, String message) {
+
+        // Even though pipes will get filtered out by the server (and ignoring everything after the pipe), I rather
+        // choose to filter them out and replace them:
+        message = message.replace('|', '_');
+
+
         String[] answer = sendCommand("SendMessage|" + token + '|' + target + '|' + message);
 
         if (answer.length == 2 && answer[1].equals("true")) {
-            logger.info("Sent message: " + message);
-            return true;
+            // But there is a problem: If I try to send the message to a public chatroom of which I'm not a member,
+            // the server-answer is still "Result|true", even if it actually failed.
+            // That is why I have to introduce a second check:
+            // If the server broadcasts the whole message, such as: MessageText|andi|chatroom1|my message
+            // then sending of a public message was a success
+            String[] ans = sendChatMsgAnswer;
+            if (ans != null && ans.length == 4
+                    && ans[0].equals("MessageText") && ans[2].equals(target) && ans[3].equals(message)) {
+                logger.info("Sent message '" + message + "' to target '" + target + "'");
+                return "success";
+            } else {
+                logger.warning("Problems while sending a message!");
+                return "noBroadcast";
+            }
         } else {
-            logger.warning("Sending message failed! (Message: " + message + ')');
-            return false;
+            logger.warning("Sending message failed! (Message: " + message + ", target: " + target + ')');
+            return "failed";
         }
     }
 

@@ -3,9 +3,8 @@ package ch.andreasambuehl.achat.model;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 public class ServerConnection {
@@ -44,8 +43,30 @@ public class ServerConnection {
                     try {
                         msg = inStream.readLine();
                         logger.info("Message received: " + msg);
-                        serverAnswer = msg;
-                        requestPending = false;
+
+                        String msgType = msg.substring(0, msg.indexOf('|'));
+
+                        if (msgType.equals("Result")) {
+                            serverAnswer = msg;
+                            requestPending = false;
+                            System.out.println("Received a result " + msg);
+                        } else if (msgType.equals("MessageText")) {
+                            System.out.println("Received a message " + msg);
+
+                            // If I sent the message, also save to sendChatMsgAnswer for validation in the
+                            // model
+                            if (requestPending) {
+                                AChatModel.sendChatMsgAnswer = msg.split("\\|");
+                            }
+
+                            // todo: add to the observable list in the model
+                            AChatModel.observableChatHistory.add(LocalDateTime.now().toString() + "|" + msg);
+
+                        } else {
+                            logger.warning("received a message other than 'Result|...' or 'MessageText|...': "
+                                    + msg);
+                        }
+
                     } catch (IOException e) {
                         break;
                     }

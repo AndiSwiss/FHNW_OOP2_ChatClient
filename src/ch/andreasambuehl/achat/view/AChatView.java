@@ -74,9 +74,9 @@ public class AChatView extends View<AChatModel> {
     // chat section: //
     //---------------//
     private Label lblChatSection;
-    public ListView<VBox> chatHistoryList;
-    // todo: check the type of the following list!
+    // todo: check the type of the following list -> probably change to VBox or something else
     public TextField txtChatSearch;
+    public ListView<String> chatHistoryList;
     public TextField txtSendChat;
     private Label lblSendTo;
     public Button btnSendToSelectedChatroom;
@@ -235,6 +235,8 @@ public class AChatView extends View<AChatModel> {
         btnLeavePrivateChatroom = new Button();
 
         // todo: not yet implemented:
+        btnLeaveSelectedChatroom.setDisable(true);
+        btnLeaveSelectedChatroom.getStyleClass().add("notImplemented");
         btnJoinPrivateChatroom.setDisable(true);
         btnJoinPrivateChatroom.getStyleClass().add("notImplemented");
         btnLeavePrivateChatroom.setDisable(true);
@@ -290,8 +292,6 @@ public class AChatView extends View<AChatModel> {
         // todo: not yet implemented:
         txtChatSearch.setDisable(true);
         txtChatSearch.getStyleClass().add("notImplemented");
-        chatHistoryList.setDisable(true);
-        chatHistoryList.getStyleClass().add("notImplemented");
         btnSendToPrivateChatroom.setDisable(true);
         btnSendToPrivateChatroom.getStyleClass().add("notImplemented");
         btnSendToPerson.setDisable(true);

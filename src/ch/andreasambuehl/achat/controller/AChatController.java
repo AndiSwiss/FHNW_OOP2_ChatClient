@@ -271,10 +271,20 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         //---------------//
         // chat section: //
         //---------------//
-        view.btnSendToSelectedChatroom.setOnAction(event -> sendChatMessage(
-                view.chatroomsList.getSelectionModel().getSelectedItem(),
-                view.txtSendChat.getText()
-        ));
+        view.btnSendToSelectedChatroom.setOnAction(event -> {
+            String answer = sendChatMessage(
+                    view.chatroomsList.getSelectionModel().getSelectedItem(),
+                    view.txtSendChat.getText()
+            );
+            if (answer.equals("noBroadcast")) {
+                // this happens when sending a message to a public/private chatroom of which I'm not a member and when
+                // sending a message directly to another person
+                view.lblLastStatus.setText(t.getString("label.status.chatMessageNotMember")
+                        + view.chatroomsList.getSelectionModel().getSelectedItem()
+                );
+
+            }
+        });
 
 
         //--------------//
@@ -301,16 +311,23 @@ public class AChatController extends Controller<AChatModel, AChatView> {
     /**
      * Forwards a message to the model and updates the status-messages:
      *
-     * @param target
-     * @param message
+     * @param target  chatroom or person
+     * @param message message
      */
-    private void sendChatMessage(String target, String message) {
-        boolean success = model.sendChatMessage(target, message);
+    private String sendChatMessage(String target, String message) {
+        String success = model.sendChatMessage(target, message);
 
-        if (success) {
+        if (success.equals("success")) {
             view.lblLastStatus.setText(t.getString("label.status.chatMessageSent") + target);
+        } else if (success.equals("noBroadcast")) {
+            // this happens when sending a message to a public/private chatroom of which I'm not a member and when
+            // sending a message directly to another person
+            // just forward the message to the caller -> individual handling!
+            return success;
         } else {
             view.lblLastStatus.setText(t.getString("label.status.chatMessageSendingFailed"));
         }
+
+        return success;
     }
 }
