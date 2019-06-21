@@ -292,10 +292,6 @@ public class AChatView extends View<AChatModel> {
         txtChatSearch.getStyleClass().add("notImplemented");
         chatHistoryList.setDisable(true);
         chatHistoryList.getStyleClass().add("notImplemented");
-        txtSendChat.setDisable(true);
-        txtSendChat.getStyleClass().add("notImplemented");
-        btnSendToSelectedChatroom.setDisable(true);
-        btnSendToSelectedChatroom.getStyleClass().add("notImplemented");
         btnSendToPrivateChatroom.setDisable(true);
         btnSendToPrivateChatroom.getStyleClass().add("notImplemented");
         btnSendToPerson.setDisable(true);

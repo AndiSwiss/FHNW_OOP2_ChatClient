@@ -295,6 +295,25 @@ public class AChatModel extends Model {
     // chat section: //
     //---------------//
 
+    /**
+     * Sends a message to the server. Filters out any pipes for not breaking the communication.
+     *
+     * @param target  Chatroom or person
+     * @param message message
+     * @return success
+     */
+    public boolean sendChatMessage(String target, String message) {
+        String[] answer = sendCommand("SendMessage|" + token + '|' + target + '|' + message);
+
+        if (answer.length == 2 && answer[1].equals("true")) {
+            logger.info("Sent message: " + message);
+            return true;
+        } else {
+            logger.warning("Sending message failed! (Message: " + message + ')');
+            return false;
+        }
+    }
+
 
     //----------------//
     // other methods: //

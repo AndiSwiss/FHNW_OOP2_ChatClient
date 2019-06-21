@@ -268,6 +268,15 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
 
+        //---------------//
+        // chat section: //
+        //---------------//
+        view.btnSendToSelectedChatroom.setOnAction(event -> sendChatMessage(
+                view.chatroomsList.getSelectionModel().getSelectedItem(),
+                view.txtSendChat.getText()
+        ));
+
+
         //--------------//
         // dev section: //
         //--------------//
@@ -289,5 +298,19 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         logger.info("Application controller initialized");
     }
 
+    /**
+     * Forwards a message to the model and updates the status-messages:
+     *
+     * @param target
+     * @param message
+     */
+    private void sendChatMessage(String target, String message) {
+        boolean success = model.sendChatMessage(target, message);
 
+        if (success) {
+            view.lblLastStatus.setText(t.getString("label.status.chatMessageSent") + target);
+        } else {
+            view.lblLastStatus.setText(t.getString("label.status.chatMessageSendingFailed"));
+        }
+    }
 }
