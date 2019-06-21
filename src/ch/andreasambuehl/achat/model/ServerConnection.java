@@ -23,6 +23,7 @@ public class ServerConnection {
 
     // used for waiting for an answer after having sent a command to the server:
     private boolean requestPending;
+    private boolean timeOut;
 
     private String serverAnswer;
 
@@ -36,10 +37,8 @@ public class ServerConnection {
 
             logger.info("Connected with server " + serverIpAddress
                     + ":" + serverPort);
-            requestPending = false;
 
             // Create thread to read incoming messages
-
             inStream = new DataInputStream(socket.getInputStream());
 
             Runnable r = () -> {
@@ -75,11 +74,9 @@ public class ServerConnection {
                             logger.warning("received a message other than 'Result|...' or 'MessageText|...': "
                                     + msg);
                         }
-
                     } catch (IOException e) {
                         break;
                     }
-                    if (msg == null) break; // In case the server closes the socket
                 }
             };
             Thread t = new Thread(r);
@@ -114,56 +111,45 @@ public class ServerConnection {
      * @return answer
      */
     String sendCommand(String command) {
-        // todo: first check, whether the socket still has a connection
-        //  I tried a lot with
-        //   - socket.isConnected()
-        //   - reachable = InetAddress.getByName("javaprojects.ch").isReachable(1000);
-        //      - and hundreds of variants of it, never worked
-        //  -
-        //  But trying to just resolve the name, that helped to determine, whether there is actually still a
-        //  connection to the server or not!
-        //  -
-        //  BUT: THAT ONLY WORKS JUST ONCE!!!!!!!! It seems, that somewhere on my machine, this request gets cached,
-        //  so this only works once!!!!!!!!!!!!!!!!!    Why????
-        //  -
-        //  Everything I tried was in official documentations and I didn't find any information about why this shouldn't
-        //  work
-        //  -
-        //  I don't have another idea to realize this now... and I lost too many hours reaching nothing :-(
-/*
-        boolean reachable;
-        try {
-            InetAddress ipAdressFromName = InetAddress.getByName("javaprojects.ch");
-            System.out.printf("ipAdressFromName: %s\n", ipAdressFromName);
-            reachable = true;
-        } catch (UnknownHostException e) {
-            reachable = false;
-            System.out.println("was not reachable!!");
-        }
-*/
-        // todo: for now, just set it to true!
-        boolean reachable = true;
+        // initialize important flags:
+        requestPending = false;
+        timeOut = false;
 
-        if (reachable) {
+        // While sending the command later on in this method, I create first this separate thread,
+        // which just simply waits for a second. If there is no server-answer in this time period,
+        // then the flag timeOut is set to true and then, this method will stop waiting for the answer.
+        Runnable timeOutRunnable = () -> {
             try {
-                outStream.write(command + '\n');
-                outStream.flush();
-            } catch (IOException e) {
-                logger.warning("Error while trying to write the following command to the outStream: " + command);
-                logger.warning(e.getMessage());
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                timeOut = true;
             }
+            timeOut = true;
+        };
+        Thread timeOutThread = new Thread(timeOutRunnable);
+        timeOutThread.start();
 
-            requestPending = true;
-            // while waiting for the response (from the other thread)
+        try {
+            outStream.write(command + '\n');
+            outStream.flush();
+        } catch (IOException e) {
+            logger.warning("Error while trying to write the following command to the outStream: " + command);
+            logger.warning(e.getMessage());
+        }
 
-            logger.info("Message sent: " + command);
+        requestPending = true;
+        // while waiting for the response (from the other thread)
 
-            while (requestPending) Thread.yield();
+        logger.info("Message sent: " + command);
 
-            return serverAnswer;
+        while (requestPending && !timeOut) Thread.yield();
+
+        if (timeOut) {
+            requestPending = false;
+            logger.warning("Connection time out while trying to send command " + command);
+            return "Result|timeout";
         } else {
-            return "Server not answering!!";
+            return serverAnswer;
         }
     }
-
 }

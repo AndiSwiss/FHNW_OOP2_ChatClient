@@ -270,19 +270,20 @@ public class AChatView extends View<AChatModel> {
         lblChatSection = new Label();
         lblChatSection.getStyleClass().add("labelSmall");
         txtChatSearch = new TextField();
+        HBox chatSearchRight = new HBox();
 
         // todo: trying to right-align the search-field
         //  even after 1 hour of trying -> doesn't work at all!
         //  But also when I download alignment examples from the internet -> they don't work as
         //  well -> everything stays always left aligned
         //  -> maybe JavaFX is corrupted?? (or maybe I'm missing something here?!?)
-        txtChatSearch.setAlignment(Pos.BASELINE_RIGHT);
-        HBox chatSearchRight = new HBox();
-        Label blindLbl1 = new Label();
-        HBox.setHgrow(blindLbl1, Priority.ALWAYS);
-        blindLbl1.setMaxWidth(Double.MAX_VALUE);
-        chatSearchRight.setMaxWidth(Double.MAX_VALUE);
-        chatSearchRight.getChildren().addAll(blindLbl1, txtChatSearch);
+//        txtChatSearch.setAlignment(Pos.BASELINE_RIGHT);
+//        Label blindLbl1 = new Label();
+//        HBox.setHgrow(blindLbl1, Priority.ALWAYS);
+//        blindLbl1.setMaxWidth(Double.MAX_VALUE);
+//        chatSearchRight.setMaxWidth(Double.MAX_VALUE);
+//        chatSearchRight.getChildren().addAll(blindLbl1, txtChatSearch);
+
 
         chatHistoryList = new ListView<>(model.getObservableChatHistory());
         txtSendChat = new TextField();
@@ -302,7 +303,7 @@ public class AChatView extends View<AChatModel> {
         btnSendToPerson.getStyleClass().add("notImplemented");
 
         HBox chatBox1 = new HBox();
-        chatBox1.getChildren().addAll(chatSearchRight);
+        chatBox1.getChildren().addAll(txtChatSearch);
         HBox chatBox2 = new HBox();
         chatBox2.getChildren().addAll(txtSendChat);
         HBox chatBox3 = new HBox();
