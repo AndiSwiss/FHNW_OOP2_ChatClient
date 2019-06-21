@@ -34,7 +34,7 @@ public class ServerConnection {
         logger = ServiceLocator.getServiceLocator().getLogger();
 
 /*
-        // todo: While trying to connect to a server, I create first this separate thread,
+        // While trying to connect to a server, I create first this separate thread,
         // which just simply waits for 1 second. If the server-connection cannot be established in this time period,
         // then the flag timeOut is set to true and then, this method will stop waiting for the answer.
         Runnable timeOutRunnable = () -> {

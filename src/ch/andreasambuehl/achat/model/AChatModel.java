@@ -22,7 +22,6 @@ public class AChatModel extends Model {
     private SimpleBooleanProperty serverConnected;
     private SimpleBooleanProperty serverConnectionFailed;
 
-    // todo: make all private and work with getters/setters
     // account section:
     private SimpleStringProperty token;
 

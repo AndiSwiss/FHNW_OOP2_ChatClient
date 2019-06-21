@@ -71,7 +71,6 @@ public class AChatView extends View<AChatModel> {
     //---------------//
     public VBox chatSection;
     private Label lblChatSection;
-    // todo: check the type of the following list -> probably change to VBox or something else
     public TextField txtChatSearch;
     public ListView<String> chatHistoryList;
     public TextField txtSendChat;
@@ -166,7 +165,6 @@ public class AChatView extends View<AChatModel> {
         HBox connection2 = new HBox();
         connection2.getChildren().addAll(btnConnectDisconnect, btnPingServer, lblStatusServer);
 
-        // todo: optimize CSS-Styling!!
         connection2.getStyleClass().add("specialHBox");
 
         VBox connectionSection = new VBox();
@@ -224,7 +222,6 @@ public class AChatView extends View<AChatModel> {
         HBox account2 = new HBox();
         account2.getChildren().addAll(btnSignInSignOut, btnCreateLogin, btnDeleteLogin, lblStatusAccount);
 
-        // todo: optimize CSS-Styling!!
         account2.getStyleClass().add("specialHBox");
         VBox accountSection = new VBox();
         accountSection.getChildren().addAll(lblAccountSection, account1, account2);
@@ -249,11 +246,9 @@ public class AChatView extends View<AChatModel> {
         btnJoinPrivateChatroom = new Button();
         btnLeavePrivateChatroom = new Button();
 
-        // todo: not yet implemented:
-        btnJoinPrivateChatroom.setDisable(true);
-        btnJoinPrivateChatroom.getStyleClass().add("notImplemented");
-        btnLeavePrivateChatroom.setDisable(true);
-        btnLeavePrivateChatroom.getStyleClass().add("notImplemented");
+        // not yet implemented:
+        btnJoinPrivateChatroom.setVisible(false);
+        btnLeavePrivateChatroom.setVisible(false);
 
         lblPublicChatrooms = new Label();
         lblPublicChatrooms.getStyleClass().add("labelSmall");
@@ -280,19 +275,6 @@ public class AChatView extends View<AChatModel> {
         txtChatSearch = new TextField();
         HBox chatSearchRight = new HBox();
 
-        // todo: trying to right-align the search-field
-        //  even after 1 hour of trying -> doesn't work at all!
-        //  But also when I download alignment examples from the internet -> they don't work as
-        //  well -> everything stays always left aligned
-        //  -> maybe JavaFX is corrupted?? (or maybe I'm missing something here?!?)
-//        txtChatSearch.setAlignment(Pos.BASELINE_RIGHT);
-//        Label blindLbl1 = new Label();
-//        HBox.setHgrow(blindLbl1, Priority.ALWAYS);
-//        blindLbl1.setMaxWidth(Double.MAX_VALUE);
-//        chatSearchRight.setMaxWidth(Double.MAX_VALUE);
-//        chatSearchRight.getChildren().addAll(blindLbl1, txtChatSearch);
-
-
         chatHistoryList = new ListView<>(model.getObservableChatHistory());
         txtSendChat = new TextField();
         lblSendTo = new Label();
@@ -302,13 +284,10 @@ public class AChatView extends View<AChatModel> {
 
         txtSendChat.setPrefWidth(600);
 
-        // todo: not yet implemented:
-        txtChatSearch.setDisable(true);
-        txtChatSearch.getStyleClass().add("notImplemented");
-        btnSendToPrivateChatroom.setDisable(true);
-        btnSendToPrivateChatroom.getStyleClass().add("notImplemented");
-        btnSendToPerson.setDisable(true);
-        btnSendToPerson.getStyleClass().add("notImplemented");
+        // not yet implemented:
+        txtChatSearch.setVisible(false);
+        btnSendToPrivateChatroom.setVisible(false);
+        btnSendToPerson.setVisible(false);
 
         HBox chatBox1 = new HBox();
         chatBox1.getChildren().addAll(txtChatSearch);

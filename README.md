@@ -16,6 +16,15 @@ The main-application is here:
 
 [src/ch/andreasambuehl/achat/AChat.java](src/ch/andreasambuehl/achat/AChat.java)
 
+### Feature list
+- MVC
+- Professional App Template
+- multilingual
+- extended button showing/hiding depending on state of the application
+- detailed handling of account creating/deletion...
+- sending/receiving messages from public chatrooms
+- ...
+
 ### Constraints
 ####Thread running indefinitely
 #####Problem
