@@ -21,8 +21,9 @@ public class AChatView extends View<AChatModel> {
     //---------------//
     private Menu menuFile;
     public Menu menuFileLanguage;
+    public MenuItem menuDev;
     private Menu menuHelp;
-    private MenuItem menuAbout;
+    public MenuItem menuAbout;
 
     //---------------------//
     // connection section: //
@@ -88,14 +89,11 @@ public class AChatView extends View<AChatModel> {
     //--------------//
     // dev section: //
     //--------------//
-    private Label lblDevSection;
-    private Label lblCommand;
+    public GridPane devSection;
     public TextField txtCommand;
     public Button btnSendCommand;
-    private Label lblServerAnswer;
     public Label lblLastServerAnswerContent;
-    // todo: remove the following line once all UI-elements work:
-    private Label lblNotImplemented;
+    public boolean showDevSection;
 
 
     /**
@@ -130,7 +128,8 @@ public class AChatView extends View<AChatModel> {
         MenuBar menuBar = new MenuBar();
         menuFile = new Menu();
         menuFileLanguage = new Menu();
-        menuFile.getItems().add(menuFileLanguage);
+        menuDev = new MenuItem();
+        menuFile.getItems().addAll(menuFileLanguage, menuDev);
 
         for (Locale locale : sl.getLocales()) {
             MenuItem language = new MenuItem(locale.getLanguage());
@@ -170,11 +169,38 @@ public class AChatView extends View<AChatModel> {
         // todo: optimize CSS-Styling!!
         connection2.getStyleClass().add("specialHBox");
 
-        VBox connectionVBox = new VBox();
-        connectionVBox.getChildren().addAll(lblConnectionSection, connection1, connection2);
+        VBox connectionSection = new VBox();
+        connectionSection.getChildren().addAll(lblConnectionSection, connection1, connection2);
+
+
+        //--------------//
+        // dev section: //
+        //--------------//
+        // -> no translations for dev-section
+        Label lblDevSection = new Label("Dev/debug: (english only)");
+        lblDevSection.getStyleClass().add("labelSmall");
+        Label lblCommand = new Label("Direct command:");
+        Label lblServerAnswer = new Label("Last server answer:");
+        lblLastServerAnswerContent = new Label("(only answers from commands sent from here!)");
+        txtCommand = new TextField();
+        btnSendCommand = new Button("Send");
+
+        devSection = new GridPane();
+        devSection.add(lblDevSection, 0, 0);
+        devSection.add(lblCommand, 0, 2);
+        devSection.add(lblServerAnswer, 0, 1);
+        devSection.add(lblLastServerAnswerContent, 1, 1);
+
+        HBox commandAndSend = new HBox();
+        commandAndSend.getChildren().addAll(txtCommand, btnSendCommand);
+        devSection.add(commandAndSend, 1, 2);
 
         // for accessing specific CSS for a boxedSection:
-        connectionVBox.getStyleClass().add("boxedSection");
+        devSection.getStyleClass().add("boxedSection");
+
+        HBox connectionAndDevSection = new HBox();
+        connectionAndDevSection.getChildren().addAll(connectionSection, devSection);
+        connectionAndDevSection.getStyleClass().add("boxedSection");
 
 
         //------------------//
@@ -200,11 +226,13 @@ public class AChatView extends View<AChatModel> {
 
         // todo: optimize CSS-Styling!!
         account2.getStyleClass().add("specialHBox");
-        VBox accountVBox = new VBox();
-        accountVBox.getChildren().addAll(lblAccountSection, account1, account2);
-        accountVBox.getStyleClass().add("boxedSection");
+        VBox accountSection = new VBox();
+        accountSection.getChildren().addAll(lblAccountSection, account1, account2);
+        accountSection.getStyleClass().add("boxedSection");
+
+        // construct the whole topSection:
         VBox topSection = new VBox();
-        topSection.getChildren().addAll(menuBar, connectionVBox, accountVBox);
+        topSection.getChildren().addAll(menuBar, connectionAndDevSection, accountSection);
         root.setTop(topSection);
 
 
@@ -306,36 +334,9 @@ public class AChatView extends View<AChatModel> {
         statusHBox.getStyleClass().add("boxedSection");
 
 
-        //--------------//
-        // dev section: //
-        //--------------//
-        // -> no translations for dev-section
-        lblDevSection = new Label("Dev/debug:");
-        lblDevSection.getStyleClass().add("labelSmall");
-        lblNotImplemented = new Label("Note: All red elements are not yet implemented!");
-        lblNotImplemented.getStyleClass().addAll("labelSmall", "notImplemented");
-        lblCommand = new Label("Direct command:");
-        lblServerAnswer = new Label("Last server answer:");
-        lblLastServerAnswerContent = new Label("(only answers from commands sent from here!)");
-        txtCommand = new TextField();
-        btnSendCommand = new Button("Send");
-
-        GridPane devGrid = new GridPane();
-        devGrid.add(lblNotImplemented, 0, 0);
-        devGrid.add(lblCommand, 0, 2);
-        devGrid.add(lblServerAnswer, 0, 1);
-        devGrid.add(lblLastServerAnswerContent, 1, 1);
-
-        HBox commandAndSend = new HBox();
-        commandAndSend.getChildren().addAll(txtCommand, btnSendCommand);
-        devGrid.add(commandAndSend, 1, 2);
-
-        HBox devHBox = new HBox();
-        devHBox.getChildren().addAll(lblDevSection, devGrid);
-        devHBox.getStyleClass().add("boxedSection");
 
         VBox bottomVBox = new VBox();
-        bottomVBox.getChildren().addAll(statusHBox, devHBox);
+        bottomVBox.getChildren().addAll(statusHBox);
 
         root.setBottom(bottomVBox);
 
@@ -365,6 +366,11 @@ public class AChatView extends View<AChatModel> {
         menuFileLanguage.setText(t.getString("program.menu.file.language"));
         menuHelp.setText(t.getString("program.menu.help"));
         menuAbout.setText(t.getString("program.menu.help.about"));
+        if (showDevSection) {
+            menuDev.setText(t.getString("program.menu.devHide"));
+        } else {
+            menuDev.setText(t.getString("program.menu.devShow"));
+        }
 
         // connection section
         lblConnectionSection.setText(t.getString("label.connection"));

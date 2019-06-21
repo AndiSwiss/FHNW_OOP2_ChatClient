@@ -71,6 +71,22 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             });
         });
 
+        view.menuDev.setOnAction(event -> {
+            if (view.showDevSection) {
+                view.devSection.setVisible(false);
+                view.showDevSection = false;
+                view.menuDev.setText(t.getString("program.menu.devShow"));
+            } else {
+                view.devSection.setVisible(true);
+                view.showDevSection = true;
+                view.menuDev.setText(t.getString("program.menu.devHide"));
+            }
+        });
+
+
+        // todo: create about-dialog
+//        view.menuAbout.setOnAction(event -> );
+
 
         //---------------------//
         // connection section: //
@@ -387,6 +403,16 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         toggleAccountSection(false);
         view.chatroomSection.setVisible(false);
         view.chatSection.setVisible(false);
+
+        if (serviceLocator.getConfiguration().getOption("showDevSection") != null
+                && serviceLocator.getConfiguration().getOption("showDevSection").equals("true")) {
+            view.showDevSection = true;
+            view.devSection.setVisible(true);
+            view.menuDev.setText(t.getString("program.menu.devHide"));
+        } else {
+            view.showDevSection = false;
+            view.devSection.setVisible(false);
+        }
 
 
         //========//

@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  * then edited and adopted by Andreas Ambühl)
  *
  * <p>
- * @version 0.8.4
+ * @version 0.8.6
  *
  * <p>
  * Copyright 2019, Andreas Ambühl. All rights reserved. This code
@@ -150,6 +150,7 @@ public class AChat extends Application {
         config.setLocalOption("ServerPort", view.txtPort.getText());
         config.setLocalOption("Username", view.txtUsername.getText());
         config.setLocalOption("Password", view.txtPassword.getText());
+        config.setLocalOption("showDevSection", String.valueOf(view.showDevSection));
 
         // and save the config:
         config.save();
