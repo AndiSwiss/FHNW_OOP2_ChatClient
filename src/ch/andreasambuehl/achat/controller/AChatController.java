@@ -57,7 +57,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // connection section: //
         //---------------------//
         view.btnConnectDisconnect.setOnAction(event -> {
-            if (model.isIsServerConnected()) {
+            if (model.getServerConnected()) {
                 if (model.getToken() != null) {
                     model.logout();
                     view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
@@ -96,7 +96,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // account section: //
         //------------------//
         view.btnSignInSignOut.setOnAction(event -> {
-            if (!model.isIsServerConnected()) {
+            if (!model.getServerConnected()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
             } else if (model.getToken() == null) {
                 String name = view.txtUsername.getText();
@@ -124,7 +124,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
         view.btnCreateLogin.setOnAction(event -> {
-            if (!model.isIsServerConnected()) {
+            if (!model.getServerConnected()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
             } else {
                 String name = view.txtUsername.getText();
@@ -140,7 +140,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
         view.btnDeleteLogin.setOnAction(event -> {
-            if (!model.isIsServerConnected()) {
+            if (!model.getServerConnected()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
             } else {
                 // Login if not already logged in:
@@ -317,7 +317,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // register for properties //
         //=========================//
         // set visibility of objects depending whether the connection of the server is active
-        model.isServerConnectedProperty().addListener((observable, oldValue, newValue) -> {
+        model.serverConnectedProperty().addListener((observable, oldValue, newValue) -> {
             toggleAccountSection(newValue);
         });
 

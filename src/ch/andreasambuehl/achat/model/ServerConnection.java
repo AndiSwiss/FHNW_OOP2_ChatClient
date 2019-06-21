@@ -85,7 +85,7 @@ public class ServerConnection {
 
             outStream = new OutputStreamWriter(socket.getOutputStream());
             logger.info("Server connection established");
-            model.setIsServerConnected(true);
+            model.setServerConnected(true);
         } catch (IOException e) {
             logger.info("Connection with server failed: " + serverIpAddress
                     + ":" + serverPort);

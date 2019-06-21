@@ -388,7 +388,7 @@ public class AChatView extends View<AChatModel> {
         lblConnectionSection.setText(t.getString("label.connection"));
         lblServer.setText(t.getString("label.connection.server"));
         lblPort.setText(t.getString("label.connection.port"));
-        if (model.isIsServerConnected()) {
+        if (model.getServerConnected()) {
             btnConnectDisconnect.setText(t.getString("button.disconnect"));
         } else {
             btnConnectDisconnect.setText(t.getString("button.connect"));

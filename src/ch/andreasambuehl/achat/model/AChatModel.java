@@ -18,7 +18,7 @@ public class AChatModel extends Model {
     private Logger logger;
 
     // connection section:
-    private SimpleBooleanProperty isServerConnected;
+    private SimpleBooleanProperty serverConnected;
 
     // todo: make all private and work with getters/setters
     // account section:
@@ -39,7 +39,7 @@ public class AChatModel extends Model {
      * Constructor of the model
      */
     public AChatModel() {
-        isServerConnected = new SimpleBooleanProperty(false);
+        serverConnected = new SimpleBooleanProperty(false);
 
         serviceLocator = ServiceLocator.getServiceLocator();
         logger = serviceLocator.getLogger();
@@ -102,7 +102,7 @@ public class AChatModel extends Model {
 
         serviceLocator.createServerConnection(this, ipAddress, port);
 
-        return isServerConnected.get();
+        return serverConnected.get();
     }
 
     /**
@@ -110,8 +110,8 @@ public class AChatModel extends Model {
      */
     public void disconnectServer() {
         serviceLocator.disconnectServer(this);
-        // set the isServerConnected to false, when everything was successful
-        isServerConnected.set(false);
+        // set the serverConnected to false, when everything was successful
+        serverConnected.set(false);
         logger.info("Server is disconnected.");
     }
 
@@ -430,16 +430,16 @@ public class AChatModel extends Model {
     }
 
 
-    public boolean isIsServerConnected() {
-        return isServerConnected.get();
+    public boolean getServerConnected() {
+        return serverConnected.get();
     }
 
-    public SimpleBooleanProperty isServerConnectedProperty() {
-        return isServerConnected;
+    public SimpleBooleanProperty serverConnectedProperty() {
+        return serverConnected;
     }
 
-    public void setIsServerConnected(boolean isServerConnected) {
-        this.isServerConnected.set(isServerConnected);
+    public void setServerConnected(boolean serverConnected) {
+        this.serverConnected.set(serverConnected);
     }
 
     public ObservableList<String> getObservablePeopleList() {

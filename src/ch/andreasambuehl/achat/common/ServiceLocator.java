@@ -85,7 +85,7 @@ public class ServiceLocator {
         try {
             serverConnection.inStream.close();
             serverConnection.outStream.close();
-            model.setIsServerConnected(false);
+            model.setServerConnected(false);
         } catch (Exception e) {
             // do nothing (e.g. if there is no server connection)
         }
