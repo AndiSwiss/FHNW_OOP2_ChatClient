@@ -42,9 +42,37 @@ public class AChatModel extends Model {
         logger.info("Application model initialized");
     }
 
-    //--------------//
-    // top section: //
-    //--------------//
+
+    //------------------------------//
+    // send commands to the server: //
+    //------------------------------//
+
+    /**
+     * Method for sending any command to the server with a raw answer (simple String)
+     *
+     * @param message message
+     * @return String with the full answer of the server
+     */
+    public String sendDirectCommand(String message) {
+
+        return serviceLocator.getServerConnection().sendCommand(message);
+    }
+
+    /**
+     * Internal method for sending any command to the server with a structured answer (String[])
+     *
+     * @param message message
+     * @return answer in separated parts
+     */
+    private String[] sendCommand(String message) {
+        String answer = serviceLocator.getServerConnection().sendCommand(message);
+        return answer.split("\\|");
+    }
+
+
+    //---------------------//
+    // connection section: //
+    //---------------------//
 
     /**
      * Connect with the server
@@ -83,29 +111,6 @@ public class AChatModel extends Model {
         logger.info("Server is disconnected.");
     }
 
-
-    /**
-     * Method for sending any command to the server with a raw answer (simple String)
-     *
-     * @param message message
-     * @return String with the full answer of the server
-     */
-    public String sendDirectCommand(String message) {
-
-        return serviceLocator.getServerConnection().sendCommand(message);
-    }
-
-    /**
-     * Internal method for sending any command to the server with a structured answer (String[])
-     *
-     * @param message message
-     * @return answer in separated parts
-     */
-    private String[] sendCommand(String message) {
-        String answer = serviceLocator.getServerConnection().sendCommand(message);
-        return answer.split("\\|");
-    }
-
     /**
      * Pings server
      */
@@ -120,6 +125,11 @@ public class AChatModel extends Model {
             return false;
         }
     }
+
+
+    //------------------//
+    // account section: //
+    //------------------//
 
     /**
      * Creates a login
@@ -180,7 +190,6 @@ public class AChatModel extends Model {
         }
     }
 
-
     /**
      * Log out from the server. And set the token to 'null'
      *
@@ -200,14 +209,16 @@ public class AChatModel extends Model {
         }
     }
 
+
+    //-------------------//
+    // chatroom section: //
+    //-------------------//
+
     /**
      * Shows (and updates) the list of chatrooms
      *
      * @return success
      */
-    //---------------//
-    // left section: //
-    //---------------//
     public boolean listChatrooms() {
         String[] answer = sendCommand("ListChatrooms|" + token);
 
@@ -279,6 +290,16 @@ public class AChatModel extends Model {
         }
     }
 
+
+    //---------------//
+    // chat section: //
+    //---------------//
+
+
+    //----------------//
+    // other methods: //
+    //----------------//
+
     /**
      * Validates an ip-address
      * Cody by Mr. Bradley Richards
@@ -327,8 +348,9 @@ public class AChatModel extends Model {
     }
 
 
-    // getters and setters:
-
+    //----------------------//
+    // getters and setters: //
+    //----------------------//
     public static String getToken() {
         return token;
     }

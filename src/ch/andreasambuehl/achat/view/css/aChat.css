@@ -64,4 +64,5 @@
 
 .notImplemented {
     -fx-text-fill: red;
+    -fx-prompt-text-fill: red;
 }

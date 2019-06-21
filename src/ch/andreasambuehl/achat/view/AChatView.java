@@ -17,14 +17,17 @@ import java.util.logging.Logger;
  * This is the main view for the chat client AChat.
  */
 public class AChatView extends View<AChatModel> {
-    // top section:
-    // menu
+    //---------------//
+    // menu section: //
+    //---------------//
     private Menu menuFile;
     public Menu menuFileLanguage;
     private Menu menuHelp;
     private MenuItem menuAbout;
 
-    // connectionSection
+    //---------------------//
+    // connection section: //
+    //---------------------//
     private Label lblConnectionSection;
     private Label lblServer;
     public TextField txtServer;
@@ -35,7 +38,9 @@ public class AChatView extends View<AChatModel> {
     public Button btnPingServer;
     public Label lblStatusServer;
 
-    // accountSection
+    //------------------//
+    // account section: //
+    //------------------//
     private Label lblAccountSection;
     private Label lblUsername;
     public TextField txtUsername;
@@ -46,8 +51,14 @@ public class AChatView extends View<AChatModel> {
     public Button btnDeleteLogin;
     public Label lblStatusAccount;
 
-    // left section:
+    //-----------------//
+    // people section: //
+    //-----------------//
     private Label lblPeopleSection;
+
+    //-------------------//
+    // chatroom section: //
+    //-------------------//
     private Label lblChatroomsSection;
     public Button btnUpdateChatroomsList;
     public Button btnCreateChatroom;
@@ -59,8 +70,9 @@ public class AChatView extends View<AChatModel> {
     private Label lblPublicChatrooms;
     public ListView<String> chatroomsList;
 
-
-    // center section:
+    //---------------//
+    // chat section: //
+    //---------------//
     private Label lblChatSection;
     public ListView<VBox> chatHistoryList;
     // todo: check the type of the following list!
@@ -71,13 +83,15 @@ public class AChatView extends View<AChatModel> {
     public Button btnSendToPrivateChatroom;
     public Button btnSendToPerson;
 
-
-    // bottom section:
-    // status section:
+    //-----------------//
+    // status section: //
+    //-----------------//
     private Label lblStatusSection;
     public Label lblLastStatus;
 
-    // dev section:
+    //--------------//
+    // dev section: //
+    //--------------//
     private Label lblDevSection;
     private Label lblCommand;
     public TextField txtCommand;
@@ -113,10 +127,10 @@ public class AChatView extends View<AChatModel> {
         // basic layout: BorderPane:
         BorderPane root = new BorderPane();
 
-        //--------------//
-        // top section: //
-        //--------------//
-        // MenuBar
+
+        //---------------//
+        // menu section: //
+        //---------------//
         MenuBar menuBar = new MenuBar();
         menuFile = new Menu();
         menuFileLanguage = new Menu();
@@ -133,7 +147,10 @@ public class AChatView extends View<AChatModel> {
 
         menuBar.getMenus().addAll(menuFile, menuHelp);
 
-        // connection section
+
+        //---------------------//
+        // connection section: //
+        //---------------------//
         lblConnectionSection = new Label();
         lblConnectionSection.getStyleClass().add("labelSmall");
         lblServer = new Label();
@@ -162,7 +179,9 @@ public class AChatView extends View<AChatModel> {
         connectionVBox.getStyleClass().add("boxedSection");
 
 
-        // account section
+        //------------------//
+        // account section: //
+        //------------------//
         lblAccountSection = new Label();
         lblAccountSection.getStyleClass().add("labelSmall");
         lblUsername = new Label();
@@ -189,10 +208,10 @@ public class AChatView extends View<AChatModel> {
         topSection.getChildren().addAll(menuBar, connectionVBox, accountVBox);
         root.setTop(topSection);
 
-        //---------------//
-        // left section: //
-        //---------------//
-        // people section
+
+        //-----------------//
+        // people section: //
+        //-----------------//
         lblPeopleSection = new Label();
         lblPeopleSection.getStyleClass().add("labelSmall");
         VBox peopleVBox = new VBox();
@@ -201,7 +220,10 @@ public class AChatView extends View<AChatModel> {
         peopleVBox.getChildren().addAll(lblPeopleSection, peopleList);
         peopleVBox.getStyleClass().add("boxedSection");
 
-        // chatrooms section
+
+        //-------------------//
+        // chatroom section: //
+        //-------------------//
         lblChatroomsSection = new Label();
         lblChatroomsSection.getStyleClass().add("labelSmall");
         btnUpdateChatroomsList = new Button();
@@ -236,9 +258,9 @@ public class AChatView extends View<AChatModel> {
         root.setLeft(leftSection);
 
 
-        //-----------------//
-        // center section: //
-        //-----------------//
+        //---------------//
+        // chat section: //
+        //---------------//
         lblChatSection = new Label();
         lblChatSection.getStyleClass().add("labelSmall");
         txtChatSearch = new TextField();
@@ -256,7 +278,6 @@ public class AChatView extends View<AChatModel> {
         chatSearchRight.setMaxWidth(Double.MAX_VALUE);
         chatSearchRight.getChildren().addAll(blindLbl1, txtChatSearch);
 
-
         chatHistoryList = new ListView<>(model.observableChatHistory);
         txtSendChat = new TextField();
         lblSendTo = new Label();
@@ -264,7 +285,7 @@ public class AChatView extends View<AChatModel> {
         btnSendToPrivateChatroom = new Button();
         btnSendToPerson = new Button();
 
-        txtSendChat.setPrefWidth(500);
+        txtSendChat.setPrefWidth(600);
 
         // todo: not yet implemented:
         txtChatSearch.setDisable(true);
@@ -292,10 +313,10 @@ public class AChatView extends View<AChatModel> {
         centerSection.getStyleClass().add("boxedSection");
         root.setCenter(centerSection);
 
+
         //-----------------//
-        // bottom section: //
+        // status section: //
         //-----------------//
-        // status section:
         lblStatusSection = new Label();
         lblStatusSection.getStyleClass().add("labelSmall");
         lblLastStatus = new Label();
@@ -303,7 +324,11 @@ public class AChatView extends View<AChatModel> {
         statusHBox.getChildren().addAll(lblStatusSection, lblLastStatus);
         statusHBox.getStyleClass().add("boxedSection");
 
-        // dev section (no translations for dev-section!)
+
+        //--------------//
+        // dev section: //
+        //--------------//
+        // -> no translations for dev-section
         lblDevSection = new Label("Dev/debug:");
         lblDevSection.getStyleClass().add("labelSmall");
         lblNotImplemented = new Label("Note: All red elements are not yet implemented!");
@@ -333,6 +358,10 @@ public class AChatView extends View<AChatModel> {
 
         root.setBottom(bottomVBox);
 
+
+        //----------//
+        // general: //
+        //----------//
         updateTexts();
 
         Scene scene = new Scene(root);
@@ -352,8 +381,10 @@ public class AChatView extends View<AChatModel> {
         //  to be correct??
         //  Also: the dialog text don't get updated until the application is restarted!
 
-        // top section
-        // the menu entries
+        // application name:
+        stage.setTitle(t.getString("program.name"));
+
+        // menu section
         menuFile.setText(t.getString("program.menu.file"));
         menuFileLanguage.setText(t.getString("program.menu.file.language"));
         menuHelp.setText(t.getString("program.menu.help"));
@@ -363,7 +394,6 @@ public class AChatView extends View<AChatModel> {
         lblConnectionSection.setText(t.getString("label.connection"));
         lblServer.setText(t.getString("label.connection.server"));
         lblPort.setText(t.getString("label.connection.port"));
-
         if (AChatModel.isServerConnected.get()) {
             btnConnectDisconnect.setText(t.getString("button.disconnect"));
         } else {
@@ -371,8 +401,6 @@ public class AChatView extends View<AChatModel> {
         }
         btnPingServer.setText(t.getString("button.connection.pingServer"));
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
-
-
         lblStatusServer.setText(t.getString("label.connection.status.failed"));
 
         // account section
@@ -388,8 +416,10 @@ public class AChatView extends View<AChatModel> {
         btnDeleteLogin.setText(t.getString("button.account.deleteLogin"));
         lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
 
-        // left section
+        // people section
         lblPeopleSection.setText(t.getString("label.people"));
+
+        // chatroom section
         lblChatroomsSection.setText(t.getString("label.chatrooms"));
         btnUpdateChatroomsList.setText(t.getString("button.chatrooms.updateChatroomsList"));
         btnCreateChatroom.setText(t.getString("button.chatrooms.createChatroom"));
@@ -400,8 +430,7 @@ public class AChatView extends View<AChatModel> {
         btnLeaveSelectedChatroom.setText(t.getString("button.chatrooms.LeaveSelectedChatroom"));
         btnLeavePrivateChatroom.setText(t.getString("button.chatrooms.LeavePrivateChatroom"));
 
-
-        // center section
+        // chat section
         lblChatSection.setText(t.getString("label.chat"));
         txtChatSearch.setPromptText(t.getString("text.chat.search"));
         txtSendChat.setPromptText(t.getString("text.chat.sendChat"));
@@ -410,10 +439,7 @@ public class AChatView extends View<AChatModel> {
         btnSendToPrivateChatroom.setText(t.getString("button.chat.sendToPrivateChatroom"));
         btnSendToPerson.setText(t.getString("button.chat.sendToPerson"));
 
-
-        // bottom section:
+        // status section:
         lblStatusSection.setText(t.getString("label.status"));
-
-        stage.setTitle(t.getString("program.name"));
     }
 }

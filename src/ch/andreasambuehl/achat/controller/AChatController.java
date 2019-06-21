@@ -37,9 +37,10 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
 
         // register to listen for button clicks
-        //--------------//
-        // top section: //
-        //--------------//
+
+        //---------------//
+        // menu section: //
+        //---------------//
         // Language:
         view.menuFileLanguage.getItems().forEach(menuItem -> {
             String language = menuItem.getText();
@@ -50,7 +51,10 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             });
         });
 
-        // Server section:
+
+        //---------------------//
+        // connection section: //
+        //---------------------//
         view.btnConnectDisconnect.setOnAction(event -> {
             if (AChatModel.isServerConnected.get()) {
                 if (AChatModel.getToken() != null) {
@@ -86,7 +90,10 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
-        // Account section:
+
+        //------------------//
+        // account section: //
+        //------------------//
         view.btnSignInSignOut.setOnAction(event -> {
             if (!AChatModel.isServerConnected.get()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
@@ -115,7 +122,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
-
         view.btnCreateLogin.setOnAction(event -> {
             if (!AChatModel.isServerConnected.get()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
@@ -132,7 +138,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
-
         view.btnDeleteLogin.setOnAction(event -> {
             if (!AChatModel.isServerConnected.get()) {
                 view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
@@ -143,7 +148,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                     String name = view.txtUsername.getText();
                     String password = view.txtPassword.getText();
                     loginSuccess = model.login(name, password);
-
                 }
                 if (loginSuccess) {
                     boolean deleteSuccess = model.deleteLogin();
@@ -161,9 +165,10 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             }
         });
 
-        //---------------//
-        // left section: //
-        //---------------//
+
+        //-------------------//
+        // chatroom section: //
+        //-------------------//
         view.btnUpdateChatroomsList.setOnAction(event -> {
             boolean success = model.listChatrooms();
             if (success) {
@@ -263,7 +268,9 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
 
-        // for development:
+        //--------------//
+        // dev section: //
+        //--------------//
         view.btnSendCommand.setOnAction(event -> {
             logger.info("Sending command: " + view.txtCommand.getText());
             String answer = model.sendDirectCommand(view.txtCommand.getText());
@@ -271,6 +278,9 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         });
 
 
+        //--------//
+        // other: //
+        //--------//
         // register to handle window-closing event
         view.getStage().setOnCloseRequest(event -> {
             Platform.exit();
