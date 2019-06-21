@@ -174,12 +174,12 @@ public class SplashModel extends Model {
     /**
      * Provides nice output of date and time.
      *
-     * @param milliSecs Time in milli seconds
+     * @param milliSeconds Time in milli seconds
      * @return formatted String
      */
-    private String calcDate(long milliSecs) {
-        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date resultDate = new Date(milliSecs);
-        return date_format.format(resultDate);
+    private String calcDate(long milliSeconds) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date resultDate = new Date(milliSeconds);
+        return dateFormat.format(resultDate);
     }
 }

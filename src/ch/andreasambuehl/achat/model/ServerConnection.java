@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
 
 /**
@@ -68,7 +69,7 @@ public class ServerConnection {
                             // Exception in thread "Thread-7" java.lang.IllegalStateException: Not on FX application thread; currentThread = Thread-7
                             // Since I write something to another thread, I have to realize that with Platform.runLater().
                             //  -> see https://stackoverflow.com/questions/17850191/why-am-i-getting-java-lang-illegalstateexception-not-on-fx-application-thread
-                            Platform.runLater(() -> model.getObservableChatHistory().add(LocalDateTime.now().toString() + "|" + msg));
+                            Platform.runLater(() -> model.getObservableChatHistory().add(currentDateTime() + "|" + msg));
 
                         } else {
                             logger.warning("received a message other than 'Result|...' or 'MessageText|...': "
@@ -94,6 +95,24 @@ public class ServerConnection {
     }
 
 
+    /**
+     * Provides nice output of date and time.
+     *
+     * @return formatted String
+     */
+    private String currentDateTime() {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dateFormat.format(now);
+    }
+
+
+    /**
+     * Sends a command to the server and returns the answer as soon as it gets one.
+     *
+     * @param command command
+     * @return answer
+     */
     String sendCommand(String command) {
         // todo: first check, whether the socket still has a connection
         //  I tried a lot with
