@@ -13,7 +13,8 @@ https://gitlab.fhnw.ch/bradley.richards/java-projects
 ### Compiling and running the application
 You need Java 8 and JavaFX installed.
 The main-application is here:
-`/src/ch/andreasambuehl/achat/AChat.java`
+
+[src/ch/andreasambuehl/achat/AChat.java](src/ch/andreasambuehl/achat/AChat.java)
 
 ### Constraints
 **Translation:** The translation happens instantly for all UI-elements, except and for status
@@ -27,10 +28,10 @@ rhythmical crystallization. Furthermore, the agate can be found in many differen
 See also https://en.wikipedia.org/wiki/Agate
 
 ### License
-BSD 3-Clause License. Copyright (c) 2019, Andreas Ambühl www.andreasambuehl.ch & Prof. Dr. Brad Richards (FHNW)
+BSD 3-Clause License. Copyright (c) 2019, Andreas Ambühl https://www.andreasambuehl.ch & Prof. Dr. Brad Richards (FHNW)
 
 Most code is from my part, Andreas Ambühl. But some code fragments are from
 Prof. Dr. Brad Richards; When I used Mr. Richards code, I left a a note in the
 corresponding class or in the corresponding code-fragment.
 
-See complete license in the LICENSE.txt-file.
+See complete license in the [LICENSE.txt](LICENSE.txt)-file.
