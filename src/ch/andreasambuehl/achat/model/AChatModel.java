@@ -170,8 +170,6 @@ public class AChatModel extends Model {
     public boolean login(String name, String password) {
         String[] answer = sendCommand("Login|" + name + '|' + password);
 
-        // todo: save token
-        //  handle the return correctly
         if (answer.length == 3 && answer[1].equals("true")) {
             token = answer[2];
             logger.info("Login successful. Token received: " + answer[2]);

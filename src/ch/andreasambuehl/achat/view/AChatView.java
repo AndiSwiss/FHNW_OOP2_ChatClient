@@ -7,10 +7,7 @@ import ch.andreasambuehl.achat.model.AChatModel;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.Locale;
@@ -65,9 +62,9 @@ public class AChatView extends View<AChatModel> {
 
     // center section:
     private Label lblChatSection;
+    public ListView<VBox> chatHistoryList;
     // todo: check the type of the following list!
     public TextField txtChatSearch;
-    public ListView<VBox> chatHistoryList;
     public TextField txtSendChat;
     public Button btnSendToSelectedChatroom;
 
@@ -242,7 +239,21 @@ public class AChatView extends View<AChatModel> {
         lblChatSection = new Label();
         lblChatSection.getStyleClass().add("labelSmall");
         txtChatSearch = new TextField();
+
+        // todo: trying to right-align the search-field
+        //  even after 1 hour of trying -> doesn't work at all!
+        //  But also when I download alignment examples from the internet -> they don't work as
+        //  well -> everything stays always left aligned
+        //  -> maybe JavaFX is corrupted?? (or maybe I'm missing something here?!?)
         txtChatSearch.setAlignment(Pos.BASELINE_RIGHT);
+        HBox chatSearchRight = new HBox();
+        Label blindLbl1 = new Label();
+        HBox.setHgrow(blindLbl1, Priority.ALWAYS);
+        blindLbl1.setMaxWidth(Double.MAX_VALUE);
+        chatSearchRight.setMaxWidth(Double.MAX_VALUE);
+        chatSearchRight.getChildren().addAll(blindLbl1, txtChatSearch);
+
+
         chatHistoryList = new ListView<>(model.observableChatHistory);
         txtSendChat = new TextField();
         btnSendToSelectedChatroom = new Button();
@@ -259,7 +270,7 @@ public class AChatView extends View<AChatModel> {
 
 
         HBox chatBox1 = new HBox();
-        chatBox1.getChildren().addAll(txtChatSearch);
+        chatBox1.getChildren().addAll(chatSearchRight);
         HBox chatBox2 = new HBox();
         chatBox2.getChildren().addAll(txtSendChat, btnSendToSelectedChatroom);
 
