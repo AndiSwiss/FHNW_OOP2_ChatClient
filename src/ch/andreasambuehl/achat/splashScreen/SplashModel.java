@@ -27,7 +27,7 @@ public class SplashModel extends Model {
 
     // A task is a JavaFX class that implements Runnable. Tasks are designed to
     // have attached listeners, which we can use to monitor their progress.
-    final Task<Void> initializer = new Task<>() {
+    final Task<Void> initializer = new Task<Void>() {
         @Override
         protected Void call() {
             artificialWaitingTime();
