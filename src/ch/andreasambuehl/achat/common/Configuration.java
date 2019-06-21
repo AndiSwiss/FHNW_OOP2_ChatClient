@@ -14,9 +14,6 @@ import java.util.logging.Logger;
  * Default options may be delivered with the application; local options (changed
  * by the user) are saved to a file. Program constants can be defined by defining
  * options that the user has no way to change.
- * <p>
- *
- * @author Andreas Ambühl (with code fragments by Prof. Dr. Brad Richards)
  */
 public class Configuration {
     // for easy reference:
@@ -30,9 +27,6 @@ public class Configuration {
         // Load default properties from wherever the code is
         defaultOptions = new Properties();
         String defaultFilename = sl.getAPP_NAME() + "_defaults.cfg";
-        // todo: maybe do the defaultOptions-reading in a 'try with resources'?
-        //  And the same later on with reading the localOptions.
-        //  If I do so, then change the Copyright-message in the JavaDoc of the class.
 
         InputStream inStream = sl.getAPP_CLASS().getResourceAsStream(defaultFilename);
         try {

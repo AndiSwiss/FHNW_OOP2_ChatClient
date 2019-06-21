@@ -6,17 +6,16 @@ import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.common.Translator;
 import javafx.concurrent.Task;
 
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.*;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
  * is licensed under the terms of the BSD 3-clause license (see the file
  * license.txt).
  *
- * @author Brad Richards
+ * @author Brad Richards. With modifications by Andreas Ambühl
  */
 public class SplashModel extends Model {
     private ServiceLocator serviceLocator;
@@ -83,6 +82,64 @@ public class SplashModel extends Model {
         Handler[] defaultHandlers = Logger.getLogger("").getHandlers();
         defaultHandlers[0].setLevel(Level.INFO);
 
+        // Introduced by Andreas Ambühl:
+        // styling the logger:
+        // Based on a code fragment seen on:
+        // https://stackoverflow.com/questions/53211694/change-color-and-format-of-java-util-logging-logger-output-in-eclipse
+        // by Manuel Moser (https://stackoverflow.com/users/8715352/manuel-moser).
+        // I added some special styling for level WARNING and SEVERE + some other modifications.
+        defaultHandlers[0].setFormatter(new Formatter() {
+            @Override
+            public String format(LogRecord record) {
+                final String ANSI_RESET = "\u001B[0m";
+                final String ANSI_YELLOW = "\u001B[33m";
+                final String ANSI_WHITE = "\u001B[37m";
+                final String ANSI_RED = "\u001B[31m";
+
+                // This example will print date/time, class, and log level in yellow,
+                // followed by the log message and it's parameters in white .
+                StringBuilder builder = new StringBuilder();
+
+                if (record.getLevel().equals(Level.WARNING) || record.getLevel().equals(Level.SEVERE)) {
+                    builder.append(ANSI_RED);
+                } else {
+                    builder.append(ANSI_YELLOW);
+                }
+
+                builder.append("[");
+                builder.append(calcDate(record.getMillis()));
+                builder.append("]");
+
+                builder.append(" [");
+                builder.append(record.getSourceClassName());
+                builder.append("]");
+
+                builder.append(" [");
+                builder.append(record.getLevel().getName());
+                builder.append("]");
+
+                builder.append(ANSI_WHITE);
+                builder.append(" - ");
+                builder.append(record.getMessage());
+
+                Object[] params = record.getParameters();
+
+                if (params != null)
+                {
+                    builder.append("\t");
+                    for (int i = 0; i < params.length; i++)
+                    {
+                        builder.append(params[i]);
+                        if (i < params.length - 1)
+                            builder.append(", ");
+                    }
+                }
+                builder.append(ANSI_RESET);
+                builder.append("\n");
+                return builder.toString();
+            }
+        });
+
         // Add our logger
         Logger ourLogger = Logger.getLogger(serviceLocator.getAPP_NAME());
         ourLogger.setLevel(Level.FINEST);
@@ -111,5 +168,18 @@ public class SplashModel extends Model {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * Provides nice output of date and time.
+     *
+     * @param milliSecs Time in milli seconds
+     * @return formatted String
+     */
+    private String calcDate(long milliSecs) {
+        SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date resultDate = new Date(milliSecs);
+        return date_format.format(resultDate);
     }
 }

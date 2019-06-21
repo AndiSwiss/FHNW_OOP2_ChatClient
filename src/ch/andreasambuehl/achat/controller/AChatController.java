@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -359,6 +361,10 @@ public class AChatController extends Controller<AChatModel, AChatView> {
     }
 
 
+    /**
+     * Toggles 'disabled' for the elements in the account section
+     * @param enable enable/disable
+     */
     private void toggleAccountSection(boolean enable) {
         view.lblAccountSection.setDisable(!enable);
         view.lblUsername.setDisable(!enable);
@@ -370,8 +376,4 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         view.btnDeleteLogin.setDisable(!enable);
         view.lblStatusAccount.setDisable(!enable);
     }
-
-
-
-
 }

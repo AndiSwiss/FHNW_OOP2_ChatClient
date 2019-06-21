@@ -6,9 +6,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 /**
- * This class provides functionality for translations.
- *
- * @author Andreas Ambühl (with code fragments by Prof. Dr. Brad Richards)
+ * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
+ * is licensed under the terms of the BSD 3-clause license (see the file
+ * license.txt).
  */
 public class Translator {
     private ServiceLocator sl = ServiceLocator.getServiceLocator();
@@ -22,14 +22,6 @@ public class Translator {
         // If not, use VM default locale
         Locale locale = Locale.getDefault();
         if (localeString != null) {
-
-            /* todo: currently code completely copied from Brad Richards
-             *  Change the comparing against the the Locale[] availableLocales
-             *  to functional programming (with streams instead of saving in a
-             *  variable and using a for-loop)
-             *  OTHERWISE: change the class JavaDoc to "Copyright 2015...." as in 'ServiceLocator'.
-             */
-
             Locale[] availableLocales = sl.getLocales();
             for (Locale availableLocale : availableLocales) {
                 String tmpLang = availableLocale.getLanguage();

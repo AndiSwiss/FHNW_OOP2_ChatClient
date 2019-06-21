@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
+/**
+ * This class is for establishing a server connection and for talking with the server.
+ */
 public class ServerConnection {
 
     private Logger logger;
@@ -50,9 +53,7 @@ public class ServerConnection {
                         if (msgType.equals("Result")) {
                             serverAnswer = msg;
                             requestPending = false;
-                            System.out.println("Received a result " + msg);
                         } else if (msgType.equals("MessageText")) {
-                            System.out.println("Received a message " + msg);
 
                             // If I sent the message, also save to sendChatMsgAnswer for validation in the
                             // model
