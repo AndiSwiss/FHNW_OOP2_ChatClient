@@ -373,11 +373,6 @@ public class AChatView extends View<AChatModel> {
     public void updateTexts() {
         Translator t = ServiceLocator.getServiceLocator().getTranslator();
 
-        // todo: Problem: if I change the language anytime during running the application,
-        //  many labels having different current states. How can I detect those current states for the language translation
-        //  to be correct??
-        //  Also: the dialog text don't get updated until the application is restarted!
-
         // application name:
         stage.setTitle(t.getString("program.name"));
 
@@ -398,7 +393,7 @@ public class AChatView extends View<AChatModel> {
         }
         btnPingServer.setText(t.getString("button.connection.pingServer"));
         chkboxSSL.setText(t.getString("label.connection.useSSL"));
-        lblStatusServer.setText(t.getString("label.connection.status.failed"));
+        lblStatusServer.setText(t.getString("label.connection.status.notConnected"));
 
         // account section
         lblAccountSection.setText(t.getString("label.account"));

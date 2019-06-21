@@ -17,9 +17,8 @@ The main-application is here:
 [src/ch/andreasambuehl/achat/AChat.java](src/ch/andreasambuehl/achat/AChat.java)
 
 ### Constraints
-**Translation:** The translation happens instantly for all UI-elements, except and for status
-messages and dialogs. Existing status messages in the UI don't get translated, but as soon as there is
-a new status message, the translation works fine. Dialogs on the other hand get translated only after a restart.
+**Translation:** -> Solved in version v0.8.1 -> Behaves correctly now: Translation of dialogs and status messages
+no longer require a reboot to be translated.
 
 ### Name of the app
 The name AChat is somehow connected to my first and last name, but "Achat" is also the German name 

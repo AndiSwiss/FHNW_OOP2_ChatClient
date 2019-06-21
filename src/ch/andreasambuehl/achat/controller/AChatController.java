@@ -49,6 +49,25 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 serviceLocator.getConfiguration().setLocalOption("Language", language);
                 serviceLocator.setTranslator(new Translator(language));
                 view.updateTexts();
+
+                // in order for the dialogs to also update the language:
+                t = new Translator(language);
+
+                // also set some status in the new language according to the current state of the system:
+                if (model.getServerConnected()) {
+                    view.lblStatusServer.setText(t.getString("label.connection.status.connected"));
+                } else {
+                    view.lblStatusServer.setText(t.getString("label.connection.status.notConnected"));
+                }
+
+                if (model.getToken() != null) {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.loggedIn"));
+                } else {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
+                }
+
+                // for the general status field, just clear it:
+                view.lblLastStatus.setText("");
             });
         });
 
@@ -67,7 +86,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 model.disconnectServer();
                 view.btnConnectDisconnect.setText(t.getString("button.connect"));
                 view.btnPingServer.setDisable(true);
-                view.lblStatusServer.setText(t.getString("label.connection.status.failed"));
+                view.lblStatusServer.setText(t.getString("label.connection.status.notConnected"));
             } else {
                 String ipAddress = view.txtServer.getText();
                 String portString = view.txtPort.getText();
