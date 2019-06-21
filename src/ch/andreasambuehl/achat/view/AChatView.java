@@ -4,7 +4,6 @@ import ch.andreasambuehl.achat.abstractClasses.View;
 import ch.andreasambuehl.achat.common.ServiceLocator;
 import ch.andreasambuehl.achat.common.Translator;
 import ch.andreasambuehl.achat.model.AChatModel;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -51,16 +50,10 @@ public class AChatView extends View<AChatModel> {
     public Button btnDeleteLogin;
     public Label lblStatusAccount;
 
-    //-----------------//
-    // people section: //
-    //-----------------//
-    public VBox leftSection;
-
-    private Label lblPeopleSection;
-
     //-------------------//
     // chatroom section: //
     //-------------------//
+    public VBox chatroomSection;
     private Label lblChatroomsSection;
     public Button btnUpdateChatroomsList;
     public Button btnCreateChatroom;
@@ -215,18 +208,6 @@ public class AChatView extends View<AChatModel> {
         root.setTop(topSection);
 
 
-        //-----------------//
-        // people section: //
-        //-----------------//
-        lblPeopleSection = new Label();
-        lblPeopleSection.getStyleClass().add("labelSmall");
-        VBox peopleVBox = new VBox();
-        ListView<String> peopleList = new ListView<>(model.getObservablePeopleList());
-        peopleList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        peopleVBox.getChildren().addAll(lblPeopleSection, peopleList);
-        peopleVBox.getStyleClass().add("boxedSection");
-
-
         //-------------------//
         // chatroom section: //
         //-------------------//
@@ -256,12 +237,11 @@ public class AChatView extends View<AChatModel> {
 
         chatroomsList = new ListView<>(model.getObservableChatroomsList());
         chatroomsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        VBox chatroomsVBox = new VBox();
-        chatroomsVBox.getChildren().addAll(lblChatroomsSection, chatroom1, chatroom2, chatroom3, lblPublicChatrooms, chatroomsList);
-        chatroomsVBox.getStyleClass().add("boxedSection");
-        leftSection = new VBox();
-        leftSection.getChildren().addAll(peopleVBox, chatroomsVBox);
-        root.setLeft(leftSection);
+        chatroomSection = new VBox();
+        chatroomSection.getChildren().addAll(lblChatroomsSection, chatroom1, chatroom2, chatroom3, lblPublicChatrooms, chatroomsList);
+        chatroomSection.getStyleClass().add("boxedSection");
+
+        root.setLeft(chatroomSection);
 
 
         //---------------//
@@ -411,9 +391,6 @@ public class AChatView extends View<AChatModel> {
         btnCreateLogin.setText(t.getString("button.account.createLogin"));
         btnDeleteLogin.setText(t.getString("button.account.deleteLogin"));
         lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
-
-        // people section
-        lblPeopleSection.setText(t.getString("label.people"));
 
         // chatroom section
         lblChatroomsSection.setText(t.getString("label.chatrooms"));

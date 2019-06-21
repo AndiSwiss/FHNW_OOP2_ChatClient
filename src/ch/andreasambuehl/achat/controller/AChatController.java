@@ -379,13 +379,13 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         model.tokenProperty().addListener((observable, oldValue, newValue) -> {
             boolean loggedIn = newValue != null;
-            view.leftSection.setVisible(loggedIn);
+            view.chatroomSection.setVisible(loggedIn);
             view.chatSection.setVisible(loggedIn);
         });
 
         // set initial visibility:
         toggleAccountSection(false);
-        view.leftSection.setVisible(false);
+        view.chatroomSection.setVisible(false);
         view.chatSection.setVisible(false);
 
 
