@@ -20,6 +20,7 @@ public class AChatModel extends Model {
 
     // connection section:
     private SimpleBooleanProperty serverConnected;
+    private SimpleBooleanProperty serverConnectionFailed;
 
     // todo: make all private and work with getters/setters
     // account section:
@@ -41,6 +42,7 @@ public class AChatModel extends Model {
      */
     public AChatModel() {
         serverConnected = new SimpleBooleanProperty(false);
+        serverConnectionFailed = new SimpleBooleanProperty(false);
         token = new SimpleStringProperty();
 
         serviceLocator = ServiceLocator.getServiceLocator();
@@ -431,7 +433,7 @@ public class AChatModel extends Model {
         return observableChatHistory;
     }
 
-    public void setSendChatMsgAnswer(String[] sendChatMsgAnswer) {
+    void setSendChatMsgAnswer(String[] sendChatMsgAnswer) {
         this.sendChatMsgAnswer = sendChatMsgAnswer;
     }
 
@@ -454,5 +456,13 @@ public class AChatModel extends Model {
 
     public ObservableList<String> getObservableChatroomsList() {
         return observableChatroomsList;
+    }
+
+    public SimpleBooleanProperty serverConnectionFailedProperty() {
+        return serverConnectionFailed;
+    }
+
+    public void setServerConnectionFailed(boolean serverConnectionFailed) {
+        this.serverConnectionFailed.set(serverConnectionFailed);
     }
 }

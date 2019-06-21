@@ -17,10 +17,9 @@ The main-application is here:
 [src/ch/andreasambuehl/achat/AChat.java](src/ch/andreasambuehl/achat/AChat.java)
 
 ### Constraints
-**Translation:** -> Solved in version v0.8.1 -> Behaves correctly now: Translation of dialogs and status messages
-no longer require a reboot to be translated.
-
-**Thread running indefinitely:** When trying to connect with a server with a wrong ip-address/port-number, then the
+####Thread running indefinitely
+#####Problem
+When trying to connect with a server with a wrong ip-address/port-number, then the
 Error gets handled successfully and the program execution continues without further problems. But it seems, that
 the thread which creates the socket and fails at this points just get stuck and never throws an error and so I cannot
 catch any error. I have found no way to terminate such a thread which is just stuck (because it's not in a while-loop
@@ -29,6 +28,9 @@ or anything which would monitor a boolean or something).
 I documented my tries (and fails) inside ServerConnection.java -> in the following section:
 
 `if (!socketConnected) {...}`
+#####Temporary solution
+The application works normally, but when quitting, you have to **force quit** the application, if you once tried to 
+connect to a server using a wrong ip-/port-number combination during the application execution.
 
 ### Name of the app
 The name AChat is somehow connected to my first and last name, but "Achat" is also the German name 

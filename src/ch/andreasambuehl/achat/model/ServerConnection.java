@@ -87,6 +87,7 @@ public class ServerConnection {
                 // last try:
 //                createSocketThread.destroy();   -> throws a no such method error
                 // -> I give up
+                model.setServerConnectionFailed(true);
 
 
             } else {

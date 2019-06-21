@@ -399,6 +399,11 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             view.chatSection.setVisible(loggedIn);
         });
 
+        model.serverConnectionFailedProperty().addListener((observable, oldValue, newValue) -> {
+             view.lblStatusServer.setText(t.getString("label.connection.status.connectionFailed"));
+             model.setServerConnectionFailed(false);
+        });
+
         // set initial visibility:
         toggleAccountSection(false);
         view.chatroomSection.setVisible(false);
