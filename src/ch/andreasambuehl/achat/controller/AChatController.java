@@ -81,12 +81,16 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                     model.logout();
                     view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
                     view.lblStatusAccount.setText(t.getString("label.account.status.notLoggedIn"));
+                    view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("ok"));
+                    view.lblStatusAccount.getStyleClass().add("alert");
                     view.btnCreateLogin.setDisable(false);
                 }
                 model.disconnectServer();
                 view.btnConnectDisconnect.setText(t.getString("button.connect"));
                 view.btnPingServer.setDisable(true);
                 view.lblStatusServer.setText(t.getString("label.connection.status.notConnected"));
+                view.lblStatusServer.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblStatusServer.getStyleClass().add("alert");
             } else {
                 String ipAddress = view.txtServer.getText();
                 String portString = view.txtPort.getText();
@@ -97,6 +101,8 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                     view.btnConnectDisconnect.setText(t.getString("button.disconnect"));
                     view.btnPingServer.setDisable(false);
                     view.lblStatusServer.setText(t.getString("label.connection.status.connected"));
+                    view.lblStatusServer.getStyleClass().removeIf(style -> style.equals("alert"));
+                    view.lblStatusServer.getStyleClass().add("ok");
                 }
             }
         });
@@ -105,8 +111,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             boolean success = model.pingServer();
             if (success) {
                 view.lblStatusServer.setText(t.getString("label.connection.status.pingSuccess"));
+                view.lblStatusServer.getStyleClass().removeIf(style -> style.equals("alert"));
+                view.lblStatusServer.getStyleClass().add("ok");
             } else {
                 view.lblStatusServer.setText(t.getString("label.connection.status.pingFailed"));
+                view.lblStatusServer.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblStatusServer.getStyleClass().add("alert");
             }
         });
 
@@ -115,9 +125,7 @@ public class AChatController extends Controller<AChatModel, AChatView> {
         // account section: //
         //------------------//
         view.btnSignInSignOut.setOnAction(event -> {
-            if (!model.getServerConnected()) {
-                view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
-            } else if (model.getToken() == null) {
+            if (model.getToken() == null) {
                 String name = view.txtUsername.getText();
                 String password = view.txtPassword.getText();
                 boolean successful = model.login(name, password);
@@ -125,9 +133,14 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 if (successful) {
                     view.btnSignInSignOut.setText(t.getString("button.account.signOut"));
                     view.lblStatusAccount.setText(t.getString("label.account.status.loggedIn"));
+                    view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("alert"));
+                    view.lblStatusAccount.getStyleClass().add("ok");
                     view.btnCreateLogin.setDisable(true);
+                    model.listChatrooms();
                 } else {
                     view.lblStatusAccount.setText(t.getString("label.account.status.loginFailed"));
+                    view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("ok"));
+                    view.lblStatusAccount.getStyleClass().add("alert");
                 }
             } else {
                 boolean successful = model.logout();
@@ -139,49 +152,52 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 } else {
                     view.lblStatusAccount.setText(t.getString("label.account.status.logoutFailed"));
                 }
+                view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblStatusAccount.getStyleClass().add("alert");
             }
         });
 
         view.btnCreateLogin.setOnAction(event -> {
-            if (!model.getServerConnected()) {
-                view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
+            String name = view.txtUsername.getText();
+            String password = view.txtPassword.getText();
+            boolean successful = model.createLogin(name, password);
+            if (successful) {
+                view.lblStatusAccount.setText(t.getString("label.account.status.accountCreated"));
+                view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("alert"));
+                view.lblStatusAccount.getStyleClass().add("ok");
             } else {
-                String name = view.txtUsername.getText();
-                String password = view.txtPassword.getText();
-                boolean successful = model.createLogin(name, password);
-
-                if (successful) {
-                    view.lblStatusAccount.setText(t.getString("label.account.status.accountCreated"));
-                } else {
-                    view.lblStatusAccount.setText(t.getString("label.account.status.accountCreationFailed"));
-                }
+                view.lblStatusAccount.setText(t.getString("label.account.status.accountCreationFailed"));
+                view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblStatusAccount.getStyleClass().add("alert");
             }
         });
 
         view.btnDeleteLogin.setOnAction(event -> {
-            if (!model.getServerConnected()) {
-                view.lblStatusAccount.setText(t.getString("label.account.status.noConnectionYet"));
-            } else {
-                // Login if not already logged in:
-                boolean loginSuccess = true;
-                if (model.getToken() == null) {
-                    String name = view.txtUsername.getText();
-                    String password = view.txtPassword.getText();
-                    loginSuccess = model.login(name, password);
-                }
-                if (loginSuccess) {
-                    boolean deleteSuccess = model.deleteLogin();
-                    if (deleteSuccess) {
-                        view.lblStatusAccount.setText(t.getString("label.account.status.accountDeleted"));
-                        view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
-                        view.btnCreateLogin.setDisable(false);
+            // Login if not already logged in:
+            boolean loginSuccess = true;
+            if (model.getToken() == null) {
+                String name = view.txtUsername.getText();
+                String password = view.txtPassword.getText();
+                loginSuccess = model.login(name, password);
+            }
+            if (loginSuccess) {
+                boolean deleteSuccess = model.deleteLogin();
+                if (deleteSuccess) {
+                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeleted"));
+                    view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("alert"));
+                    view.lblStatusAccount.getStyleClass().add("ok");
+                    view.btnSignInSignOut.setText(t.getString("button.account.signIn"));
+                    view.btnCreateLogin.setDisable(false);
 
-                    } else {
-                        view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionFailed"));
-                    }
                 } else {
-                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionNotFound"));
+                    view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionFailed"));
+                    view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("ok"));
+                    view.lblStatusAccount.getStyleClass().add("alert");
                 }
+            } else {
+                view.lblStatusAccount.setText(t.getString("label.account.status.accountDeletionNotFound"));
+                view.lblStatusAccount.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblStatusAccount.getStyleClass().add("alert");
             }
         });
 
@@ -193,8 +209,13 @@ public class AChatController extends Controller<AChatModel, AChatView> {
             boolean success = model.listChatrooms();
             if (success) {
                 view.lblLastStatus.setText(t.getString("label.status.updateChatroomsList"));
+                view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("alert"));
+                view.lblLastStatus.getStyleClass().add("ok");
             } else {
                 view.lblLastStatus.setText(t.getString("label.status.updateChatroomsListFailed"));
+                view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblLastStatus.getStyleClass().add("alert");
+
             }
         });
 
@@ -244,8 +265,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 model.listChatrooms();
                 if (success) {
                     view.lblLastStatus.setText(t.getString("label.status.createChatroomSuccess"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("alert"));
+                    view.lblLastStatus.getStyleClass().add("ok");
                 } else {
                     view.lblLastStatus.setText(t.getString("label.status.createChatroomFailed"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                    view.lblLastStatus.getStyleClass().add("failed");
                 }
 
             });
@@ -253,9 +278,6 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
         view.btnDeleteChatroom.setOnAction(event -> {
             TextInputDialog dialog = new TextInputDialog();
-            // todo: if the translation changes during runtime, somehow the translation only get's changed after
-            //  restarting the app (this seems not really logical at this point)
-            //  -> try to find a fix
             dialog.setTitle(t.getString("dialog.deleteChatroom.title"));
             dialog.setHeaderText(t.getString("dialog.deleteChatroom.header"));
             dialog.setContentText(t.getString("dialog.deleteChatroom.content"));
@@ -266,8 +288,12 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
                 if (success) {
                     view.lblLastStatus.setText(t.getString("label.status.deleteChatroomSuccess"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("alert"));
+                    view.lblLastStatus.getStyleClass().add("ok");
                 } else {
                     view.lblLastStatus.setText(t.getString("label.status.deleteChatroomFailed"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                    view.lblLastStatus.getStyleClass().add("alert");
                 }
             });
         });
@@ -279,11 +305,17 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
                 if (success) {
                     view.lblLastStatus.setText(t.getString("label.status.joinChatSuccess"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("alert"));
+                    view.lblLastStatus.getStyleClass().add("ok");
                 } else {
                     view.lblLastStatus.setText(t.getString("label.status.joinChatFailed"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                    view.lblLastStatus.getStyleClass().add("alert");
                 }
             } else {
                 view.lblLastStatus.setText(t.getString("label.status.noChatroomSelected"));
+                view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblLastStatus.getStyleClass().add("alert");
             }
         });
 
@@ -294,11 +326,17 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
                 if (success) {
                     view.lblLastStatus.setText(t.getString("label.status.leaveChatSuccess"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("alert"));
+                    view.lblLastStatus.getStyleClass().add("ok");
                 } else {
                     view.lblLastStatus.setText(t.getString("label.status.leaveChatFailed"));
+                    view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                    view.lblLastStatus.getStyleClass().add("alert");
                 }
             } else {
                 view.lblLastStatus.setText(t.getString("label.status.noChatroomSelected"));
+                view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblLastStatus.getStyleClass().add("alert");
             }
         });
 
@@ -317,7 +355,8 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 view.lblLastStatus.setText(t.getString("label.status.chatMessageNotMember")
                         + view.chatroomsList.getSelectionModel().getSelectedItem()
                 );
-
+                view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblLastStatus.getStyleClass().add("alert");
             }
         });
 
@@ -377,6 +416,8 @@ public class AChatController extends Controller<AChatModel, AChatView> {
 
             if (success.equals("success")) {
                 view.lblLastStatus.setText(t.getString("label.status.chatMessageSent") + target);
+                view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("alert"));
+                view.lblLastStatus.getStyleClass().add("ok");
             } else if (success.equals("noBroadcast")) {
                 // this happens when sending a message to a public/private chatroom of which I'm not a member and when
                 // sending a message directly to another person
@@ -384,6 +425,8 @@ public class AChatController extends Controller<AChatModel, AChatView> {
                 return success;
             } else {
                 view.lblLastStatus.setText(t.getString("label.status.chatMessageSendingFailed"));
+                view.lblLastStatus.getStyleClass().removeIf(style -> style.equals("ok"));
+                view.lblLastStatus.getStyleClass().add("alert");
             }
             return success;
         }

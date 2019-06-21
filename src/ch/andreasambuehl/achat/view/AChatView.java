@@ -167,6 +167,8 @@ public class AChatView extends View<AChatModel> {
         btnPingServer = new Button();
         btnPingServer.setDisable(true);
         lblStatusServer = new Label();
+        lblStatusServer.getStyleClass().add("alert");
+
         HBox connection1 = new HBox();
         connection1.getChildren().addAll(lblServer, txtServer, lblPort, txtPort, chkboxSSL);
         HBox connection2 = new HBox();
@@ -195,6 +197,7 @@ public class AChatView extends View<AChatModel> {
         btnSignInSignOut = new Button();
         btnCreateLogin = new Button();
         lblStatusAccount = new Label();
+        lblStatusAccount.getStyleClass().add("alert");
         btnDeleteLogin = new Button();
 
         HBox account1 = new HBox();

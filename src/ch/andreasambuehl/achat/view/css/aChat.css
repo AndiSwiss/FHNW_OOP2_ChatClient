@@ -66,3 +66,12 @@
     -fx-text-fill: red;
     -fx-prompt-text-fill: red;
 }
+
+
+.alert {
+    -fx-text-fill: #905500;
+}
+
+.ok {
+    -fx-text-fill: #009000;
+}
