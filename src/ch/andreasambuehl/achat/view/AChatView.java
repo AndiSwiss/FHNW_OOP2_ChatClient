@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -119,6 +120,17 @@ public class AChatView extends View<AChatModel> {
 
         // basic layout: BorderPane:
         BorderPane root = new BorderPane();
+
+
+        // todo -> remove UI-elements of the system:
+        // UNDECORATED: removes ALL system-ui-components (including the handlers to resize the window, closing and so on)
+        // UTILITY: reduces system-ui-components to a minimum (just a close-button + the resize-handlers are still there)
+        // + UNIFIED -> see help
+        // + TRANSPARENT -> see help
+//        stage.initStyle(StageStyle.UNDECORATED);
+//        stage.initStyle(StageStyle.UTILITY);
+//        stage.initStyle(StageStyle.UNIFIED);
+//        stage.initStyle(StageStyle.TRANSPARENT);
 
 
         //---------------//

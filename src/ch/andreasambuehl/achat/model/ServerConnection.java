@@ -4,7 +4,9 @@ import ch.andreasambuehl.achat.common.ServiceLocator;
 import javafx.application.Platform;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
@@ -33,62 +35,28 @@ public class ServerConnection {
 
         logger = ServiceLocator.getServiceLocator().getLogger();
 
-/*
-        // While trying to connect to a server, I create first this separate thread,
-        // which just simply waits for 1 second. If the server-connection cannot be established in this time period,
-        // then the flag timeOut is set to true and then, this method will stop waiting for the answer.
-        Runnable timeOutRunnable = () -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                timeOut = true;
-            }
-            timeOut = true;
-        };
-        Thread timeOutThread = new Thread(timeOutRunnable);
-        timeOutThread.start();
-*/
-
-        socketConnected = false;
         try {
-            Runnable createSocketRunnable = () -> {
-                try {
-                    socket = new Socket(serverIpAddress, serverPort);
-                    socketConnected = true;
-                } catch (IOException e) {
-                    logger.warning("IOException when trying to reach the server: " + e.toString());
-                }
-            };
-            Thread createSocketThread = new Thread(createSocketRunnable);
-            createSocketThread.start();
+            // PROBLEM SOLVED (Problem: I was not able to get a "SocketTimeoutException"!)
+            //  Instead of providing the ipAddress and the port directly in the constructor of the socket,
+            //  you provide the address in the method .connect()
+            //  There you can optionally provide a timeout -> this throws a SocketTimeoutException after the timeout.
+            //  -> That works perfectly (code from slides 01_Exceptions.pdf, slide 32: Port connection logic)
+            //  -> (comparing to my previous code, where I created a separate runnable (which just waited for one second
+            //     and then set the boolean value timeOut to true). This was sort of working, but the thread was never
+            //     terminated resulting the app to not properly terminate when quitting the app.
+            socket = new Socket();
+            try {
+                // connect with the socket and define a timeout in ms:
+                socket.connect(new InetSocketAddress(serverIpAddress, serverPort), 2000);
+                socketConnected = true;
+            } catch (SocketTimeoutException e) {
+                socketConnected = false;
+            }
 
-            // wait on this thread max. 1 second
-            Thread.sleep(1000);
 
             if (!socketConnected) {
                 logger.warning("Server was not reachable!");
-                // How to stop the thread, if it's not responding anymore? -> because if I once try to connect with
-                // a wrong ip-/port-address, then the application doesn't terminate normally anymore -> obviously
-                // the thread 'createSocketThread' is still running.
-                // -> createSocketThread.stop();  is deprecated and it doesn't work
-                // -> createSocketThread.interrupt();  doesn't work
-                //
-                // the following also doesn't work:
-//                Runnable dummyRunnable = () -> {
-//                    try {
-//                        Thread.sleep(10);
-//                    } catch (InterruptedException e) {
-//                        // do nothing
-//                    }
-//                };
-//                createSocketThread = new Thread(dummyRunnable);
-//                createSocketThread.start();
-
-                // last try:
-//                createSocketThread.destroy();   -> throws a no such method error
-                // -> I give up
                 model.setServerConnectionFailed(true);
-
 
             } else {
                 logger.info("Connected with server " + serverIpAddress
@@ -145,8 +113,8 @@ public class ServerConnection {
         } catch (IOException e) {
             logger.info("Connection with server failed: " + serverIpAddress
                     + ":" + serverPort);
-        } catch (InterruptedException e) {
-            logger.warning(e.toString());
+//        } catch (InterruptedException e) {
+//            logger.warning(e.toString());
         }
     }
 
