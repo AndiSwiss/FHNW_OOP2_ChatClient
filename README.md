@@ -1,4 +1,7 @@
 # AChat - a chat client by Andreas Ambühl
+
+![Screenshot](doc/AChat.png "Screenshot")
+
 ### General
 This is my chat client for the semester project at FHNW in FS2019. The code is hosted on my GitHub: 
 https://github.com/AndiSwiss -> FHNW_OOP2_ChatClient.
@@ -47,8 +50,7 @@ of a very beautiful mineral stone (English name: agate), which is sturdy, has ni
 rhythmical crystallization. Furthermore, the agate can be found in many different colorful variations.
 See also https://en.wikipedia.org/wiki/Agate
 
-### Screenshot
-![Screenshot](doc/AChat.png "Screenshot")
+
 
 ### License
 BSD 3-Clause License. Copyright (c) 2019, Andreas Ambühl https://www.andreasambuehl.ch & Prof. Dr. Brad Richards (FHNW)
